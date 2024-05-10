@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <div className={"flex justify-center p-4 text-white"}>
       <div className={"w-screen bg-stone-950 text-white h-screen overflow-auto"}>
-        <Table className={"border border-white"}>
+        <Table className={"border border-white border-r-2"}>
           <TableHeader>
 
               {Object.keys(data[0]).map((key, index) => {
@@ -41,7 +41,7 @@ export default function Home() {
                 <TableRow key={index} className={`${isOdd ? "bg-stone-950" : "bg-stone-900"} hover:bg-stone-900`}>
                   {Object.values(row).map((value, index) => {
                     return (
-                      <TableCell key={index} className={"border-white border"}>{value}</TableCell>
+                      <TableCell key={index} className={"border-white border text-nowrap"}>{value}</TableCell>
                     )
                   })}
                 </TableRow>

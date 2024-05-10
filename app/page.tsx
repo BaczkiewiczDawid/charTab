@@ -1,6 +1,7 @@
 "use client"
 
 import { Table } from "@/components/table/table"
+import { translations } from "@/app/data/lang"
 
 export default function Home() {
 
@@ -9,6 +10,7 @@ export default function Home() {
       <div className={"w-screen text-white h-screen overflow-auto"}>
         <Table
           lang={"pl"}
+          translations={translations}
         />
       </div>
     </div>

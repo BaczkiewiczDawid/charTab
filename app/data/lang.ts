@@ -1,4 +1,6 @@
-export const translations = {
+import {Translations} from "@/app/types/translations";
+
+export const translations: Translations = {
   en: {
     general: {
       id: "Id",

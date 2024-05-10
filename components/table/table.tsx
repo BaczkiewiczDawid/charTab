@@ -2,13 +2,16 @@
 
 import {Table as TableComponent, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {data} from "@/app/data/dummyData"
-import { translations } from "@/app/lang"
+import {Translations} from "@/app/types/translations";
 
 type TableProps = {
+  // Translation language
   lang: "en" | "pl"
+  // translations data
+  translations: Translations
 }
 
-export const Table = ({ lang }: TableProps) => {
+export const Table = ({ lang, translations }: TableProps) => {
   const selectedTranslations = translations?.[lang]
 
   return (

@@ -25,18 +25,20 @@ export default function Home() {
       <div className={"w-screen bg-stone-950 text-white h-screen overflow-auto"}>
         <Table className={"border border-white"}>
           <TableHeader>
-            <TableRow>
+
               {Object.keys(data[0]).map((key, index) => {
                 return (
-                  <TableHead key={index} className={"text-white hover:bg-stone-900"}>{key}</TableHead>
+                  <TableHead key={index} className={"text-white"}>{key}</TableHead>
                 )
               })}
-            </TableRow>
+
           </TableHeader>
           <TableBody>
             {data.map((row, index) => {
+              const isOdd = index % 2 === 0
+
               return (
-                <TableRow key={index}>
+                <TableRow key={index} className={`${isOdd ? "bg-stone-950" : "bg-stone-900"} hover:bg-stone-900`}>
                   {Object.values(row).map((value, index) => {
                     return (
                       <TableCell key={index} className={"border-white border"}>{value}</TableCell>

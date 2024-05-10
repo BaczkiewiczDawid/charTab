@@ -2,15 +2,28 @@
 
 import {Table as TableComponent, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {data} from "@/app/data/dummyData"
+import { translations } from "@/app/lang"
 
-export const Table = () => {
+type TableProps = {
+  lang: "en" | "pl"
+}
+
+export const Table = ({ lang }: TableProps) => {
+  const selectedTranslations = translations?.[lang]
+
   return (
     <TableComponent className={"border border-white border-r-2"}>
-      <TableHeader>
+      <TableHeader className={"bg-stone-950"}>
         <TableRow>
           {Object.keys(data[0]).map((key, index) => {
+            const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
+              ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
+              : key;
+
             return (
-              <TableHead key={index} className={"text-white"}>{key}</TableHead>
+              <TableHead key={index} className={"text-white bg-stone-950"}>
+                {keyToTranslate}
+              </TableHead>
             )
           })}
         </TableRow>

@@ -11,6 +11,7 @@ export default function Home() {
         <Table
           lang={"pl"}
           translations={translations}
+          columnsToFilter={["name", "position"]}
         />
       </div>
     </div>

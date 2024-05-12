@@ -16,7 +16,7 @@ import {Data} from "@/types/data"
 
 type TableProps = {
   // data to create table
-  data: { [key: string]: string | number | boolean }[]
+  data: Data[]
   // Translation language
   lang: "en" | "pl"
   // translations data
@@ -28,15 +28,15 @@ type TableProps = {
 }
 
 export const Table = ({data, lang, translations, ableToDelete, showAlerts}: TableProps) => {
-  const [dataToRender, setDataToRender] = useState(data)
-  const [selectedRow, setSelectedRow] = useState<any>({})
+  const [dataToRender, setDataToRender] = useState<Data[]>(data)
+  const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
 
   const selectedTranslations = translations?.[lang]
 
 
-  const handleDelete = (row: any) => {
-    const filteredData = dataToRender.filter((el) => el.id !== row.id)
+  const handleDelete = (row: Data) => {
+    const filteredData: Data[] = dataToRender.filter((el) => el.id !== row.id)
 
 
     if (showAlerts) {
@@ -46,7 +46,7 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts}: Tabl
     }
   }
 
-  const showAlert = (row: any) => {
+  const showAlert = (row: Data) => {
     handleDelete(row)
 
     if (showAlerts) {

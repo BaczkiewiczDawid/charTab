@@ -11,8 +11,8 @@ import { Data } from "@/types/data";
 type Props = {
   open: boolean
   onOpenChange: Dispatch<SetStateAction<boolean>>
-  setDataToRender: Dispatch<SetStateAction<any>>
-  selectedRow: Data
+  setDataToRender: Dispatch<SetStateAction<Data[]>>
+  selectedRow: Data[]
 }
 
 export const Alert = ({open, onOpenChange, setDataToRender, selectedRow}: Props) => {

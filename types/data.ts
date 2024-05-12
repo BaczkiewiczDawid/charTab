@@ -1,3 +1,1 @@
-export type Data = {
-  [key: string]: string | number | boolean
-}
+export type Data = { [key: string]: string | number | boolean }

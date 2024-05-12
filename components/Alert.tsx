@@ -6,12 +6,13 @@ import {
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
 import {Dispatch, SetStateAction} from "react";
+import { Data } from "@/types/data";
 
 type Props = {
   open: boolean
   onOpenChange: Dispatch<SetStateAction<boolean>>
-  setDataToRender: any
-  selectedRow: any
+  setDataToRender: Dispatch<SetStateAction<Data | any>>
+  selectedRow: Data
 }
 
 export const Alert = ({open, onOpenChange, setDataToRender, selectedRow}: Props) => {

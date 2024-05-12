@@ -1,7 +1,7 @@
 "use client"
 
 import {Table as TableComponent, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {Translations} from "@/app/types/translations";
+import {Translations} from "@/types/translations";
 import {Ellipsis, Trash} from "lucide-react";
 import {
   DropdownMenu,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {useState} from "react";
 import { Alert } from "@/components/Alert"
+import { Data } from "@/types/data"
 
 type TableProps = {
   // data to create table
@@ -34,13 +35,13 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts}: Tabl
   const selectedTranslations = translations?.[lang]
 
 
-  const handleDelete = (row: { [key: string]: string | number | boolean }) => {
+  const handleDelete = (row: Data) => {
     const filteredData = data.filter((el) => el.id !== row.id)
 
     setSelectedRow(filteredData)
   }
 
-  const showAlert = (row: any) => {
+  const showAlert = (row: Data) => {
     setAlertOpen(true)
     handleDelete(row)
   }

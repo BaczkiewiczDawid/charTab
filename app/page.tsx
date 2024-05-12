@@ -14,6 +14,7 @@ export default function Home() {
           lang={"pl"}
           translations={translations}
           ableToDelete
+          showAlerts
         />
       </div>
     </div>

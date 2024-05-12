@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {useState} from "react";
+import { Alert } from "@/components/Alert"
 
 type TableProps = {
   // data to create table
@@ -21,17 +22,27 @@ type TableProps = {
   translations: Translations
   // ability to delete
   ableToDelete?: boolean
+  // show delete / restore alerts
+  showAlerts?: boolean
 }
 
-export const Table = ({data, lang, translations, ableToDelete}: TableProps) => {
+export const Table = ({data, lang, translations, ableToDelete, showAlerts}: TableProps) => {
   const [dataToRender, setDataToRender] = useState(data)
+  const [selectedRow, setSelectedRow] = useState({})
+  const [alertOpen, setAlertOpen] = useState<boolean>(false)
 
   const selectedTranslations = translations?.[lang]
+
 
   const handleDelete = (row: { [key: string]: string | number | boolean }) => {
     const filteredData = data.filter((el) => el.id !== row.id)
 
-    setDataToRender(filteredData)
+    setSelectedRow(filteredData)
+  }
+
+  const showAlert = (row: any) => {
+    setAlertOpen(true)
+    handleDelete(row)
   }
 
   return (
@@ -75,7 +86,9 @@ export const Table = ({data, lang, translations, ableToDelete}: TableProps) => {
                       <DropdownMenuContent>
                           <DropdownMenuGroup>
                             {ableToDelete &&
-                                <DropdownMenuItem className={"flex items-center text-xs cursor-pointer"} onClick={() => handleDelete(row)}>
+                                <DropdownMenuItem
+                                    className={"flex items-center text-xs cursor-pointer"}
+                                    onClick={() => showAlert(row)}>
                                     <Trash size={16} strokeWidth={2}/>
                                     <span className={"ml-2"}>Delete</span>
                                 </DropdownMenuItem>
@@ -88,6 +101,7 @@ export const Table = ({data, lang, translations, ableToDelete}: TableProps) => {
           )
         })}
       </TableBody>
+      <Alert open={alertOpen} onOpenChange={setAlertOpen} setDataToRender={setDataToRender} selectedRow={selectedRow} />
     </TableComponent>
   )
 }

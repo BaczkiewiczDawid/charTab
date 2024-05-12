@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {useState} from "react";
 
 type TableProps = {
   // data to create table
@@ -23,13 +24,21 @@ type TableProps = {
 }
 
 export const Table = ({data, lang, translations, ableToDelete}: TableProps) => {
+  const [dataToRender, setDataToRender] = useState(data)
+
   const selectedTranslations = translations?.[lang]
+
+  const handleDelete = (row: { [key: string]: string | number | boolean }) => {
+    const filteredData = data.filter((el) => el.id !== row.id)
+
+    setDataToRender(filteredData)
+  }
 
   return (
     <TableComponent className={"border border-gray-600"}>
       <TableHeader className={"bg-stone-900"}>
         <TableRow className={"border-stone-900"}>
-          {Object.keys(data[0]).map((key, index) => {
+          {Object.keys(dataToRender[0]).map((key, index) => {
             const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
               ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
               : key
@@ -44,7 +53,7 @@ export const Table = ({data, lang, translations, ableToDelete}: TableProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((row, index) => {
+        {dataToRender.map((row, index) => {
           const isOdd = index % 2 === 0
 
           return (
@@ -66,7 +75,7 @@ export const Table = ({data, lang, translations, ableToDelete}: TableProps) => {
                       <DropdownMenuContent>
                           <DropdownMenuGroup>
                             {ableToDelete &&
-                                <DropdownMenuItem className={"flex items-center text-xs cursor-pointer"}>
+                                <DropdownMenuItem className={"flex items-center text-xs cursor-pointer"} onClick={() => handleDelete(row)}>
                                     <Trash size={16} strokeWidth={2}/>
                                     <span className={"ml-2"}>Delete</span>
                                 </DropdownMenuItem>

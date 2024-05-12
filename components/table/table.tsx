@@ -11,8 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {useState} from "react";
-import { Alert } from "@/components/Alert"
-import { Data } from "@/types/data"
+import {Alert} from "@/components/Alert"
+import {Data} from "@/types/data"
 
 type TableProps = {
   // data to create table
@@ -29,28 +29,36 @@ type TableProps = {
 
 export const Table = ({data, lang, translations, ableToDelete, showAlerts}: TableProps) => {
   const [dataToRender, setDataToRender] = useState(data)
-  const [selectedRow, setSelectedRow] = useState({})
+  const [selectedRow, setSelectedRow] = useState<any>({})
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
 
   const selectedTranslations = translations?.[lang]
 
 
-  const handleDelete = (row: Data) => {
-    const filteredData = data.filter((el) => el.id !== row.id)
+  const handleDelete = (row: any) => {
+    const filteredData = dataToRender.filter((el) => el.id !== row.id)
 
-    setSelectedRow(filteredData)
+
+    if (showAlerts) {
+      setSelectedRow(filteredData)
+    } else {
+      setDataToRender(filteredData)
+    }
   }
 
-  const showAlert = (row: Data) => {
-    setAlertOpen(true)
+  const showAlert = (row: any) => {
     handleDelete(row)
+
+    if (showAlerts) {
+      setAlertOpen(true)
+    }
   }
 
   return (
     <TableComponent className={"border border-gray-600"}>
       <TableHeader className={"bg-stone-900"}>
         <TableRow className={"border-stone-900"}>
-          {Object.keys(dataToRender[0]).map((key, index) => {
+          {Object.keys(dataToRender?.[0]).map((key, index) => {
             const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
               ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
               : key
@@ -89,7 +97,8 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts}: Tabl
                             {ableToDelete &&
                                 <DropdownMenuItem
                                     className={"flex items-center text-xs cursor-pointer"}
-                                    onClick={() => showAlert(row)}>
+                                    onClick={() => showAlert(row)}
+                                >
                                     <Trash size={16} strokeWidth={2}/>
                                     <span className={"ml-2"}>Delete</span>
                                 </DropdownMenuItem>
@@ -102,7 +111,11 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts}: Tabl
           )
         })}
       </TableBody>
-      <Alert open={alertOpen} onOpenChange={setAlertOpen} setDataToRender={setDataToRender} selectedRow={selectedRow} />
+      <Alert
+        open={alertOpen}
+        onOpenChange={setAlertOpen}
+        setDataToRender={setDataToRender}
+        selectedRow={selectedRow}/>
     </TableComponent>
   )
 }

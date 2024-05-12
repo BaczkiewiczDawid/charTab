@@ -11,7 +11,7 @@ import { Data } from "@/types/data";
 type Props = {
   open: boolean
   onOpenChange: Dispatch<SetStateAction<boolean>>
-  setDataToRender: Dispatch<SetStateAction<Data | any>>
+  setDataToRender: Dispatch<SetStateAction<any>>
   selectedRow: Data
 }
 

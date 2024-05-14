@@ -1,57 +1,121 @@
 "use client"
 
 import {Table as TableComponent, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {data} from "@/app/data/dummyData"
-import {Translations} from "@/app/types/translations";
-import {Combobox} from "@/components/combobox";
+import {Translations} from "@/types/translations";
+import {Ellipsis, Trash} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {useState} from "react";
+import {Alert} from "@/components/Alert"
+import {Data} from "@/types/data"
 
 type TableProps = {
+  // data to create table
+  data: Data[]
   // Translation language
-  lang?: "en" | "pl"
+  lang: "en" | "pl"
   // translations data
-  translations?: Translations
-  // List of headers names to filter
-  columnsToFilter?: string[]
+  translations: Translations
+  // ability to delete
+  ableToDelete?: boolean
+  // show delete / restore alerts
+  showAlerts?: boolean
 }
 
-export const Table = ({lang, translations, columnsToFilter}: TableProps) => {
-  const selectedTranslations = translations?.[lang ?? ""]
+export const Table = ({data, lang, translations, ableToDelete, showAlerts}: TableProps) => {
+  const [dataToRender, setDataToRender] = useState<Data[]>(data)
+  const [selectedRow, setSelectedRow] = useState<Data[]>([])
+  const [alertOpen, setAlertOpen] = useState<boolean>(false)
+
+  const selectedTranslations = translations?.[lang]
+
+
+  const handleDelete = (row: Data) => {
+    const filteredData: Data[] = dataToRender.filter((el) => el.id !== row.id)
+
+
+    if (showAlerts) {
+      setSelectedRow(filteredData)
+    } else {
+      setDataToRender(filteredData)
+    }
+  }
+
+  const showAlert = (row: Data) => {
+    handleDelete(row)
+
+    if (showAlerts) {
+      setAlertOpen(true)
+    }
+  }
 
   return (
-    <div>
-      <Combobox/>
-      <TableComponent className={"border border-white border-r-2"}>
-        <TableHeader className={"bg-stone-950"}>
-          <TableRow>
-            {Object.keys(data[0]).map((key, index) => {
-              const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
-                ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
-                : key;
-
-              return (
-                <TableHead key={index} className={"text-white bg-stone-950"}>
-                  {keyToTranslate}
-                </TableHead>
-              )
-            })}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((row, index) => {
-            const isOdd = index % 2 === 0
+    <TableComponent className={"border border-gray-600"}>
+      <TableHeader className={"bg-stone-900"}>
+        <TableRow className={"border-stone-900"}>
+          {Object.keys(dataToRender?.[0]).map((key, index) => {
+            const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
+              ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
+              : key
 
             return (
-              <TableRow key={index} className={`${isOdd ? "bg-stone-950" : "bg-stone-900"} hover:bg-stone-900`}>
-                {Object.values(row).map((value, index) => {
-                  return (
-                    <TableCell key={index} className={"border-white border text-nowrap"}>{value}</TableCell>
-                  )
-                })}
-              </TableRow>
+              <TableHead key={index}>
+                {keyToTranslate}
+              </TableHead>
             )
           })}
-        </TableBody>
-      </TableComponent>
-    </div>
+          {ableToDelete && <TableHead></TableHead>}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {dataToRender.map((row, index) => {
+          const isOdd = index % 2 === 0
+
+          return (
+            <TableRow key={index} className={`${isOdd ? 'bg-stone-950' : 'bg-stone-900'}`}>
+              {Object.values(row).map((value, index) => {
+                return (
+                  <TableCell key={index} className={"border border-gray-600"}>
+                    {value}
+                  </TableCell>
+                )
+              })}
+              {ableToDelete &&
+                  <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                          <TableCell className={"border border-gray-600 text-center"}>
+                              <div className={"inline-block m-auto cursor-pointer"}><Ellipsis/></div>
+                          </TableCell>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                          <DropdownMenuGroup>
+                            {ableToDelete &&
+                                <DropdownMenuItem
+                                    className={"flex items-center text-xs cursor-pointer"}
+                                    onClick={() => showAlert(row)}
+                                >
+                                    <Trash size={16} strokeWidth={2}/>
+                                    <span className={"ml-2"}>Delete</span>
+                                </DropdownMenuItem>
+                            }
+                          </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                  </DropdownMenu>
+              }
+            </TableRow>
+          )
+        })}
+      </TableBody>
+      <Alert
+        open={alertOpen}
+        onOpenChange={setAlertOpen}
+        setDataToRender={setDataToRender}
+        selectedRow={selectedRow}/>
+    </TableComponent>
   )
 }

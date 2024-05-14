@@ -2,7 +2,7 @@
 
 import {Table as TableComponent, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Translations} from "@/types/translations";
-import {Check, ChevronsUpDown, Ellipsis, Trash} from "lucide-react";
+import {Ellipsis, Trash} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,10 +13,6 @@ import {
 import {useState} from "react";
 import {Alert} from "@/components/Alert"
 import {Data} from "@/types/data"
-import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {Button} from "@/components/ui/button";
-import {cn} from "@/lib/utils";
 import {Filter} from "@/components/filter";
 
 type TableProps = {
@@ -30,9 +26,11 @@ type TableProps = {
   ableToDelete?: boolean
   // show delete / restore alerts
   showAlerts?: boolean
+  // columns name to filter
+  columnsToFilter?: string[]
 }
 
-export const Table = ({data, lang, translations, ableToDelete, showAlerts}: TableProps) => {
+export const Table = ({data, lang, translations, ableToDelete, showAlerts, columnsToFilter}: TableProps) => {
   const [dataToRender, setDataToRender] = useState<Data[]>(data)
   const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
@@ -61,37 +59,14 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts}: Tabl
     }
   }
 
-  const frameworks = [
-    {
-      value: "next.js",
-      label: "Next.js",
-    },
-    {
-      value: "sveltekit",
-      label: "SvelteKit",
-    },
-    {
-      value: "nuxt.js",
-      label: "Nuxt.js",
-    },
-    {
-      value: "remix",
-      label: "Remix",
-    },
-    {
-      value: "astro",
-      label: "Astro",
-    },
-  ]
-
-  const columnsToFilter = ["name", "age"]
-
   return (
     <div>
-      <div>
-        {columnsToFilter.map((col, index) => {
+      <div className={"flex flex-row mb-4"}>
+        {columnsToFilter?.map((col, index) => {
           return (
-            <Filter key={index} data={dataToRender} columnName={col} />
+            <div className={"[&:nth-child(n+2)]:ml-4"}>
+              <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col} />
+            </div>
           )
         })}
       </div>

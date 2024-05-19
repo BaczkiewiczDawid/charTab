@@ -21,6 +21,9 @@ export const Filter = ({data, setDataToRender, columnName}: Props) => {
     setDataToRender(filteredData)
   }
 
+  const uniqueValues = Array.from(new Set(data.map((item) => String(item[columnName]))));
+
+//TODO: Ogarnąć usuwanie filtrów, jak coś zostanie usunięte to filtrować od początkowego stateu a nie aktualnej tablicy
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -41,17 +44,18 @@ export const Filter = ({data, setDataToRender, columnName}: Props) => {
           <CommandEmpty>Nie znaleziono</CommandEmpty>
           <CommandList>
             <CommandGroup>
-              {data?.flatMap((data: Data, index) => {
-                const colValue = Object(data)[columnName];
-
-                return (
-                  <CommandItem key={index} onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                    handleData(String(currentValue))
-                  }}>{colValue}</CommandItem>
-                );
-              })}
+              {uniqueValues.map((colValue, index) => (
+                <CommandItem
+                  key={index}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                    handleData(String(currentValue));
+                  }}
+                >
+                  {colValue}
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
         </Command>

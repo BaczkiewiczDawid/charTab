@@ -39,10 +39,8 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts, colum
 
   const selectedTranslations = translations?.[lang]
 
-
   const handleDelete = (row: Data) => {
-    const filteredData: Data[] = dataToRender.filter((el) => el.id !== row.id)
-
+    const filteredData: Data[] = dataToRender?.filter((el) => el.id !== row.id)
 
     if (showAlerts) {
       setSelectedRow(filteredData)
@@ -64,7 +62,7 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts, colum
       <div className={"flex flex-row mb-4"}>
         {columnsToFilter?.map((col, index) => {
           return (
-            <div className={"[&:nth-child(n+2)]:ml-4"}>
+            <div key={index} className={"[&:nth-child(n+2)]:ml-4"}>
               <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col} />
             </div>
           )

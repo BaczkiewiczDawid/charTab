@@ -15,6 +15,7 @@ export default function Home() {
           translations={translations}
           ableToDelete
           showAlerts
+          columnsToFilter={["name", "age", "position"]}
         />
       </div>
     </div>

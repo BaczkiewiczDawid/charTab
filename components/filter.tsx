@@ -3,8 +3,8 @@ import {Button} from "@/components/ui/button";
 import {ChevronsUpDown} from "lucide-react";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
 import {Data} from "@/types/data";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
-import { Filters } from "@/components/table/table"
+import {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
+import {Filters} from "@/components/table/table"
 
 type Props = {
   data: Data[]
@@ -15,20 +15,20 @@ type Props = {
   initialData: any
 }
 
-export const Filter = ({data, setDataToRender, columnName, filters, setFilters, initialData }: Props) => {
+export const Filter = ({data, setDataToRender, columnName, filters, setFilters, initialData}: Props) => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
   const uniqueValues = Array.from(new Set(data.map((item) => String(item[columnName]))));
 
-  const handleData = (value: string) => {
-    setFilters((prev: Filters[]) => [
+  const handleData = useCallback((value: string) => {
+    setFilters((prev) => [
       ...prev,
       {
         columnName: columnName,
-        value: value
-      }
-    ])
-  }
+        value: value,
+      },
+    ]);
+  }, [columnName, setFilters]);
 
   const applyFilters = (data: Data[], filters: Filters[]) => {
     return data.filter((item) => {
@@ -42,15 +42,12 @@ export const Filter = ({data, setDataToRender, columnName, filters, setFilters, 
     const filtered = applyFilters(initialData, filters);
 
     setDataToRender(filtered);
-    }, [filters])
+  }, [filters, initialData])
 
   const clearFilters = () => {
-    const newFilters = filters.filter((el) => {
-      return el.columnName === columnName && el.value === value
-    })
-
-    setFilters(newFilters)
-  }
+    setFilters((prev) => prev.filter((el) => el.columnName !== columnName || el.value !== value));
+    setValue(undefined);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

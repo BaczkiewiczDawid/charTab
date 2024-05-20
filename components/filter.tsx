@@ -4,26 +4,53 @@ import {ChevronsUpDown} from "lucide-react";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
 import {Data} from "@/types/data";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import { Filters } from "@/components/table/table"
 
 type Props = {
   data: Data[]
   columnName: string
   setDataToRender: Dispatch<SetStateAction<Data[]>>
+  filters: Filters[]
+  setFilters: Dispatch<SetStateAction<Filters[]>>
+  initialData: any
 }
 
-export const Filter = ({data, setDataToRender, columnName}: Props) => {
+export const Filter = ({data, setDataToRender, columnName, filters, setFilters, initialData }: Props) => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
-
-  const handleData = (value: string) => {
-    const filteredData = data.filter((el) => String(el[columnName]) === String(value))
-
-    setDataToRender(filteredData)
-  }
-
   const uniqueValues = Array.from(new Set(data.map((item) => String(item[columnName]))));
 
-//TODO: Ogarnąć usuwanie filtrów, jak coś zostanie usunięte to filtrować od początkowego stateu a nie aktualnej tablicy
+  const handleData = (value: string) => {
+    setFilters((prev: Filters[]) => [
+      ...prev,
+      {
+        columnName: columnName,
+        value: value
+      }
+    ])
+  }
+
+  const applyFilters = (data: Data[], filters: Filters[]) => {
+    return data.filter((item) => {
+      return filters.every((filter) => {
+        return item[filter.columnName] === filter?.value;
+      });
+    });
+  };
+
+  useEffect(() => {
+    const filtered = applyFilters(initialData, filters);
+
+    setDataToRender(filtered);
+    }, [filters])
+
+  const clearFilters = () => {
+    const newFilters = filters.filter((el) => {
+      return el.columnName === columnName && el.value === value
+    })
+
+    setFilters(newFilters)
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -57,6 +84,9 @@ export const Filter = ({data, setDataToRender, columnName}: Props) => {
                 </CommandItem>
               ))}
             </CommandGroup>
+          </CommandList>
+          <CommandList>
+            <Button className={'w-full mt-2'} onClick={clearFilters}>Clear</Button>
           </CommandList>
         </Command>
       </PopoverContent>

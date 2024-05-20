@@ -30,12 +30,18 @@ type TableProps = {
   columnsToFilter?: string[]
 }
 
+export type Filters = {
+  columnName: string
+  value: string | number
+}
+
 export const Table = ({data, lang, translations, ableToDelete, showAlerts, columnsToFilter}: TableProps) => {
   const [dataToRender, setDataToRender] = useState<Data[]>(data)
   const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
   const [value, setValue] = useState("")
+  const [filters, setFilters] = useState<Filters[]>([])
 
   const selectedTranslations = translations?.[lang]
 
@@ -63,7 +69,7 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts, colum
         {columnsToFilter?.map((col, index) => {
           return (
             <div key={index} className={"[&:nth-child(n+2)]:ml-4"}>
-              <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col} />
+              <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col} filters={filters} setFilters={setFilters} initialData={data} />
             </div>
           )
         })}

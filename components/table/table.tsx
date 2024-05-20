@@ -32,7 +32,7 @@ type TableProps = {
 
 export type Filters = {
   columnName: string
-  value: string | number
+  value: string
 }
 
 export const Table = ({data, lang, translations, ableToDelete, showAlerts, columnsToFilter}: TableProps) => {

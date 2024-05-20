@@ -30,10 +30,12 @@ export const Filter = ({data, setDataToRender, columnName, filters, setFilters, 
     ]);
   }, [columnName, setFilters]);
 
+  console.log(data)
+
   const applyFilters = (data: Data[], filters: Filters[]) => {
     return data.filter((item) => {
       return filters.every((filter) => {
-        return item[filter.columnName] === filter?.value;
+        return String(item[filter.columnName]) === filter?.value;
       });
     });
   };

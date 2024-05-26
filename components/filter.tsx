@@ -64,7 +64,7 @@ export const Filter = ({data, setDataToRender, columnName, filters, setFilters, 
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={"bg-stone-950 w-[200px]"}>
+      <PopoverContent className={"w-[200px]"}>
         <Command>
           <CommandInput placeholder={"znajdź..."}/>
           <CommandEmpty>Nie znaleziono</CommandEmpty>

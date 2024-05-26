@@ -68,7 +68,12 @@ export const Filter = ({
   }, [filters, initialData])
 
   const clearFilters = () => {
-    setFilters((prev) => prev.filter((el) => el.columnName !== columnName || el.value !== value));
+    if (filterMultiple) {
+      setFilters((prev) => prev.filter((el) => el.columnName !== columnName))
+    } else {
+      setFilters((prev) => prev.filter((el) => el.columnName !== columnName || el.value !== value));
+    }
+
     setValue(undefined);
   };
 
@@ -101,8 +106,6 @@ export const Filter = ({
     }, {});
   };
 
-  console.log(countFiltersByColumnName()?.[columnName])
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -112,7 +115,8 @@ export const Filter = ({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {filterMultiple ? countFiltersByColumnName()?.[columnName] > 0 ? <span>Wybrano: {countFiltersByColumnName()?.[columnName]}</span> : <span>{columnName}</span>
+          {filterMultiple ? countFiltersByColumnName()?.[columnName] > 0 ?
+              <span>Wybrano: {countFiltersByColumnName()?.[columnName]}</span> : <span>{columnName}</span>
             :
             value ? <span>{value}</span> :
               <span>{columnName}</span>}

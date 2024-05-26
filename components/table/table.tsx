@@ -28,6 +28,8 @@ type TableProps = {
   showAlerts?: boolean
   // columns name to filter
   columnsToFilter?: string[]
+  // mutli filter selector
+  filterMultiple?: boolean
 }
 
 export type Filters = {
@@ -35,7 +37,7 @@ export type Filters = {
   value: string
 }
 
-export const Table = ({data, lang, translations, ableToDelete, showAlerts, columnsToFilter}: TableProps) => {
+export const Table = ({data, lang, translations, ableToDelete, showAlerts, columnsToFilter, filterMultiple}: TableProps) => {
   const [dataToRender, setDataToRender] = useState<Data[]>(data)
   const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
@@ -69,7 +71,7 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts, colum
         {columnsToFilter?.map((col, index) => {
           return (
             <div key={index} className={"[&:nth-child(n+2)]:ml-4"}>
-              <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col} filters={filters} setFilters={setFilters} initialData={data} />
+              <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col} filters={filters} setFilters={setFilters} initialData={data} filterMultiple={filterMultiple} />
             </div>
           )
         })}

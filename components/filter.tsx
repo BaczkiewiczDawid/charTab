@@ -7,6 +7,7 @@ import {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react"
 import {Filters} from "@/components/table/table"
 import {Checkbox} from "@/components/ui/checkbox";
 import {MultipleChoiceFilter} from "@/components/multiple-choice-filter";
+import {SingleChoiceFilter} from "@/components/single-choice-filter";
 
 type Props = {
   data: any[]
@@ -15,7 +16,7 @@ type Props = {
   filters: Filters[]
   setFilters: Dispatch<SetStateAction<Filters[]>>
   initialData: any
-  filterMultiple?: boolean
+  multipleChoiceFilter?: boolean
 }
 
 export const Filter = ({
@@ -25,31 +26,20 @@ export const Filter = ({
                          filters,
                          setFilters,
                          initialData,
-                         filterMultiple
+                         multipleChoiceFilter
                        }: Props) => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
-  const uniqueValues = Array.from(new Set(data.map((item) => String(item[columnName]))));
   const filterMultipleData = Array.from(new Set(initialData.map((item: Data) => String(item[columnName]))))
 
   //TODO: refactor
-
-  const handleData = useCallback((value: string) => {
-    setFilters((prev) => [
-      ...prev,
-      {
-        columnName: columnName,
-        value: value,
-      },
-    ]);
-  }, [columnName, setFilters]);
 
   const applyFilters = (data: Data[], filters: Filters[]) => {
     if (filters.length < 1) {
       return data
     }
 
-    if (filterMultiple) {
+    if (multipleChoiceFilter) {
       return data.filter((item) => {
         return filters.some((filter) => {
           return String(item[filter.columnName]) === filter?.value;
@@ -71,7 +61,7 @@ export const Filter = ({
   }, [filters, initialData])
 
   const clearFilters = () => {
-    if (filterMultiple) {
+    if (multipleChoiceFilter) {
       setFilters((prev) => prev.filter((el) => el.columnName !== columnName))
     } else {
       setFilters((prev) => prev.filter((el) => el.columnName !== columnName || el.value !== value));
@@ -79,7 +69,6 @@ export const Filter = ({
 
     setValue(undefined);
   };
-
 
 
   const countFiltersByColumnName = () => {
@@ -103,7 +92,7 @@ export const Filter = ({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {filterMultiple ? countFiltersByColumnName()?.[columnName] > 0 ?
+          {multipleChoiceFilter ? countFiltersByColumnName()?.[columnName] > 0 ?
               <span>Wybrano: {countFiltersByColumnName()?.[columnName]}</span> : <span>{columnName}</span>
             :
             value ? <span>{value}</span> :
@@ -114,9 +103,9 @@ export const Filter = ({
       <PopoverContent className={"w-[200px]"}>
         <Command>
           <CommandInput placeholder={"znajdź..."}/>
-          <CommandEmpty>Nie znaleziono</CommandEmpty>
+          <CommandEmpty>Not found</CommandEmpty>
           <CommandList>
-            {filterMultiple ?
+            {multipleChoiceFilter ?
               <MultipleChoiceFilter
                 data={filterMultipleData}
                 filters={filters}
@@ -124,20 +113,14 @@ export const Filter = ({
                 columnName={columnName}
               />
               :
-              <CommandGroup>
-                {uniqueValues.map((colValue, index) => (
-                  <CommandItem
-                    key={index}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue);
-                      setOpen(false);
-                      handleData(String(currentValue));
-                    }}
-                  >
-                    {colValue}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+              <SingleChoiceFilter
+                data={data}
+                columnName={columnName}
+                value={value}
+                setValue={setValue}
+                setFilters={setFilters}
+                setOpen={setOpen}
+              />
             }
           </CommandList>
           <CommandList>

@@ -16,7 +16,7 @@ export default function Home() {
           ableToDelete
           showAlerts
           columnsToFilter={["name", "age", "position"]}
-          filterMultiple
+          multipleChoiceFilter
         />
       </div>
     </div>

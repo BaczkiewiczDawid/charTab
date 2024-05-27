@@ -6,6 +6,7 @@ import {Data} from "@/types/data";
 import {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
 import {Filters} from "@/components/table/table"
 import {Checkbox} from "@/components/ui/checkbox";
+import {MultipleChoiceFilter} from "@/components/multiple-choice-filter";
 
 type Props = {
   data: any[]
@@ -30,6 +31,8 @@ export const Filter = ({
   const [value, setValue] = useState<string>()
   const uniqueValues = Array.from(new Set(data.map((item) => String(item[columnName]))));
   const filterMultipleData = Array.from(new Set(initialData.map((item: Data) => String(item[columnName]))))
+
+  //TODO: refactor
 
   const handleData = useCallback((value: string) => {
     setFilters((prev) => [
@@ -77,22 +80,7 @@ export const Filter = ({
     setValue(undefined);
   };
 
-  const setSelectedFilters = (currentValue: string, isChecked: boolean) => {
-    console.log(currentValue, isChecked)
 
-    if (isChecked) {
-      setFilters((prev) => [
-        ...prev,
-        {
-          columnName: columnName,
-          value: currentValue,
-        },
-      ])
-    } else {
-      const newFilters = filters.filter((data) => data.value !== currentValue)
-      setFilters(newFilters)
-    }
-  }
 
   const countFiltersByColumnName = () => {
     return filters.reduce((acc: { [key: string]: number }, filter: Filters) => {
@@ -129,21 +117,13 @@ export const Filter = ({
           <CommandEmpty>Nie znaleziono</CommandEmpty>
           <CommandList>
             {filterMultiple ?
-              <CommandGroup>
-                {filterMultipleData.map((colValue, index) => (
-                  <label htmlFor={String(index)}>
-                    <CommandItem
-                      key={index}
-                    >
-                      <Checkbox id={String(index)} checked={filters.some((filter) => filter.value === colValue)}
-                                onCheckedChange={(isChecked: boolean) => {
-                                  setSelectedFilters(String(colValue), isChecked)
-                                }}/>
-                      <span className={"ml-4"}>{String(colValue)}</span>
-                    </CommandItem>
-                  </label>
-                ))}
-              </CommandGroup> :
+              <MultipleChoiceFilter
+                data={filterMultipleData}
+                filters={filters}
+                setFilters={setFilters}
+                columnName={columnName}
+              />
+              :
               <CommandGroup>
                 {uniqueValues.map((colValue, index) => (
                   <CommandItem

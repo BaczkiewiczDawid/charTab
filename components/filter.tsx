@@ -5,39 +5,53 @@ import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandL
 import {Data} from "@/types/data";
 import {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
 import {Filters} from "@/components/table/table"
+import {Checkbox} from "@/components/ui/checkbox";
+import {MultipleChoiceFilter} from "@/components/multiple-choice-filter";
+import {SingleChoiceFilter} from "@/components/single-choice-filter";
 
 type Props = {
-  data: Data[]
+  data: any[]
   columnName: string
   setDataToRender: Dispatch<SetStateAction<Data[]>>
   filters: Filters[]
   setFilters: Dispatch<SetStateAction<Filters[]>>
   initialData: any
+  multipleChoiceFilter?: boolean
 }
 
-export const Filter = ({data, setDataToRender, columnName, filters, setFilters, initialData}: Props) => {
+export const Filter = ({
+                         data,
+                         setDataToRender,
+                         columnName,
+                         filters,
+                         setFilters,
+                         initialData,
+                         multipleChoiceFilter
+                       }: Props) => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
-  const uniqueValues = Array.from(new Set(data.map((item) => String(item[columnName]))));
+  const filterMultipleData = Array.from(new Set(initialData.map((item: Data) => String(item[columnName]))))
 
-  const handleData = useCallback((value: string) => {
-    setFilters((prev) => [
-      ...prev,
-      {
-        columnName: columnName,
-        value: value,
-      },
-    ]);
-  }, [columnName, setFilters]);
-
-  console.log(data)
+  //TODO: refactor
 
   const applyFilters = (data: Data[], filters: Filters[]) => {
-    return data.filter((item) => {
-      return filters.every((filter) => {
-        return String(item[filter.columnName]) === filter?.value;
+    if (filters.length < 1) {
+      return data
+    }
+
+    if (multipleChoiceFilter) {
+      return data.filter((item) => {
+        return filters.some((filter) => {
+          return String(item[filter.columnName]) === filter?.value;
+        });
       });
-    });
+    } else {
+      return data.filter((item) => {
+        return filters.every((filter) => {
+          return String(item[filter.columnName]) === filter?.value;
+        });
+      });
+    }
   };
 
   useEffect(() => {
@@ -47,8 +61,26 @@ export const Filter = ({data, setDataToRender, columnName, filters, setFilters, 
   }, [filters, initialData])
 
   const clearFilters = () => {
-    setFilters((prev) => prev.filter((el) => el.columnName !== columnName || el.value !== value));
+    if (multipleChoiceFilter) {
+      setFilters((prev) => prev.filter((el) => el.columnName !== columnName))
+    } else {
+      setFilters((prev) => prev.filter((el) => el.columnName !== columnName || el.value !== value));
+    }
+
     setValue(undefined);
+  };
+
+
+  const countFiltersByColumnName = () => {
+    return filters.reduce((acc: { [key: string]: number }, filter: Filters) => {
+      const columnName = filter.columnName;
+      if (acc[columnName]) {
+        acc[columnName]++;
+      } else {
+        acc[columnName] = 1;
+      }
+      return acc;
+    }, {});
   };
 
   return (
@@ -60,29 +92,36 @@ export const Filter = ({data, setDataToRender, columnName, filters, setFilters, 
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value ? <span>{value}</span> : <span>{columnName}</span>}
+          {multipleChoiceFilter ? countFiltersByColumnName()?.[columnName] > 0 ?
+              <span>Wybrano: {countFiltersByColumnName()?.[columnName]}</span> : <span>{columnName}</span>
+            :
+            value ? <span>{value}</span> :
+              <span>{columnName}</span>}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={"bg-stone-950 w-[200px]"}>
+      <PopoverContent className={"w-[200px]"}>
         <Command>
           <CommandInput placeholder={"znajdź..."}/>
-          <CommandEmpty>Nie znaleziono</CommandEmpty>
+          <CommandEmpty>Not found</CommandEmpty>
           <CommandList>
-            <CommandGroup>
-              {uniqueValues.map((colValue, index) => (
-                <CommandItem
-                  key={index}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    setOpen(false);
-                    handleData(String(currentValue));
-                  }}
-                >
-                  {colValue}
-                </CommandItem>
-              ))}
-            </CommandGroup>
+            {multipleChoiceFilter ?
+              <MultipleChoiceFilter
+                data={filterMultipleData}
+                filters={filters}
+                setFilters={setFilters}
+                columnName={columnName}
+              />
+              :
+              <SingleChoiceFilter
+                data={data}
+                columnName={columnName}
+                value={value}
+                setValue={setValue}
+                setFilters={setFilters}
+                setOpen={setOpen}
+              />
+            }
           </CommandList>
           <CommandList>
             <Button className={'w-full mt-2'} onClick={clearFilters}>Clear</Button>

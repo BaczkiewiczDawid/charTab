@@ -99,10 +99,10 @@ export const Table = ({
 
   useEffect(() => {
     setDataToRender(sortDataByOrder(dataToRender, columnOrder));
-  }, [dataToRender, columnOrder])
+  }, [columnOrder])
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <div className={"flex flex-row mb-4"}>
         {columnsToFilter?.map((col, index) => {
           return (
@@ -114,68 +114,71 @@ export const Table = ({
           )
         })}
       </div>
-      <TableComponent className={"border border-gray-600"}>
-        <TableHeader className={"bg-stone-900"}>
-          <TableRow className={"border-stone-900"}>
-            {sortedKeys.map((key: string, index: number) => {
-              const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
-                ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
-                : key;
+      <div className="flex-1 overflow-auto">
+        <TableComponent className={"border border-gray-600 min-h-full"}>
+          <TableHeader className={"bg-stone-900"}>
+            <TableRow className={"border-stone-900"}>
+              {sortedKeys.map((key: string, index: number) => {
+                const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
+                  ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
+                  : key;
+
+                return (
+                  <TableHead key={index}>
+                    {keyToTranslate}
+                  </TableHead>
+                );
+              })}
+              {ableToDelete && <TableHead></TableHead>}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {dataToRender.map((row, index) => {
+              const isOdd = index % 2 === 0
 
               return (
-                <TableHead key={index}>
-                  {keyToTranslate}
-                </TableHead>
-              );
+                <TableRow key={index} className={`${isOdd ? 'bg-stone-950' : 'bg-stone-900'}`}>
+                  {Object.values(row).map((value, index) => {
+                    return (
+                      <TableCell key={index} className={"border border-gray-600"}>
+                        {value}
+                      </TableCell>
+                    )
+                  })}
+                  {ableToDelete &&
+                      <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                              <TableCell className={"border border-gray-600 text-center"}>
+                                  <div className={"inline-block m-auto cursor-pointer"}><Ellipsis/></div>
+                              </TableCell>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                              <DropdownMenuGroup>
+                                {ableToDelete &&
+                                    <DropdownMenuItem
+                                        className={"flex items-center text-xs cursor-pointer"}
+                                        onClick={() => showAlert(row)}
+                                    >
+                                        <Trash size={16} strokeWidth={2}/>
+                                        <span className={"ml-2"}>Delete</span>
+                                    </DropdownMenuItem>
+                                }
+                              </DropdownMenuGroup>
+                          </DropdownMenuContent>
+                      </DropdownMenu>
+                  }
+                </TableRow>
+              )
             })}
-            {ableToDelete && <TableHead></TableHead>}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {dataToRender.map((row, index) => {
-            const isOdd = index % 2 === 0
-
-            return (
-              <TableRow key={index} className={`${isOdd ? 'bg-stone-950' : 'bg-stone-900'}`}>
-                {Object.values(row).map((value, index) => {
-                  return (
-                    <TableCell key={index} className={"border border-gray-600"}>
-                      {value}
-                    </TableCell>
-                  )
-                })}
-                {ableToDelete &&
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <TableCell className={"border border-gray-600 text-center"}>
-                                <div className={"inline-block m-auto cursor-pointer"}><Ellipsis/></div>
-                            </TableCell>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuGroup>
-                              {ableToDelete &&
-                                  <DropdownMenuItem
-                                      className={"flex items-center text-xs cursor-pointer"}
-                                      onClick={() => showAlert(row)}
-                                  >
-                                      <Trash size={16} strokeWidth={2}/>
-                                      <span className={"ml-2"}>Delete</span>
-                                  </DropdownMenuItem>
-                              }
-                            </DropdownMenuGroup>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                }
-              </TableRow>
-            )
-          })}
-        </TableBody>
-        <Alert
-          open={alertOpen}
-          onOpenChange={setAlertOpen}
-          setDataToRender={setDataToRender}
-          selectedRow={selectedRow}/>
-      </TableComponent>
+          </TableBody>
+          <Alert
+            open={alertOpen}
+            onOpenChange={setAlertOpen}
+            setDataToRender={setDataToRender}
+            selectedRow={selectedRow}/>
+        </TableComponent>
+      </div>
     </div>
-  )
+  );
+
 }

@@ -17,6 +17,7 @@ export default function Home() {
           showAlerts
           columnsToFilter={["name", "age", "position"]}
           multipleChoiceFilter
+          columnOrder={["id", "name", "position"]}
         />
       </div>
     </div>

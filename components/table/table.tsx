@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Alert} from "@/components/Alert"
 import {Data} from "@/types/data"
 import {Filter} from "@/components/filter";
@@ -30,6 +30,8 @@ type TableProps = {
   columnsToFilter?: string[]
   // mutli filter selector
   multipleChoiceFilter?: boolean
+  // column order
+  columnOrder: string[]
 }
 
 export type Filters = {
@@ -37,12 +39,20 @@ export type Filters = {
   value: string
 }
 
-export const Table = ({data, lang, translations, ableToDelete, showAlerts, columnsToFilter, multipleChoiceFilter}: TableProps) => {
-  const [dataToRender, setDataToRender] = useState<Data[]>(data)
+export const Table = ({
+                        data,
+                        lang,
+                        translations,
+                        ableToDelete,
+                        showAlerts,
+                        columnsToFilter,
+                        multipleChoiceFilter,
+                        columnOrder
+                      }: TableProps) => {
   const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
-  const [value, setValue] = useState("")
   const [filters, setFilters] = useState<Filters[]>([])
+  const [dataToRender, setDataToRender] = useState<Data[]>(data)
 
   const selectedTranslations = translations?.[lang]
 
@@ -64,13 +74,42 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts, colum
     }
   }
 
+  const sortKeysByOrder = (keys: string[], order: string[]) => {
+    return keys.sort((a, b) => {
+      const indexA = order.indexOf(a);
+      const indexB = order.indexOf(b);
+
+      return (indexA === -1 ? order.length : indexA) - (indexB === -1 ? order.length : indexB);
+    });
+  };
+
+  const sortDataByOrder = (data: any, order: string[]) => {
+    return data.map((item: any) => {
+      const sortedKeys = sortKeysByOrder(Object.keys(item), order);
+      let sortedItem = {};
+      sortedKeys.forEach((key) => {
+        //@ts-ignore
+        sortedItem[key] = item[key];
+      });
+      return sortedItem;
+    });
+  };
+
+  const sortedKeys = sortKeysByOrder(Object.keys(dataToRender?.[0]), columnOrder);
+
+  useEffect(() => {
+    setDataToRender(sortDataByOrder(dataToRender, columnOrder));
+  }, [dataToRender, columnOrder])
+
   return (
     <div>
       <div className={"flex flex-row mb-4"}>
         {columnsToFilter?.map((col, index) => {
           return (
             <div key={index} className={"[&:nth-child(n+2)]:ml-4"}>
-              <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col} filters={filters} setFilters={setFilters} initialData={data} multipleChoiceFilter={multipleChoiceFilter} />
+              <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col}
+                      filters={filters} setFilters={setFilters} initialData={data}
+                      multipleChoiceFilter={multipleChoiceFilter}/>
             </div>
           )
         })}
@@ -78,16 +117,16 @@ export const Table = ({data, lang, translations, ableToDelete, showAlerts, colum
       <TableComponent className={"border border-gray-600"}>
         <TableHeader className={"bg-stone-900"}>
           <TableRow className={"border-stone-900"}>
-            {Object.keys(dataToRender?.[0]).map((key, index) => {
+            {sortedKeys.map((key: string, index: number) => {
               const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
                 ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
-                : key
+                : key;
 
               return (
                 <TableHead key={index}>
                   {keyToTranslate}
                 </TableHead>
-              )
+              );
             })}
             {ableToDelete && <TableHead></TableHead>}
           </TableRow>

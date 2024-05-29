@@ -22,6 +22,7 @@ export default function Home() {
             multipleChoiceFilter
             columnOrder={["name", "position"]}
             columnsToHide={["id"]}
+            columnsToSum={["salary"]}
           />
         </div>
       </div>

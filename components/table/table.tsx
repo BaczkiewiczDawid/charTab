@@ -35,6 +35,8 @@ type TableProps = {
   columnOrder?: string[]
   // columns to hide
   columnsToHide?: string[]
+  // set columns to sum values
+  columnsToSum?: string[]
 }
 
 export type Filters = {
@@ -52,6 +54,7 @@ export const Table = ({
                         multipleChoiceFilter,
                         columnOrder = [],
                         columnsToHide = [],
+                        columnsToSum = []
                       }: TableProps) => {
   const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
@@ -178,6 +181,34 @@ export const Table = ({
                 </TableRow>
               )
             })}
+            {columnsToSum.length >= 1 && (
+              <TableRow className={"bg-stone-950"}>
+                {Object.keys(dataToRender[0]).map((el, index) => {
+                  const mappedColumn = columnsToSum[columnsToSum.indexOf(el)];
+
+                  const values: number[] = []
+
+                  dataToRender.map((data) => {
+                    if (typeof data[mappedColumn] === 'number') {
+                      values.push(data[mappedColumn] as number)
+                    } else {
+                      return
+                    }
+                  })
+
+                  const summedColumn = values.length > 0 ? values?.reduce((a, b) => a + b) : ""
+
+                  if (mappedColumn) {
+                    return <TableCell key={index}
+                                      className={"border border-gray-600 text-center"}>{summedColumn}</TableCell>;
+                  } else {
+                    return <TableCell key={index} className={"border border-gray-600 text-center"}></TableCell>;
+                  }
+                })}
+                <TableCell className={"border border-gray-600 text-center"}></TableCell>
+              </TableRow>
+            )}
+
           </TableBody>
           <Alert
             open={alertOpen}

@@ -14,6 +14,7 @@ import {useEffect, useState} from "react";
 import {Alert} from "@/components/Alert"
 import {Data} from "@/types/data"
 import {Filter} from "@/components/filter";
+import {columnHider} from "@/components/helpers/column-hider";
 
 type TableProps = {
   // data to create table
@@ -28,10 +29,12 @@ type TableProps = {
   showAlerts?: boolean
   // columns name to filter
   columnsToFilter?: string[]
-  // mutli filter selector
+  // multi filter selector
   multipleChoiceFilter?: boolean
   // column order
-  columnOrder: string[]
+  columnOrder?: string[]
+  // columns to hide
+  columnsToHide?: string[]
 }
 
 export type Filters = {
@@ -47,7 +50,8 @@ export const Table = ({
                         showAlerts,
                         columnsToFilter,
                         multipleChoiceFilter,
-                        columnOrder
+                        columnOrder = [],
+                        columnsToHide = [],
                       }: TableProps) => {
   const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
@@ -96,6 +100,10 @@ export const Table = ({
   };
 
   const sortedKeys = sortKeysByOrder(Object.keys(dataToRender?.[0]), columnOrder);
+
+  useEffect(() => {
+    columnHider(data, columnsToHide)
+  }, [columnsToHide]);
 
   useEffect(() => {
     setDataToRender(sortDataByOrder(dataToRender, columnOrder));

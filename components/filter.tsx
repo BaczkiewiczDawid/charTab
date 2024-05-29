@@ -32,8 +32,6 @@ export const Filter = ({
   const [value, setValue] = useState<string>()
   const filterMultipleData = Array.from(new Set(initialData.map((item: Data) => String(item[columnName]))))
 
-  //TODO: refactor
-
   const applyFilters = (data: Data[], filters: Filters[]) => {
     if (filters.length < 1) {
       return data

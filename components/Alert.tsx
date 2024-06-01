@@ -11,13 +11,12 @@ import { Data } from "@/types/data";
 type Props = {
   open: boolean
   onOpenChange: Dispatch<SetStateAction<boolean>>
-  setDataToRender: Dispatch<SetStateAction<Data[]>>
-  selectedRow: Data[]
+  handleDelete: any
 }
 
-export const Alert = ({open, onOpenChange, setDataToRender, selectedRow}: Props) => {
+export const Alert = ({open, onOpenChange, handleDelete}: Props) => {
   const handleContinue = () => {
-    setDataToRender(selectedRow)
+    handleDelete()
   }
 
   return (

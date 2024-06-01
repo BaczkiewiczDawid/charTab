@@ -15,6 +15,8 @@ import {Alert} from "@/components/Alert"
 import {Data} from "@/types/data"
 import {Filter} from "@/components/filter";
 import {columnHider} from "@/components/helpers/column-hider";
+import {Checkbox} from "@/components/ui/checkbox";
+import {RowSelector} from "@/components/row-selector";
 
 type TableProps = {
   // data to create table
@@ -56,26 +58,20 @@ export const Table = ({
                         columnsToHide = [],
                         columnsToSum = []
                       }: TableProps) => {
-  const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filters[]>([])
   const [dataToRender, setDataToRender] = useState<Data[]>(data)
-
+  const [selectedRows, setSelectedRows] = useState<number[]>([])
   const selectedTranslations = translations?.[lang]
 
-  const handleDelete = (row: Data) => {
-    const filteredData: Data[] = dataToRender?.filter((el) => el.id !== row.id)
+  const handleDelete = () => {
+    const filteredData = dataToRender.filter((el, index) => !selectedRows.includes(index))
 
-    if (showAlerts) {
-      setSelectedRow(filteredData)
-    } else {
-      setDataToRender(filteredData)
-    }
+    setDataToRender(filteredData)
+    setSelectedRows([])
   }
 
-  const showAlert = (row: Data) => {
-    handleDelete(row)
-
+  const showAlert = () => {
     if (showAlerts) {
       setAlertOpen(true)
     }
@@ -129,6 +125,7 @@ export const Table = ({
         <TableComponent className={"border border-gray-600 min-h-full"}>
           <TableHeader className={"bg-stone-900"}>
             <TableRow className={"border-stone-900"}>
+              <TableHead className={"w-12"}></TableHead>
               {sortedKeys.map((key: string, index: number) => {
                 const keyToTranslate = selectedTranslations?.general && (key as keyof typeof selectedTranslations.general) in selectedTranslations.general
                   ? selectedTranslations.general[key as keyof typeof selectedTranslations.general]
@@ -149,6 +146,7 @@ export const Table = ({
 
               return (
                 <TableRow key={index} className={`${isOdd ? 'bg-stone-950' : 'bg-stone-900'}`}>
+                  <RowSelector selectedRows={selectedRows} setSelectedRows={setSelectedRows} rowId={index}/>
                   {Object.values(row).map((value, index) => {
                     return (
                       <TableCell key={index} className={"border border-gray-600"}>
@@ -168,10 +166,16 @@ export const Table = ({
                                 {ableToDelete &&
                                     <DropdownMenuItem
                                         className={"flex items-center text-xs cursor-pointer"}
-                                        onClick={() => showAlert(row)}
+                                        onClick={() => {
+                                          showAlert()
+                                          if (selectedRows.length === 0) {
+                                            setSelectedRows([index])
+                                          }
+                                        }}
                                     >
                                         <Trash size={16} strokeWidth={2}/>
-                                        <span className={"ml-2"}>Delete</span>
+                                        <span
+                                            className={"ml-2"}>{selectedRows.length > 1 ? "Delete many" : "Delete"}</span>
                                     </DropdownMenuItem>
                                 }
                               </DropdownMenuGroup>
@@ -213,8 +217,10 @@ export const Table = ({
           <Alert
             open={alertOpen}
             onOpenChange={setAlertOpen}
-            setDataToRender={setDataToRender}
-            selectedRow={selectedRow}/>
+            handleDelete={handleDelete}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+          />
         </TableComponent>
       </div>
     </div>

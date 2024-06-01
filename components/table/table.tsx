@@ -58,14 +58,11 @@ export const Table = ({
                         columnsToHide = [],
                         columnsToSum = []
                       }: TableProps) => {
-  const [selectedRow, setSelectedRow] = useState<Data[]>([])
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filters[]>([])
   const [dataToRender, setDataToRender] = useState<Data[]>(data)
   const [selectedRows, setSelectedRows] = useState<number[]>([])
   const selectedTranslations = translations?.[lang]
-
-  console.log(selectedRows)
 
   const handleDelete = () => {
     const filteredData = dataToRender.filter((el, index) => !selectedRows.includes(index))
@@ -221,6 +218,8 @@ export const Table = ({
             open={alertOpen}
             onOpenChange={setAlertOpen}
             handleDelete={handleDelete}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
           />
         </TableComponent>
       </div>

@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import {Table} from "@/components/table/table"
-import {translations} from "@/data/lang"
-import {data} from "@/data/dummyData"
-import {Navigation} from "@/components/navigation";
-import {TableProvider, useTableContext} from "@/context/table-context";
+import { Table } from "@/components/table/table";
+import { translations } from "@/data/lang";
+import { data } from "@/data/dummyData";
+import { Navigation } from "@/components/navigation";
+import { TableProvider, useTableContext } from "@/context/table-context";
 
-export default function Home() {
-  const {ableToDelete} = useTableContext()
+const HomeContent = () => {
+  const { ableToDelete, showAlerts, multipleChoiceFilter } = useTableContext();
 
   return (
     <div className={"flex flex-col"}>
       <div className="w-full p-4">Header</div>
       <div className={"grid grid-cols-4 w-full mt-4"}>
         <nav className={"p-4 col-span-1"}>
-          <Navigation/>
+          <Navigation />
         </nav>
         <div className={"p-4 col-span-3"}>
           <Table
@@ -22,9 +22,9 @@ export default function Home() {
             lang={"pl"}
             translations={translations}
             ableToDelete={ableToDelete}
-            showAlerts
+            showAlerts={showAlerts}
             columnsToFilter={["name", "age", "position"]}
-            multipleChoiceFilter
+            multipleChoiceFilter={multipleChoiceFilter}
             columnOrder={["name", "position"]}
             columnsToHide={["id"]}
             columnsToSum={["salary"]}
@@ -32,5 +32,13 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  );
+}
+
+export default function Home() {
+  return (
+    <TableProvider>
+      <HomeContent />
+    </TableProvider>
+  );
 }

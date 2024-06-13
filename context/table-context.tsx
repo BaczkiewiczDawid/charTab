@@ -1,24 +1,29 @@
-import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useState} from 'react';
+import {createContext, useContext, useState, ReactNode, SetStateAction, Dispatch} from "react";
 
-const TableContext = createContext<{
+interface TableContextProps {
   ableToDelete: boolean;
-  setAbleToDelete: any
-}>({
-  ableToDelete: false,
-  setAbleToDelete: () => {}
-});
-
-interface TableProviderProps {
-  children: ReactNode;
+  setAbleToDelete: Dispatch<SetStateAction<boolean>>
+  showAlerts: boolean
+  setShowAlerts: Dispatch<SetStateAction<boolean>>
+  multipleChoiceFilter: boolean,
+  setMultipleChoiceFilter: Dispatch<SetStateAction<boolean>>
 }
 
-export const TableProvider = ({children}: TableProviderProps) => {
-  const [ableToDelete, setAbleToDelete] = useState(false)
+const TableContext = createContext<TableContextProps | undefined>(undefined);
+
+export const TableProvider = ({children}: { children: ReactNode }) => {
+  const [ableToDelete, setAbleToDelete] = useState<boolean>(false);
+  const [showAlerts, setShowAlerts] = useState<boolean>(false);
+  const [multipleChoiceFilter, setMultipleChoiceFilter] = useState<boolean>(false)
 
   const contextValue = {
     ableToDelete: ableToDelete,
     setAbleToDelete: setAbleToDelete,
-  };
+    showAlerts: showAlerts,
+    setShowAlerts: setShowAlerts,
+    multipleChoiceFilter: multipleChoiceFilter,
+    setMultipleChoiceFilter: setMultipleChoiceFilter,
+  }
 
   return (
     <TableContext.Provider value={contextValue}>
@@ -27,6 +32,10 @@ export const TableProvider = ({children}: TableProviderProps) => {
   );
 };
 
-export const useTableContext = () => {
-  return useContext(TableContext);
+export const useTableContext = (): TableContextProps => {
+  const context = useContext(TableContext);
+  if (!context) {
+    throw new Error("useTableContext must be used within a TableProvider");
+  }
+  return context;
 };

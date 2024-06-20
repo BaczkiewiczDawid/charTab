@@ -7,14 +7,16 @@ import { Navigation } from "@/components/navigation";
 import { TableProvider, useTableContext } from "@/context/table-context";
 
 const HomeContent = () => {
-  const { ableToDelete, showAlerts, multipleChoiceFilter } = useTableContext();
+  const { ableToDelete, showAlerts, multipleChoiceFilter, columnsToFilter } = useTableContext();
+
+  const labelsList = Object.keys(data[0])
 
   return (
     <div className={"flex flex-col"}>
       <div className="w-full p-4">Header</div>
       <div className={"grid grid-cols-4 w-full mt-4"}>
         <nav className={"p-4 col-span-1"}>
-          <Navigation />
+          <Navigation labelsList={labelsList} />
         </nav>
         <div className={"p-4 col-span-3"}>
           <Table
@@ -23,7 +25,7 @@ const HomeContent = () => {
             translations={translations}
             ableToDelete={ableToDelete}
             showAlerts={showAlerts}
-            columnsToFilter={["name", "age", "position"]}
+            columnsToFilter={columnsToFilter}
             multipleChoiceFilter={multipleChoiceFilter}
             columnOrder={["name", "position"]}
             columnsToHide={["id"]}

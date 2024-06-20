@@ -34,6 +34,7 @@ export const MultipleChoiceFilter = ({ data, filters, setFilters, columnName }: 
         <label htmlFor={String(index)} key={index}>
           <CommandItem
             key={index}
+            className={"cursor-pointer"}
           >
             <Checkbox id={String(index)} checked={filters.some((filter) => filter.value === colValue)}
                       onCheckedChange={(isChecked: boolean) => {

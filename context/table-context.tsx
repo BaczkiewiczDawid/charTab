@@ -7,6 +7,8 @@ interface TableContextProps {
   setShowAlerts: Dispatch<SetStateAction<boolean>>
   multipleChoiceFilter: boolean,
   setMultipleChoiceFilter: Dispatch<SetStateAction<boolean>>
+  columnsToFilter: string[]
+  setColumnsToFilter: Dispatch<SetStateAction<string[]>>
 }
 
 const TableContext = createContext<TableContextProps | undefined>(undefined);
@@ -15,6 +17,7 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [ableToDelete, setAbleToDelete] = useState<boolean>(false);
   const [showAlerts, setShowAlerts] = useState<boolean>(false);
   const [multipleChoiceFilter, setMultipleChoiceFilter] = useState<boolean>(false)
+  const [columnsToFilter, setColumnsToFilter] = useState<string[]>([])
 
   const contextValue = {
     ableToDelete: ableToDelete,
@@ -23,6 +26,8 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setShowAlerts: setShowAlerts,
     multipleChoiceFilter: multipleChoiceFilter,
     setMultipleChoiceFilter: setMultipleChoiceFilter,
+    columnsToFilter: columnsToFilter,
+    setColumnsToFilter: setColumnsToFilter,
   }
 
   return (

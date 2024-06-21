@@ -1,17 +1,18 @@
-import {Label} from "@/components/ui/label";
-import {Switch} from "@/components/ui/switch";
-import {useTableContext} from "@/context/table-context";
-import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
-import {Popover, PopoverTrigger} from "@radix-ui/react-popover";
-import {PopoverContent} from "@/components/ui/popover";
-import {Checkbox} from "@/components/ui/checkbox";
-import {Button} from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { useTableContext } from "@/context/table-context";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
+import { PopoverContent } from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 type Props = {
   labelsList: string[]
 }
 
-export const Navigation = ({labelsList}: Props) => {
+export const Navigation = ({ labelsList }: Props) => {
   const {
     ableToDelete,
     setAbleToDelete,
@@ -36,22 +37,31 @@ export const Navigation = ({labelsList}: Props) => {
     }
   }
 
-  console.log(columnsToFilter)
+  // Dodaj stan do zarządzania renderowaniem po stronie klienta
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; // lub dowolny komponent ładowania
+  }
 
   return (
     <div className="flex flex-col">
       <div className="flex justify-between py-2">
         <Label htmlFor="able-to-delete">Able to delete</Label>
         <Switch id="able-to-delete" name={"able-to-delete"} checked={ableToDelete}
-                onCheckedChange={(checked) => setAbleToDelete(checked)}/>
+                onCheckedChange={(checked) => setAbleToDelete(checked)} />
       </div>
       <div className="flex justify-between py-2">
         <Label>Show alerts</Label>
-        <Switch checked={showAlerts} onCheckedChange={(checked) => setShowAlerts(checked)}/>
+        <Switch checked={showAlerts} onCheckedChange={(checked) => setShowAlerts(checked)} />
       </div>
       <div className="flex justify-between py-2">
-        <Label>multipleChoiceFilter</Label>
-        <Switch checked={multipleChoiceFilter} onCheckedChange={(checked) => setMultipleChoiceFilter(checked)}/>
+        <Label>Multiple choice filter</Label>
+        <Switch checked={multipleChoiceFilter} onCheckedChange={(checked) => setMultipleChoiceFilter(checked)} />
       </div>
       <div className="flex py-2 flex-col">
         <Label>Columns to filter</Label>
@@ -66,7 +76,7 @@ export const Navigation = ({labelsList}: Props) => {
             </PopoverTrigger>
             <PopoverContent className={"w-[200px]"}>
               <Command>
-                <CommandInput placeholder={"Find labels..."}/>
+                <CommandInput placeholder={"Find labels..."} />
                 <CommandEmpty>No found.</CommandEmpty>
                 <CommandList>
                   <CommandGroup>

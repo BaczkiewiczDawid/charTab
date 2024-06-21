@@ -64,8 +64,17 @@ export const Table = ({
   const [selectedRows, setSelectedRows] = useState<number[]>([])
   const selectedTranslations = translations?.[lang]
 
-  const handleDelete = () => {
-    const filteredData = dataToRender.filter((el, index) => !selectedRows.includes(index))
+  const handleDelete = (dataIndex: number | undefined) => {
+    let filteredData = [...dataToRender]
+    console.log('deleting')
+
+    if (selectedRows.length !== 0) {
+      filteredData = dataToRender.filter((el, index) => !selectedRows.includes(index))
+    } else if (typeof dataIndex === "number") {
+      filteredData = dataToRender.filter((el, index) => index !== dataIndex)
+    } else {
+      filteredData = dataToRender
+    }
 
     setDataToRender(filteredData)
     setSelectedRows([])
@@ -167,10 +176,11 @@ export const Table = ({
                                     <DropdownMenuItem
                                         className={"flex items-center text-xs cursor-pointer"}
                                         onClick={() => {
-                                          showAlert()
                                           if (selectedRows.length === 0) {
                                             setSelectedRows([index])
                                           }
+
+                                          showAlerts ? showAlert() : handleDelete(index)
                                         }}
                                     >
                                         <Trash size={16} strokeWidth={2}/>

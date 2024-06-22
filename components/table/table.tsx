@@ -17,6 +17,7 @@ import {Filter} from "@/components/filter";
 import {columnHider} from "@/components/helpers/column-hider";
 import {Checkbox} from "@/components/ui/checkbox";
 import {RowSelector} from "@/components/row-selector";
+import {useTableContext} from "@/context/table-context";
 
 type TableProps = {
   // data to create table
@@ -60,20 +61,20 @@ export const Table = ({
                       }: TableProps) => {
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
   const [filters, setFilters] = useState<Filters[]>([])
-  const [dataToRender, setDataToRender] = useState<Data[]>(data)
   const [selectedRows, setSelectedRows] = useState<number[]>([])
   const selectedTranslations = translations?.[lang]
 
+  const { setDataToRender } = useTableContext()
+
   const handleDelete = (dataIndex: number | undefined) => {
-    let filteredData = [...dataToRender]
-    console.log('deleting')
+    let filteredData = [...data]
 
     if (selectedRows.length !== 0) {
-      filteredData = dataToRender.filter((el, index) => !selectedRows.includes(index))
+      filteredData = data.filter((el, index) => !selectedRows.includes(index))
     } else if (typeof dataIndex === "number") {
-      filteredData = dataToRender.filter((el, index) => index !== dataIndex)
+      filteredData = data.filter((el, index) => index !== dataIndex)
     } else {
-      filteredData = dataToRender
+      filteredData = data
     }
 
     setDataToRender(filteredData)
@@ -107,14 +108,14 @@ export const Table = ({
     });
   };
 
-  const sortedKeys = sortKeysByOrder(Object.keys(dataToRender?.[0]), columnOrder);
+  const sortedKeys = sortKeysByOrder(Object.keys(data?.[0]), columnOrder);
 
   useEffect(() => {
     columnHider(data, columnsToHide)
   }, [columnsToHide]);
 
   useEffect(() => {
-    setDataToRender(sortDataByOrder(dataToRender, columnOrder));
+    setDataToRender(sortDataByOrder(data, columnOrder));
   }, [columnOrder])
 
   return (
@@ -123,7 +124,7 @@ export const Table = ({
         {columnsToFilter?.map((col, index) => {
           return (
             <div key={index} className={"[&:nth-child(n+2)]:ml-4"}>
-              <Filter key={index} data={dataToRender} setDataToRender={setDataToRender} columnName={col}
+              <Filter key={index} data={data} setDataToRender={setDataToRender} columnName={col}
                       filters={filters} setFilters={setFilters} initialData={data}
                       multipleChoiceFilter={multipleChoiceFilter}/>
             </div>
@@ -150,7 +151,7 @@ export const Table = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {dataToRender.map((row, index) => {
+            {data.map((row, index) => {
               const isOdd = index % 2 === 0
 
               return (
@@ -197,12 +198,12 @@ export const Table = ({
             })}
             {columnsToSum.length >= 1 && (
               <TableRow className={"bg-stone-950"}>
-                {Object.keys(dataToRender[0]).map((el, index) => {
+                {Object.keys(data[0]).map((el, index) => {
                   const mappedColumn = columnsToSum[columnsToSum.indexOf(el)];
 
                   const values: number[] = []
 
-                  dataToRender.map((data) => {
+                  data.map((data) => {
                     if (typeof data[mappedColumn] === 'number') {
                       values.push(data[mappedColumn] as number)
                     } else {

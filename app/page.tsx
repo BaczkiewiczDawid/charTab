@@ -2,14 +2,15 @@
 
 import { Table } from "@/components/table/table";
 import { translations } from "@/data/lang";
-import { data } from "@/data/dummyData";
 import { Navigation } from "@/components/navigation";
 import { TableProvider, useTableContext } from "@/context/table-context";
 
 const HomeContent = () => {
-  const { ableToDelete, showAlerts, multipleChoiceFilter, columnsToFilter } = useTableContext();
+  const { ableToDelete, showAlerts, multipleChoiceFilter, columnsToFilter, columnsOrder, dataToRender } = useTableContext();
 
-  const labelsList = Object.keys(data[0])
+  const labelsList = Object.keys(dataToRender[0])
+
+  console.log(dataToRender)
 
   return (
     <div className={"flex flex-col"}>
@@ -20,14 +21,14 @@ const HomeContent = () => {
         </nav>
         <div className={"p-4 col-span-3"}>
           <Table
-            data={data}
+            data={dataToRender}
             lang={"pl"}
             translations={translations}
             ableToDelete={ableToDelete}
             showAlerts={showAlerts}
             columnsToFilter={columnsToFilter}
             multipleChoiceFilter={multipleChoiceFilter}
-            columnOrder={["name", "position"]}
+            columnOrder={columnsOrder}
             columnsToHide={["id"]}
             columnsToSum={["salary"]}
           />

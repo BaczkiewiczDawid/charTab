@@ -1,4 +1,6 @@
 import {createContext, useContext, useState, ReactNode, SetStateAction, Dispatch} from "react";
+import {Data} from "@/types/data";
+import {data} from "@/data/dummyData";
 
 interface TableContextProps {
   ableToDelete: boolean;
@@ -9,6 +11,12 @@ interface TableContextProps {
   setMultipleChoiceFilter: Dispatch<SetStateAction<boolean>>
   columnsToFilter: string[]
   setColumnsToFilter: Dispatch<SetStateAction<string[]>>
+  columnsOrder: string[]
+  setColumnsOrder: Dispatch<SetStateAction<string[]>>
+  dataToRender: Data[]
+  setDataToRender: Dispatch<SetStateAction<Data[]>>
+  initialDataState: Data[]
+  setInitialDataState: Dispatch<SetStateAction<Data[]>>
 }
 
 const TableContext = createContext<TableContextProps | undefined>(undefined);
@@ -18,6 +26,9 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [showAlerts, setShowAlerts] = useState<boolean>(false);
   const [multipleChoiceFilter, setMultipleChoiceFilter] = useState<boolean>(false)
   const [columnsToFilter, setColumnsToFilter] = useState<string[]>([])
+  const [columnsOrder, setColumnsOrder] = useState<string[]>([])
+  const [dataToRender, setDataToRender] = useState<Data[]>(data)
+  const [initialDataState, setInitialDataState] = useState<Data[]>(data)
 
   const contextValue = {
     ableToDelete: ableToDelete,
@@ -28,6 +39,12 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setMultipleChoiceFilter: setMultipleChoiceFilter,
     columnsToFilter: columnsToFilter,
     setColumnsToFilter: setColumnsToFilter,
+    columnsOrder: columnsOrder,
+    setColumnsOrder: setColumnsOrder,
+    dataToRender: dataToRender,
+    setDataToRender: setDataToRender,
+    initialDataState: initialDataState,
+    setInitialDataState: setInitialDataState,
   }
 
   return (

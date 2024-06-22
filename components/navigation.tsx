@@ -23,7 +23,9 @@ export const Navigation = () => {
     initialDataState,
     setDataToRender,
     columnsToSum,
-    setColumnsToSum
+    setColumnsToSum,
+    columnsToHide,
+    setColumnsToHide,
   } = useTableContext();
 
   const [isClient, setIsClient] = useState(false)
@@ -50,6 +52,8 @@ export const Navigation = () => {
 
   const labelsList = Object.keys(initialDataState[0])
   const numberLabelsList = getNumberKeys(initialDataState[0])
+
+  console.log(initialDataState)
 
   return (
     <div className="flex flex-col">
@@ -82,8 +86,15 @@ export const Navigation = () => {
       <div className="flex py-2 flex-col">
         <Label>Columns to sum</Label>
         <MultipleSelector
-          name={"Select columns order"} data={numberLabelsList} selectorItems={columnsToSum}
-          setData={setColumnsToSum} />
+          name={"Select columns to sum"} data={numberLabelsList} selectorItems={columnsToSum}
+          setData={setColumnsToSum}/>
+      </div>
+      <div className="flex py-2 flex-col">
+        <Label>Columns to hide</Label>
+        <MultipleSelector
+          name={"Select columns to hide"} data={labelsList} selectorItems={columnsToHide}
+          setData={setColumnsToHide} initialDataState={initialDataState}
+          setDataToRender={setDataToRender}/>
       </div>
     </div>
   );

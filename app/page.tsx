@@ -6,7 +6,7 @@ import { Navigation } from "@/components/navigation";
 import { TableProvider, useTableContext } from "@/context/table-context";
 
 const HomeContent = () => {
-  const { ableToDelete, showAlerts, multipleChoiceFilter, columnsToFilter, columnsOrder, dataToRender, columnsToSum } = useTableContext();
+  const { ableToDelete, showAlerts, multipleChoiceFilter, columnsToFilter, columnsOrder, dataToRender, columnsToSum, columnsToHide } = useTableContext();
 
   return (
     <div className={"flex flex-col"}>
@@ -25,7 +25,7 @@ const HomeContent = () => {
             columnsToFilter={columnsToFilter}
             multipleChoiceFilter={multipleChoiceFilter}
             columnOrder={columnsOrder}
-            columnsToHide={["id"]}
+            columnsToHide={columnsToHide}
             columnsToSum={columnsToSum}
           />
         </div>

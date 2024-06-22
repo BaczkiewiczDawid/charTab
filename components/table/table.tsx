@@ -64,7 +64,7 @@ export const Table = ({
   const [selectedRows, setSelectedRows] = useState<number[]>([])
   const selectedTranslations = translations?.[lang]
 
-  const {setDataToRender} = useTableContext()
+  const {setDataToRender, initialDataState} = useTableContext()
 
   const handleDelete = (dataIndex: number | undefined) => {
     let filteredData = [...data]
@@ -110,15 +110,15 @@ export const Table = ({
 
   const sortedKeys = sortKeysByOrder(Object.keys(data?.[0]), columnOrder);
 
+  console.log(columnsToHide)
+
   useEffect(() => {
-    columnHider(data, columnsToHide)
+    setDataToRender(columnHider(initialDataState, columnsToHide))
   }, [columnsToHide]);
 
   useEffect(() => {
     setDataToRender(sortDataByOrder(data, columnOrder));
   }, [columnOrder])
-
-  console.log(data)
 
   return (
     <div className="h-full flex flex-col">

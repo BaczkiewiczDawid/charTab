@@ -19,6 +19,8 @@ interface TableContextProps {
   setInitialDataState: Dispatch<SetStateAction<Data[]>>
   columnsToSum: string[]
   setColumnsToSum: Dispatch<SetStateAction<string[]>>
+  columnsToHide: string[]
+  setColumnsToHide: Dispatch<SetStateAction<string[]>>
 }
 
 const TableContext = createContext<TableContextProps | undefined>(undefined);
@@ -29,9 +31,10 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [multipleChoiceFilter, setMultipleChoiceFilter] = useState<boolean>(false)
   const [columnsToFilter, setColumnsToFilter] = useState<string[]>([])
   const [columnsOrder, setColumnsOrder] = useState<string[]>([])
-  const [dataToRender, setDataToRender] = useState<Data[]>(data)
-  const [initialDataState, setInitialDataState] = useState<Data[]>(data)
+  const [dataToRender, setDataToRender] = useState<Data[]>([...data])
+  const [initialDataState, setInitialDataState] = useState<Data[]>([...data])
   const [columnsToSum, setColumnsToSum] = useState<string[]>([])
+  const [columnsToHide, setColumnsToHide] = useState<string[]>([])
 
   const contextValue = {
     ableToDelete: ableToDelete,
@@ -50,6 +53,8 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setInitialDataState: setInitialDataState,
     columnsToSum: columnsToSum,
     setColumnsToSum: setColumnsToSum,
+    columnsToHide: columnsToHide,
+    setColumnsToHide: setColumnsToHide,
   }
 
   return (

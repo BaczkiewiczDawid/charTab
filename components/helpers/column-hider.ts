@@ -1,11 +1,13 @@
 export const columnHider = (data: any, columnsToHide: string[]) => {
   const newData = data.map((el: any) => {
-    columnsToHide.map((columnName) => {
-      delete el[columnName]
-    })
+    const newEl = { ...el }
 
-    return el
-  })
+    columnsToHide.forEach((columnName) => {
+      delete newEl[columnName]
+    });
 
-  return newData
+    return newEl
+  });
+
+  return newData;
 }

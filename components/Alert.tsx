@@ -6,7 +6,6 @@ import {
   AlertDialogTitle
 } from "@/components/ui/alert-dialog";
 import {Dispatch, SetStateAction} from "react";
-import {Data} from "@/types/data";
 
 type Props = {
   open: boolean
@@ -20,8 +19,6 @@ export const Alert = ({open, onOpenChange, handleDelete, selectedRows, setSelect
   const handleContinue = () => {
     handleDelete()
   }
-
-  console.log(selectedRows.length)
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>

@@ -8,7 +8,7 @@ type Props = {
   labelsList: string[]
 }
 
-export const Navigation = ({labelsList}: Props) => {
+export const Navigation = () => {
   const {
     ableToDelete,
     setAbleToDelete,
@@ -22,6 +22,8 @@ export const Navigation = ({labelsList}: Props) => {
     setColumnsOrder,
     initialDataState,
     setDataToRender,
+    columnsToSum,
+    setColumnsToSum
   } = useTableContext();
 
   const [isClient, setIsClient] = useState(false)
@@ -33,6 +35,21 @@ export const Navigation = ({labelsList}: Props) => {
   if (!isClient) {
     return null
   }
+
+  function getNumberKeys(obj: any) {
+    const numberKeys = [];
+
+    for (const key in obj) {
+      if (typeof obj[key] === 'number') {
+        numberKeys.push(key);
+      }
+    }
+
+    return numberKeys;
+  }
+
+  const labelsList = Object.keys(initialDataState[0])
+  const numberLabelsList = getNumberKeys(initialDataState[0])
 
   return (
     <div className="flex flex-col">
@@ -61,6 +78,12 @@ export const Navigation = ({labelsList}: Props) => {
           name={"Select columns order"} data={labelsList} selectorItems={columnsOrder}
           setData={setColumnsOrder} initialDataState={initialDataState}
           setDataToRender={setDataToRender} selectedAlwaysOnTop={true}/>
+      </div>
+      <div className="flex py-2 flex-col">
+        <Label>Columns to sum</Label>
+        <MultipleSelector
+          name={"Select columns order"} data={numberLabelsList} selectorItems={columnsToSum}
+          setData={setColumnsToSum} />
       </div>
     </div>
   );

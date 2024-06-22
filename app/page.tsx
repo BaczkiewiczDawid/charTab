@@ -6,18 +6,14 @@ import { Navigation } from "@/components/navigation";
 import { TableProvider, useTableContext } from "@/context/table-context";
 
 const HomeContent = () => {
-  const { ableToDelete, showAlerts, multipleChoiceFilter, columnsToFilter, columnsOrder, dataToRender } = useTableContext();
-
-  const labelsList = Object.keys(dataToRender[0])
-
-  console.log(dataToRender)
+  const { ableToDelete, showAlerts, multipleChoiceFilter, columnsToFilter, columnsOrder, dataToRender, columnsToSum } = useTableContext();
 
   return (
     <div className={"flex flex-col"}>
       <div className="w-full p-4">Header</div>
       <div className={"grid grid-cols-4 w-full mt-4"}>
         <nav className={"p-4 col-span-1"}>
-          <Navigation labelsList={labelsList} />
+          <Navigation />
         </nav>
         <div className={"p-4 col-span-3"}>
           <Table
@@ -30,7 +26,7 @@ const HomeContent = () => {
             multipleChoiceFilter={multipleChoiceFilter}
             columnOrder={columnsOrder}
             columnsToHide={["id"]}
-            columnsToSum={["salary"]}
+            columnsToSum={columnsToSum}
           />
         </div>
       </div>

@@ -17,6 +17,8 @@ interface TableContextProps {
   setDataToRender: Dispatch<SetStateAction<Data[]>>
   initialDataState: Data[]
   setInitialDataState: Dispatch<SetStateAction<Data[]>>
+  columnsToSum: string[]
+  setColumnsToSum: Dispatch<SetStateAction<string[]>>
 }
 
 const TableContext = createContext<TableContextProps | undefined>(undefined);
@@ -29,6 +31,7 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [columnsOrder, setColumnsOrder] = useState<string[]>([])
   const [dataToRender, setDataToRender] = useState<Data[]>(data)
   const [initialDataState, setInitialDataState] = useState<Data[]>(data)
+  const [columnsToSum, setColumnsToSum] = useState<string[]>([])
 
   const contextValue = {
     ableToDelete: ableToDelete,
@@ -45,6 +48,8 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setDataToRender: setDataToRender,
     initialDataState: initialDataState,
     setInitialDataState: setInitialDataState,
+    columnsToSum: columnsToSum,
+    setColumnsToSum: setColumnsToSum,
   }
 
   return (

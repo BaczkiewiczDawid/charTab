@@ -118,6 +118,8 @@ export const Table = ({
     setDataToRender(sortDataByOrder(data, columnOrder));
   }, [columnOrder])
 
+  console.log(data)
+
   return (
     <div className="h-full flex flex-col">
       <div className={"flex flex-row mb-4"}>
@@ -198,6 +200,7 @@ export const Table = ({
             })}
             {columnsToSum.length >= 1 && (
               <TableRow className={"bg-stone-950"}>
+                <TableCell></TableCell>
                 {Object.keys(data[0]).map((el, index) => {
                   const mappedColumn = columnsToSum[columnsToSum.indexOf(el)];
 

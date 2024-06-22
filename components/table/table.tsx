@@ -64,7 +64,7 @@ export const Table = ({
   const [selectedRows, setSelectedRows] = useState<number[]>([])
   const selectedTranslations = translations?.[lang]
 
-  const { setDataToRender } = useTableContext()
+  const {setDataToRender} = useTableContext()
 
   const handleDelete = (dataIndex: number | undefined) => {
     let filteredData = [...data]
@@ -223,7 +223,9 @@ export const Table = ({
                     return <TableCell key={index} className={"border border-gray-600 text-center"}></TableCell>;
                   }
                 })}
-                <TableCell className={"border border-gray-600 text-center"}></TableCell>
+                {ableToDelete &&
+                    <TableCell className={"border border-gray-600 text-center"}></TableCell>
+                }
               </TableRow>
             )}
 

@@ -27,8 +27,9 @@ export const ImportCSV = () => {
 
   const changeDataFormat = (csvFile: string[][]) => {
     const keys = csvFile[0]
+    const data = csvData.slice(1)
 
-    return csvData.map((row: any) => {
+    return data.map((row: any) => {
       return keys.reduce((acc: any, key: any, index: number) => {
         acc[key] = row[index]
         return acc

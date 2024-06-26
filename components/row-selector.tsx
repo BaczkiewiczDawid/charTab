@@ -33,8 +33,11 @@ export const RowSelector = ({selectedRows, setSelectedRows, rowId}: Props) => {
   }
 
   return (
-    <TableCell className={"border border-gray-600 w-2"}>
-      <Checkbox checked={isChecked} onCheckedChange={handleCheck}/>
+    <TableCell className="border border-gray-600 w-2 p-0">
+      <div className="h-full w-full flex justify-center items-center">
+        <Checkbox checked={isChecked} onCheckedChange={handleCheck} />
+      </div>
     </TableCell>
+
   )
 }

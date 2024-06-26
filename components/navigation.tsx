@@ -53,8 +53,6 @@ export const Navigation = () => {
   const labelsList = Object.keys(initialDataState[0])
   const numberLabelsList = getNumberKeys(initialDataState[0])
 
-  console.log(initialDataState)
-
   return (
     <div className="flex flex-col">
       <div className="flex justify-between py-2">

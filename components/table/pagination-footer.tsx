@@ -76,10 +76,7 @@ import {useTableContext} from "@/context/table-context";
 import {useEffect, useState} from "react";
 
 export const PaginationFooter = () => {
-  const {initialDataState, setDataToRender} = useTableContext()
-
-  const [page, setPage] = useState<number>(1)
-  const [pageSize, setPageSize] = useState<number>(10)
+  const {initialDataState, setDataToRender, page, setPage, pageSize} = useTableContext()
 
   const handlePaginate = () => {
     const pageToRender = JSON.parse(JSON.stringify(initialDataState)).slice((page - 1) * pageSize, page * pageSize)

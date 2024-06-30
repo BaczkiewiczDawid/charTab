@@ -55,20 +55,23 @@ export const Table = ({
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const selectedTranslations = translations?.[lang];
 
-  const {setDataToRender, initialDataState} = useTableContext();
+  const {setDataToRender, initialDataState, setInitialDataState, page, pageSize} = useTableContext();
 
   const handleDelete = (dataIndex: number | undefined) => {
     let filteredData = [...data];
+    const pageToRender = JSON.parse(JSON.stringify(initialDataState)).slice((page - 1) * pageSize, page * pageSize)
 
     if (selectedRows.length !== 0) {
-      filteredData = data.filter((el, index) => !selectedRows.includes(index));
+      filteredData = data.filter((el, index) => selectedRows.includes(index));
     } else if (typeof dataIndex === "number") {
-      filteredData = data.filter((el, index) => index !== dataIndex);
+      filteredData = data.filter((el, index) => index === dataIndex);
     } else {
       filteredData = data;
     }
 
-    setDataToRender(filteredData);
+    const filteredInitialData = initialDataState.filter((data) => JSON.stringify(data) !== JSON.stringify(filteredData[0]))
+
+    setInitialDataState(filteredInitialData)
     setSelectedRows([]);
   };
 
@@ -122,7 +125,6 @@ export const Table = ({
                 columnName={col}
                 filters={filters}
                 setFilters={setFilters}
-                initialData={data}
                 multipleChoiceFilter={multipleChoiceFilter}
               />
             </div>
@@ -233,7 +235,7 @@ export const Table = ({
           </TableComponent>
         </div>
       </div>
-      <PaginationFooter />
+      <PaginationFooter/>
     </div>
   );
 };

@@ -21,6 +21,10 @@ interface TableContextProps {
   setColumnsToSum: Dispatch<SetStateAction<string[]>>
   columnsToHide: string[]
   setColumnsToHide: Dispatch<SetStateAction<string[]>>
+  page: number
+  setPage: Dispatch<SetStateAction<number>>
+  pageSize: number
+  setPageSize: Dispatch<SetStateAction<number>>
 }
 
 const TableContext = createContext<TableContextProps | undefined>(undefined);
@@ -35,6 +39,8 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [initialDataState, setInitialDataState] = useState<Data[]>([...data])
   const [columnsToSum, setColumnsToSum] = useState<string[]>([])
   const [columnsToHide, setColumnsToHide] = useState<string[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [pageSize, setPageSize] = useState<number>(10)
 
   const contextValue = {
     ableToDelete: ableToDelete,
@@ -55,6 +61,10 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setColumnsToSum: setColumnsToSum,
     columnsToHide: columnsToHide,
     setColumnsToHide: setColumnsToHide,
+    page: page,
+    setPage: setPage,
+    pageSize: pageSize,
+    setPageSize: setPageSize,
   }
 
   return (

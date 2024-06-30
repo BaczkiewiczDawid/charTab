@@ -29,7 +29,7 @@ export const Filter = ({
                          setFilters,
                          multipleChoiceFilter
                        }: Props) => {
-  const { initialDataState, columnsOrder } = useTableContext()
+  const { initialDataState, dataToRender } = useTableContext()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
   const filterMultipleData = Array.from(new Set(initialDataState.map((item: Data) => String(item[columnName]))))
@@ -55,7 +55,7 @@ export const Filter = ({
   };
 
   useEffect(() => {
-    const filtered = applyFilters(initialDataState, filters);
+    const filtered = applyFilters(dataToRender, filters);
 
     setDataToRender(filtered);
   }, [filters, initialDataState])

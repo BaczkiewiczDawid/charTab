@@ -19,6 +19,7 @@ import {Checkbox} from "@/components/ui/checkbox";
 import {RowSelector} from "@/components/row-selector";
 import {useTableContext} from "@/context/table-context";
 import {PaginationFooter} from "@/components/table/pagination-footer";
+import {sortDataByOrder, sortKeysByOrder} from "@/components/helpers/column-order";
 
 type TableProps = {
   data: Data[];
@@ -54,12 +55,10 @@ export const Table = ({
   const [filters, setFilters] = useState<Filters[]>([]);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const selectedTranslations = translations?.[lang];
-
-  const {setDataToRender, initialDataState, setInitialDataState, page, pageSize} = useTableContext();
+  const {setDataToRender, initialDataState, setInitialDataState,  columnsOrder, page, pageSize} = useTableContext();
 
   const handleDelete = (dataIndex: number | undefined) => {
     let filteredData = [...data];
-    const pageToRender = JSON.parse(JSON.stringify(initialDataState)).slice((page - 1) * pageSize, page * pageSize)
 
     if (selectedRows.length !== 0) {
       filteredData = data.filter((el, index) => selectedRows.includes(index));
@@ -81,28 +80,7 @@ export const Table = ({
     }
   };
 
-  const sortKeysByOrder = (keys: string[], order: string[]) => {
-    return keys.sort((a, b) => {
-      const indexA = order.indexOf(a);
-      const indexB = order.indexOf(b);
-
-      return (indexA === -1 ? order.length : indexA) - (indexB === -1 ? order.length : indexB);
-    });
-  };
-
-  const sortDataByOrder = (data: any, order: string[]) => {
-    return data.map((item: any) => {
-      const sortedKeys = sortKeysByOrder(Object.keys(item), order);
-      let sortedItem = {};
-      sortedKeys.forEach((key) => {
-        //@ts-ignore
-        sortedItem[key] = item[key];
-      });
-      return sortedItem;
-    });
-  };
-
-  const sortedKeys = sortKeysByOrder(Object.keys(data?.[0]), columnOrder);
+  const keysOrder = sortKeysByOrder(Object.keys(data?.[0]), columnOrder)
 
   useEffect(() => {
     setDataToRender(columnHider(initialDataState, columnsToHide));
@@ -137,7 +115,7 @@ export const Table = ({
             <TableHeader className="bg-stone-900">
               <TableRow className="border-stone-900">
                 <TableHead className="w-12"></TableHead>
-                {sortedKeys.map((key, index) => {
+                {sortKeysByOrder(Object.keys(data?.[0]), columnsOrder).map((key, index) => {
                   const keyToTranslate =
                     selectedTranslations?.general && key in selectedTranslations.general
                       ? selectedTranslations.general[key]
@@ -149,7 +127,7 @@ export const Table = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map((row, index) => {
+              {sortDataByOrder(data, columnsOrder).map((row: Data, index: number) => {
                 const isOdd = index % 2 === 0;
 
                 return (
@@ -201,7 +179,7 @@ export const Table = ({
                     const mappedColumn = columnsToSum[columnsToSum.indexOf(el)];
                     const values: number[] = [];
 
-                    data.map((data) => {
+                    (sortDataByOrder(data, columnsOrder)).map((data: Data) => {
                       if (typeof data[mappedColumn] === "number") {
                         values.push(data[mappedColumn] as number);
                       } else {

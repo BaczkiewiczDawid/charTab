@@ -10,6 +10,7 @@ import {MultipleChoiceFilter} from "@/components/multiple-choice-filter";
 import {SingleChoiceFilter} from "@/components/single-choice-filter";
 import {useTableContext} from "@/context/table-context";
 import {DataType} from "csstype";
+import {sortDataByOrder} from "@/components/helpers/column-order";
 
 type Props = {
   data: any[]
@@ -28,7 +29,7 @@ export const Filter = ({
                          setFilters,
                          multipleChoiceFilter
                        }: Props) => {
-  const { initialDataState } = useTableContext()
+  const { initialDataState, columnsOrder } = useTableContext()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
   const filterMultipleData = Array.from(new Set(initialDataState.map((item: Data) => String(item[columnName]))))
@@ -55,7 +56,6 @@ export const Filter = ({
 
   useEffect(() => {
     const filtered = applyFilters(initialDataState, filters);
-    console.log(filtered)
 
     setDataToRender(filtered);
   }, [filters, initialDataState])
@@ -69,7 +69,6 @@ export const Filter = ({
 
     setValue(undefined);
   };
-
 
   const countFiltersByColumnName = () => {
     return filters.reduce((acc: { [key: string]: number }, filter: Filters) => {

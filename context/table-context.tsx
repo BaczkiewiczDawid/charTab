@@ -1,4 +1,4 @@
-import {createContext, useContext, useState, ReactNode, SetStateAction, Dispatch} from "react";
+import {createContext, useContext, useState, ReactNode, SetStateAction, Dispatch, useEffect} from "react";
 import {Data} from "@/types/data";
 import {data} from "@/data/dummyData";
 
@@ -41,6 +41,12 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [columnsToHide, setColumnsToHide] = useState<string[]>([])
   const [page, setPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10)
+
+  useEffect(() => {
+    const newColumnsToFilter = columnsToFilter.filter((column) => !columnsToHide.includes(column))
+
+    setColumnsToFilter(newColumnsToFilter)
+  }, [columnsToHide])
 
   const contextValue = {
     ableToDelete: ableToDelete,

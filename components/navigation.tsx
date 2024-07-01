@@ -71,20 +71,20 @@ export const Navigation = () => {
       <div className="flex py-2 flex-col">
         <Label>Columns to filter</Label>
         <MultipleSelector
-          name={"Select columns"} data={labelsList} selectorItems={columnsToFilter}
+          name={"Select columns"} data={labelsList.filter((name) => !columnsToHide.includes(name))} selectorItems={columnsToFilter}
           setData={setColumnsToFilter}/>
       </div>
       <div className="flex py-2 flex-col">
         <Label>Columns order</Label>
         <MultipleSelector
-          name={"Select columns order"} data={labelsList} selectorItems={columnsOrder}
+          name={"Select columns order"} data={labelsList.filter((name) => !columnsToHide.includes(name))} selectorItems={columnsOrder}
           setData={setColumnsOrder} initialDataState={initialDataState}
           setDataToRender={setDataToRender} selectedAlwaysOnTop={true}/>
       </div>
       <div className="flex py-2 flex-col">
         <Label>Columns to sum</Label>
         <MultipleSelector
-          name={"Select columns to sum"} data={numberLabelsList} selectorItems={columnsToSum}
+          name={"Select columns to sum"} data={labelsList.filter((name) => !columnsToHide.includes(name))} selectorItems={columnsToSum}
           setData={setColumnsToSum}/>
       </div>
       <div className="flex py-2 flex-col">

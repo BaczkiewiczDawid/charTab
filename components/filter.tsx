@@ -11,6 +11,7 @@ import {SingleChoiceFilter} from "@/components/single-choice-filter";
 import {useTableContext} from "@/context/table-context";
 import {DataType} from "csstype";
 import {sortDataByOrder} from "@/components/helpers/column-order";
+import {columnHider} from "@/components/helpers/column-hider";
 
 type Props = {
   data: any[]
@@ -29,7 +30,7 @@ export const Filter = ({
                          setFilters,
                          multipleChoiceFilter
                        }: Props) => {
-  const { initialDataState, dataToRender } = useTableContext()
+  const { initialDataState, dataToRender, columnsToHide } = useTableContext()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
   const filterMultipleData = Array.from(new Set(initialDataState.map((item: Data) => String(item[columnName]))))
@@ -54,8 +55,10 @@ export const Filter = ({
     }
   };
 
+  //TODO: przy clearze nie wracają dane
+
   useEffect(() => {
-    const filtered = applyFilters(dataToRender, filters);
+    const filtered = applyFilters(columnHider(initialDataState, columnsToHide), filters);
 
     setDataToRender(filtered);
   }, [filters, initialDataState])

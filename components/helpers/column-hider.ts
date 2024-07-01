@@ -9,5 +9,5 @@ export const columnHider = (data: any, columnsToHide: string[]) => {
     return newEl
   });
 
-  return newData;
+  return newData
 }

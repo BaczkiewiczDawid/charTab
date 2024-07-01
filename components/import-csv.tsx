@@ -11,7 +11,7 @@ import {useState} from "react";
 import Papa from 'papaparse';
 
 export const ImportCSV = () => {
-  const { setDataToRender, dataToRender } = useTableContext()
+  const { setDataToRender, dataToRender, setInitialDataState } = useTableContext()
 
   const [csvData, setCsvData] = useState<any>()
 
@@ -39,11 +39,9 @@ export const ImportCSV = () => {
 
   const uploadCsvData = () => {
     if (csvData) {
-      setDataToRender(changeDataFormat(csvData))
+      setInitialDataState(changeDataFormat(csvData))
     }
   }
-
-  console.log(dataToRender)
 
   return (
     <AlertDialog>

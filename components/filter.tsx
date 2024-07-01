@@ -8,6 +8,10 @@ import {Filters} from "@/components/table/table"
 import {Checkbox} from "@/components/ui/checkbox";
 import {MultipleChoiceFilter} from "@/components/multiple-choice-filter";
 import {SingleChoiceFilter} from "@/components/single-choice-filter";
+import {useTableContext} from "@/context/table-context";
+import {DataType} from "csstype";
+import {sortDataByOrder} from "@/components/helpers/column-order";
+import {columnHider} from "@/components/helpers/column-hider";
 
 type Props = {
   data: any[]
@@ -15,7 +19,6 @@ type Props = {
   setDataToRender: Dispatch<SetStateAction<Data[]>>
   filters: Filters[]
   setFilters: Dispatch<SetStateAction<Filters[]>>
-  initialData: any
   multipleChoiceFilter?: boolean
 }
 
@@ -25,12 +28,12 @@ export const Filter = ({
                          columnName,
                          filters,
                          setFilters,
-                         initialData,
                          multipleChoiceFilter
                        }: Props) => {
+  const { initialDataState, dataToRender, columnsToHide } = useTableContext()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
-  const filterMultipleData = Array.from(new Set(initialData.map((item: Data) => String(item[columnName]))))
+  const filterMultipleData = Array.from(new Set(initialDataState.map((item: Data) => String(item[columnName]))))
 
   const applyFilters = (data: Data[], filters: Filters[]) => {
     if (filters.length < 1) {
@@ -52,11 +55,13 @@ export const Filter = ({
     }
   };
 
+  //TODO: przy clearze nie wracają dane
+
   useEffect(() => {
-    const filtered = applyFilters(initialData, filters);
+    const filtered = applyFilters(columnHider(initialDataState, columnsToHide), filters);
 
     setDataToRender(filtered);
-  }, [filters, initialData])
+  }, [filters, initialDataState])
 
   const clearFilters = () => {
     if (multipleChoiceFilter) {
@@ -67,7 +72,6 @@ export const Filter = ({
 
     setValue(undefined);
   };
-
 
   const countFiltersByColumnName = () => {
     return filters.reduce((acc: { [key: string]: number }, filter: Filters) => {

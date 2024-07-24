@@ -12,6 +12,7 @@ import {useTableContext} from "@/context/table-context";
 import {DataType} from "csstype";
 import {sortDataByOrder} from "@/components/helpers/column-order";
 import {columnHider} from "@/components/helpers/column-hider";
+import {translate} from "@/components/helpers/translations";
 
 type Props = {
   data: any[]
@@ -55,8 +56,6 @@ export const Filter = ({
     }
   };
 
-  //TODO: przy clearze nie wracają dane
-
   useEffect(() => {
     const filtered = applyFilters(columnHider(initialDataState, columnsToHide), filters);
 
@@ -98,7 +97,7 @@ export const Filter = ({
               <span>Wybrano: {countFiltersByColumnName()?.[columnName]}</span> : <span>{columnName}</span>
             :
             value ? <span>{value}</span> :
-              <span>{columnName}</span>}
+              <span>{translate(columnName)}</span>}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
         </Button>
       </PopoverTrigger>

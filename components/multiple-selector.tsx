@@ -13,6 +13,7 @@ import {
 import {Checkbox} from "@/components/ui/checkbox";
 import {SetStateAction} from "react";
 import {Data} from "@/types/data";
+import {translate} from "@/components/helpers/translations";
 
 type Props = {
   name: string
@@ -80,7 +81,7 @@ export const MultipleSelector = ({
                           checked={selectorItems.includes(label)}
                           onCheckedChange={(isChecked: boolean) => handleIsCheckedState(isChecked, label)}
                         />
-                        <span className={"ml-4"}>{String(label)}</span>
+                        <span className={"ml-4"}>{translate(String(label))}</span>
                       </CommandItem>
                     </label>
                   )

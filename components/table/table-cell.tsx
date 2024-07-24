@@ -1,7 +1,7 @@
-import { TableCell } from "@/components/ui/table";
-import { ReactNode } from "react";
-import { useTableContext } from "@/context/table-context";
-import { Data } from "@/types/data";
+import {TableCell} from "@/components/ui/table";
+import {ReactNode} from "react";
+import {useTableContext} from "@/context/table-context";
+import {Data} from "@/types/data";
 
 type Props = {
   key?: number;
@@ -10,15 +10,15 @@ type Props = {
   colName?: string;
 };
 
-export const Cell = ({ key, name, children, colName }: Props) => {
-  const { columnsToColor, dataToRender } = useTableContext();
+export const Cell = ({key, name, children, colName}: Props) => {
+  const {columnsToColor, initialDataState} = useTableContext();
 
   const toColor: boolean = !!(colName && columnsToColor.includes(colName));
 
   let values: number[] = [];
 
   if (toColor && colName) {
-    dataToRender.forEach((data: Data) => {
+    initialDataState.forEach((data: Data) => {
       if (typeof data[colName] === "number") {
         values.push(data[colName] as number);
       }
@@ -37,24 +37,26 @@ export const Cell = ({ key, name, children, colName }: Props) => {
     return closestValue;
   };
 
-  //@ts-ignore
-  const nearestValue = findClosest(name, minValue, midValue, maxValue);
-
+  let nearestValue
   let colorClass;
 
-  switch (nearestValue) {
-    case minValue:
-      colorClass = "bg-cellGreen";
-      break;
-    case midValue:
-      colorClass = "bg-cellYellow";
-      break;
-    case maxValue:
-      colorClass = "bg-cellRed";
-      break;
-    default:
-      colorClass = "bg-cellRed";
-      break;
+  if (typeof name === "number") {
+    nearestValue = findClosest(name, minValue, midValue, maxValue);
+
+    switch (nearestValue) {
+      case minValue:
+        colorClass = "bg-cellGreen";
+        break;
+      case midValue:
+        colorClass = "bg-cellYellow";
+        break;
+      case maxValue:
+        colorClass = "bg-cellRed";
+        break;
+      default:
+        colorClass = "bg-cellRed";
+        break;
+    }
   }
 
   return (

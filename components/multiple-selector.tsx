@@ -13,6 +13,7 @@ import {
 import {Checkbox} from "@/components/ui/checkbox";
 import {SetStateAction} from "react";
 import {Data} from "@/types/data";
+import {translate} from "@/components/helpers/translations";
 
 type Props = {
   name: string
@@ -52,6 +53,8 @@ export const MultipleSelector = ({
     data = [...selectorItems, ...notSelectedData]
   }
 
+  console.log(selectorItems)
+
   return (
     <div className={"mt-4"}>
       <Popover>
@@ -60,7 +63,7 @@ export const MultipleSelector = ({
             variant="outline"
             role="combobox"
             className="w-[200px] justify-between"
-          >{name}</Button>
+          >{selectorItems.length > 0 ? `${translate("selected")}: ${selectorItems.length}` : name}</Button>
         </PopoverTrigger>
         <PopoverContent className={"w-[200px]"}>
           <Command>
@@ -80,7 +83,7 @@ export const MultipleSelector = ({
                           checked={selectorItems.includes(label)}
                           onCheckedChange={(isChecked: boolean) => handleIsCheckedState(isChecked, label)}
                         />
-                        <span className={"ml-4"}>{String(label)}</span>
+                        <span className={"ml-4"}>{translate(String(label))}</span>
                       </CommandItem>
                     </label>
                   )
@@ -94,7 +97,7 @@ export const MultipleSelector = ({
                       setDataToRender(initialDataState)
                     }
                   }}
-                  >Clear
+                  >{translate("clear")}
                   </button>
                 </CommandItem>
               </CommandGroup>

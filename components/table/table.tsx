@@ -20,6 +20,7 @@ import {useTableContext} from "@/context/table-context";
 import {PaginationFooter} from "@/components/table/pagination-footer";
 import {sortDataByOrder, sortKeysByOrder} from "@/components/helpers/column-order";
 import {Cell} from "@/components/table/table-cell";
+import {translate} from "@/components/helpers/translations";
 
 type TableProps = {
   data: Data[];
@@ -114,12 +115,7 @@ export const Table = ({
               <TableRow className="border-stone-900">
                 <TableHead className="w-12"></TableHead>
                 {sortKeysByOrder(Object.keys(data?.[0]), columnsOrder).map((key, index) => {
-                  const keyToTranslate =
-                    selectedTranslations?.general && key in selectedTranslations.general
-                      ? selectedTranslations.general[key]
-                      : key;
-
-                  return <TableHead key={index}>{keyToTranslate}</TableHead>;
+                  return <TableHead key={index}>{translate(key)}</TableHead>;
                 })}
                 {ableToDelete && <TableHead></TableHead>}
               </TableRow>

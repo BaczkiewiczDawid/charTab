@@ -25,6 +25,8 @@ interface TableContextProps {
   setPage: Dispatch<SetStateAction<number>>
   pageSize: number
   setPageSize: Dispatch<SetStateAction<number>>
+  columnsToColor: string[]
+  setColumnsToColor: Dispatch<SetStateAction<string[]>>
 }
 
 const TableContext = createContext<TableContextProps | undefined>(undefined);
@@ -41,6 +43,7 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [columnsToHide, setColumnsToHide] = useState<string[]>([])
   const [page, setPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10)
+  const [columnsToColor, setColumnsToColor] = useState<string[]>([])
 
   useEffect(() => {
     const newColumnsToFilter = columnsToFilter.filter((column) => !columnsToHide.includes(column))
@@ -71,6 +74,8 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setPage: setPage,
     pageSize: pageSize,
     setPageSize: setPageSize,
+    columnsToColor: columnsToColor,
+    setColumnsToColor: setColumnsToColor,
   }
 
   return (

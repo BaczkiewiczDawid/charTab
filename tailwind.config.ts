@@ -52,6 +52,9 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        cellRed: "#f02011",
+        cellGreen: "#14f741",
+        cellYellow: "#f7ca14",
       },
       borderRadius: {
         lg: "var(--radius)",

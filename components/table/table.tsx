@@ -1,6 +1,6 @@
 "use client";
 
-import {Table as TableComponent, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import {Table as TableComponent, TableBody, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Translations} from "@/types/translations";
 import {Ellipsis, Trash} from "lucide-react";
 import {
@@ -15,11 +15,11 @@ import {Alert} from "@/components/Alert";
 import {Data} from "@/types/data";
 import {Filter} from "@/components/filter";
 import {columnHider} from "@/components/helpers/column-hider";
-import {Checkbox} from "@/components/ui/checkbox";
 import {RowSelector} from "@/components/row-selector";
 import {useTableContext} from "@/context/table-context";
 import {PaginationFooter} from "@/components/table/pagination-footer";
 import {sortDataByOrder, sortKeysByOrder} from "@/components/helpers/column-order";
+import {Cell} from "@/components/table/table-cell";
 
 type TableProps = {
   data: Data[];
@@ -55,7 +55,7 @@ export const Table = ({
   const [filters, setFilters] = useState<Filters[]>([]);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const selectedTranslations = translations?.[lang];
-  const {setDataToRender, initialDataState, setInitialDataState,  columnsOrder, page, pageSize} = useTableContext();
+  const {dataToRender, setDataToRender, initialDataState, setInitialDataState, columnsOrder, page, pageSize} = useTableContext();
 
   const handleDelete = (dataIndex: number | undefined) => {
     let filteredData = [...data];
@@ -79,8 +79,6 @@ export const Table = ({
       setAlertOpen(true);
     }
   };
-
-  const keysOrder = sortKeysByOrder(Object.keys(data?.[0]), columnOrder)
 
   useEffect(() => {
     setDataToRender(columnHider(initialDataState, columnsToHide));
@@ -134,18 +132,16 @@ export const Table = ({
                   <TableRow key={index} className={`${isOdd ? "bg-stone-950" : "bg-stone-900"}`}>
                     <RowSelector selectedRows={selectedRows} setSelectedRows={setSelectedRows} rowId={index}/>
                     {Object.values(row).map((value, index) => (
-                      <TableCell key={index} className="border border-gray-600 whitespace-nowrap">
-                        {value}
-                      </TableCell>
+                      <Cell key={index} name={value} colName={Object.keys(dataToRender[0])[index]}/>
                     ))}
                     {ableToDelete && (
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <TableCell className="border border-gray-600 text-center">
+                          <Cell>
                             <div className="inline-block m-auto cursor-pointer">
                               <Ellipsis/>
                             </div>
-                          </TableCell>
+                          </Cell>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuGroup>
@@ -174,7 +170,7 @@ export const Table = ({
               })}
               {columnsToSum.length >= 1 && (
                 <TableRow className="bg-stone-950 w-auto">
-                  <TableCell className={"w-auto"}></TableCell>
+                  <Cell></Cell>
                   {Object.keys(data[0]).map((el, index) => {
                     const mappedColumn = columnsToSum[columnsToSum.indexOf(el)];
                     const values: number[] = [];
@@ -191,15 +187,13 @@ export const Table = ({
 
                     if (mappedColumn) {
                       return (
-                        <TableCell key={index} className="border border-gray-600 text-center w-auto">
-                          {summedColumn}
-                        </TableCell>
+                        <Cell key={index} name={summedColumn}/>
                       );
                     } else {
-                      return <TableCell key={index} className="border border-gray-600 text-center w-auto"></TableCell>;
+                      return <Cell key={index}/>
                     }
                   })}
-                  {ableToDelete && <TableCell className="border border-gray-600 text-center w-auto"></TableCell>}
+                  {ableToDelete && <Cell/>}
                 </TableRow>
               )}
             </TableBody>

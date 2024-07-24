@@ -1,16 +1,13 @@
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {ChevronsUpDown} from "lucide-react";
-import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/components/ui/command";
+import {Command, CommandEmpty, CommandInput, CommandList} from "@/components/ui/command";
 import {Data} from "@/types/data";
-import {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {Filters} from "@/components/table/table"
-import {Checkbox} from "@/components/ui/checkbox";
 import {MultipleChoiceFilter} from "@/components/multiple-choice-filter";
 import {SingleChoiceFilter} from "@/components/single-choice-filter";
 import {useTableContext} from "@/context/table-context";
-import {DataType} from "csstype";
-import {sortDataByOrder} from "@/components/helpers/column-order";
 import {columnHider} from "@/components/helpers/column-hider";
 import {translate} from "@/components/helpers/translations";
 
@@ -94,7 +91,7 @@ export const Filter = ({
           className="w-[200px] justify-between"
         >
           {multipleChoiceFilter ? countFiltersByColumnName()?.[columnName] > 0 ?
-              <span>Wybrano: {countFiltersByColumnName()?.[columnName]}</span> : <span>{columnName}</span>
+              <span>{translate("selected")}: {countFiltersByColumnName()?.[columnName]}</span> : <span>{translate(columnName)}</span>
             :
             value ? <span>{value}</span> :
               <span>{translate(columnName)}</span>}
@@ -103,8 +100,8 @@ export const Filter = ({
       </PopoverTrigger>
       <PopoverContent className={"w-[200px]"}>
         <Command>
-          <CommandInput placeholder={"znajdź..."}/>
-          <CommandEmpty>Not found</CommandEmpty>
+          <CommandInput placeholder={translate("find")}/>
+          <CommandEmpty>{translate("notFound")}</CommandEmpty>
           <CommandList>
             {multipleChoiceFilter ?
               <MultipleChoiceFilter
@@ -125,7 +122,7 @@ export const Filter = ({
             }
           </CommandList>
           <CommandList>
-            <Button className={'w-full mt-2'} onClick={clearFilters}>Clear</Button>
+            <Button className={'w-full mt-2'} onClick={clearFilters}>{translate("clear")}</Button>
           </CommandList>
         </Command>
       </PopoverContent>

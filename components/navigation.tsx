@@ -3,6 +3,7 @@ import {Switch} from "@/components/ui/switch";
 import {useTableContext} from "@/context/table-context";
 import {useEffect, useState} from "react";
 import {MultipleSelector} from "@/components/multiple-selector";
+import {translate} from "@/components/helpers/translations";
 
 type Props = {
   labelsList: string[]
@@ -58,51 +59,51 @@ export const Navigation = () => {
   return (
     <div className="flex flex-col">
       <div className="flex justify-between py-2">
-        <Label htmlFor="able-to-delete">Able to delete</Label>
+        <Label htmlFor="able-to-delete">{translate("ableToDelete")}</Label>
         <Switch id="able-to-delete" name={"able-to-delete"} checked={ableToDelete}
                 onCheckedChange={(checked) => setAbleToDelete(checked)}/>
       </div>
       <div className="flex justify-between py-2">
-        <Label>Show alerts</Label>
+        <Label>{translate("showAlerts")}</Label>
         <Switch checked={showAlerts} onCheckedChange={(checked) => setShowAlerts(checked)}/>
       </div>
       <div className="flex justify-between py-2">
-        <Label>Multiple choice filter</Label>
+        <Label>{translate("multipleChoiceFilter")}</Label>
         <Switch checked={multipleChoiceFilter} onCheckedChange={(checked) => setMultipleChoiceFilter(checked)}/>
       </div>
       <div className="flex py-2 flex-col">
-        <Label>Columns to filter</Label>
+        <Label>{translate("columnsToFilter")}</Label>
         <MultipleSelector
-          name={"Select columns"} data={labelsList.filter((name) => !columnsToHide.includes(name))}
+          name={translate("select")} data={labelsList.filter((name) => !columnsToHide.includes(name))}
           selectorItems={columnsToFilter}
           setData={setColumnsToFilter}/>
       </div>
       <div className="flex py-2 flex-col">
-        <Label>Columns order</Label>
+        <Label>{translate("columnsOrder")}</Label>
         <MultipleSelector
-          name={"Select columns order"} data={labelsList.filter((name) => !columnsToHide.includes(name))}
+          name={translate("select")} data={labelsList.filter((name) => !columnsToHide.includes(name))}
           selectorItems={columnsOrder}
           setData={setColumnsOrder} initialDataState={initialDataState}
           setDataToRender={setDataToRender} selectedAlwaysOnTop={true}/>
       </div>
       <div className="flex py-2 flex-col">
-        <Label>Columns to sum</Label>
+        <Label>{translate("columnsToSum")}</Label>
         <MultipleSelector
-          name={"Select columns to sum"} data={labelsList.filter((name) => !columnsToHide.includes(name))}
+          name={translate("select")} data={labelsList.filter((name) => !columnsToHide.includes(name))}
           selectorItems={columnsToSum}
           setData={setColumnsToSum}/>
       </div>
       <div className="flex py-2 flex-col">
-        <Label>Columns to hide</Label>
+        <Label>{translate("columnsToHide")}</Label>
         <MultipleSelector
-          name={"Select columns to hide"} data={labelsList} selectorItems={columnsToHide}
+          name={translate("select")} data={labelsList} selectorItems={columnsToHide}
           setData={setColumnsToHide} initialDataState={initialDataState}
           setDataToRender={setDataToRender}/>
       </div>
       <div className="flex py-2 flex-col">
-        <Label>Columns to color</Label>
+        <Label>{translate("columnsToColor")}</Label>
         <MultipleSelector
-          name={"Select columns color"} data={numberLabelsList} selectorItems={columnsToColor}
+          name={translate("select")} data={numberLabelsList} selectorItems={columnsToColor}
           setData={setColumnsToColor} initialDataState={initialDataState}
           setDataToRender={setDataToRender}/>
       </div>

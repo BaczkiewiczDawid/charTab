@@ -9,6 +9,7 @@ import {
 import {useTableContext} from "@/context/table-context";
 import {useState} from "react";
 import Papa from 'papaparse';
+import {translate} from "@/components/helpers/translations";
 
 export const ImportCSV = () => {
   const { setDataToRender, dataToRender, setInitialDataState } = useTableContext()
@@ -46,7 +47,7 @@ export const ImportCSV = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={"outline"}>Import CSV</Button>
+          <Button variant={"outline"}>{translate("importCSV")}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

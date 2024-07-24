@@ -53,6 +53,8 @@ export const MultipleSelector = ({
     data = [...selectorItems, ...notSelectedData]
   }
 
+  console.log(selectorItems)
+
   return (
     <div className={"mt-4"}>
       <Popover>
@@ -61,7 +63,7 @@ export const MultipleSelector = ({
             variant="outline"
             role="combobox"
             className="w-[200px] justify-between"
-          >{name}</Button>
+          >{selectorItems.length > 0 ? `${translate("selected")}: ${selectorItems.length}` : name}</Button>
         </PopoverTrigger>
         <PopoverContent className={"w-[200px]"}>
           <Command>
@@ -95,7 +97,7 @@ export const MultipleSelector = ({
                       setDataToRender(initialDataState)
                     }
                   }}
-                  >Clear
+                  >{translate("clear")}
                   </button>
                 </CommandItem>
               </CommandGroup>

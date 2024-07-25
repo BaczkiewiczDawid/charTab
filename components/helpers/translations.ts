@@ -25,6 +25,9 @@ const translationsList: { [key: string]: string } = {
   importCSV: "Importuj CSV",
   next: "Następna",
   previous: "Poprzednia",
+  pl: "Polski",
+  en: "Angielski",
+  langNotFound: "Nie znaleziono żadnego języka"
 }
 
 export const translate = (nameToTranslate: string): string => {

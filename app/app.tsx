@@ -1,10 +1,11 @@
 import {TableProvider} from "@/context/table-context";
-import Home from "@/app/page";
+import Home from "@/app/[locale]/page";
+import {LangProps} from "@/types/lang";
 
-export default function App() {
+export default function App({ lang }: { lang: LangProps }) {
   return (
     <TableProvider>
-      <Home />
+      <Home params={{ locale: lang }}/>
     </TableProvider>
   )
 }

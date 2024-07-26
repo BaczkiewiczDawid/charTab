@@ -53,8 +53,6 @@ export const MultipleSelector = ({
     data = [...selectorItems, ...notSelectedData]
   }
 
-  console.log(selectorItems)
-
   return (
     <div className={"mt-4"}>
       <Popover>

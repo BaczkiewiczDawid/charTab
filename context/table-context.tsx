@@ -2,6 +2,7 @@ import {createContext, useContext, useState, ReactNode, SetStateAction, Dispatch
 import {Data} from "@/types/data";
 import {data} from "@/data/dummyData";
 
+type Lang = "pl" | "en"
 interface TableContextProps {
   ableToDelete: boolean;
   setAbleToDelete: Dispatch<SetStateAction<boolean>>
@@ -27,6 +28,8 @@ interface TableContextProps {
   setPageSize: Dispatch<SetStateAction<number>>
   columnsToColor: string[]
   setColumnsToColor: Dispatch<SetStateAction<string[]>>
+  lang: "pl" | "en",
+  setLang: Dispatch<SetStateAction<Lang>>
 }
 
 const TableContext = createContext<TableContextProps | undefined>(undefined);
@@ -44,6 +47,7 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [page, setPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<number>(10)
   const [columnsToColor, setColumnsToColor] = useState<string[]>([])
+  const [lang, setLang] = useState<Lang>("pl")
 
   useEffect(() => {
     const newColumnsToFilter = columnsToFilter.filter((column) => !columnsToHide.includes(column))
@@ -76,6 +80,8 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setPageSize: setPageSize,
     columnsToColor: columnsToColor,
     setColumnsToColor: setColumnsToColor,
+    lang: lang,
+    setLang: setLang,
   }
 
   return (

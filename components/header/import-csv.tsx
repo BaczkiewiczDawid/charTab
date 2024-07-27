@@ -12,7 +12,7 @@ import Papa from 'papaparse';
 import {translate} from "@/components/helpers/translations";
 
 export const ImportCSV = () => {
-  const { setDataToRender, dataToRender, setInitialDataState } = useTableContext()
+  const { setSettingsOpen, setInitialDataState } = useTableContext()
 
   const [csvData, setCsvData] = useState<any>()
 
@@ -41,6 +41,7 @@ export const ImportCSV = () => {
   const uploadCsvData = () => {
     if (csvData) {
       setInitialDataState(changeDataFormat(csvData))
+      setSettingsOpen(true)
     }
   }
 

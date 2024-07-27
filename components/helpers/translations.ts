@@ -1,4 +1,6 @@
 import {GetLocale} from "@/components/helpers/get-locale";
+import {useTableContext} from "@/context/table-context";
+import {useEffect} from "react";
 
 const translationsList: { [key: string]: any } = {
   pl: {
@@ -87,6 +89,11 @@ const translationsList: { [key: string]: any } = {
 }
 
 export const translate = (nameToTranslate: string, lang?: "pl" | "en"): string => {
+  const {polishTranslations, englishTranslations} = useTableContext();
+
+  translationsList["pl"] = {...translationsList["pl"], ...polishTranslations};
+  translationsList["en"] = {...translationsList["en"], ...englishTranslations}
+  
   const locale = GetLocale()
 
   return translationsList[lang ?? locale][nameToTranslate] || nameToTranslate;

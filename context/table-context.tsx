@@ -37,6 +37,8 @@ interface TableContextProps {
   setEnglishTranslations: Dispatch<SetStateAction<{ [key: string]: string }>>
   polishTranslations: { [key: string]: string }
   setPolishTranslations: Dispatch<SetStateAction<{ [key: string]: string }>>
+  cellsType: { [key: string]: string }
+  setCellsType: Dispatch<SetStateAction<{ [key: string]: string }>>
 }
 
 const TableContext = createContext<TableContextProps | undefined>(undefined);
@@ -55,9 +57,10 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [pageSize, setPageSize] = useState<number>(10)
   const [columnsToColor, setColumnsToColor] = useState<string[]>([])
   const [lang, setLang] = useState<Lang>("pl")
-  const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(true)
   const [englishTranslations, setEnglishTranslations] = useState<{ [key: string]: string }>({})
   const [polishTranslations, setPolishTranslations] = useState<{ [key: string]: string }>({})
+  const [cellsType, setCellsType] = useState<{ [key: string]: string }>({})
 
   useEffect(() => {
     const newColumnsToFilter = columnsToFilter.filter((column) => !columnsToHide.includes(column))
@@ -98,6 +101,8 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setEnglishTranslations: setEnglishTranslations,
     polishTranslations: polishTranslations,
     setPolishTranslations: setPolishTranslations,
+    cellsType: cellsType,
+    setCellsType: setCellsType,
   }
 
   return (

@@ -52,13 +52,13 @@ export const ImportCSV = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Upload Your CSV...</AlertDialogTitle>
-          <AlertDialogDescription>Upload Your CSV file to create amazing customizable table!</AlertDialogDescription>
+          <AlertDialogTitle>{translate("uploadTitle")}</AlertDialogTitle>
+          <AlertDialogDescription>{translate("uploadDescription")}</AlertDialogDescription>
           <input type={"file"} accept={".csv"} onChange={handleSelectedCSV} />
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={uploadCsvData}>Upload</AlertDialogAction>
+          <AlertDialogCancel>{translate("cancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={uploadCsvData}>{translate("upload")}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

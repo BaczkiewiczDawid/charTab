@@ -30,7 +30,17 @@ const translationsList: { [key: string]: any } = {
     previous: "Poprzednia",
     pl: "Polski",
     en: "Angielski",
-    langNotFound: "Nie znaleziono żadnego języka"
+    langNotFound: "Nie znaleziono żadnego języka",
+    save: "Zapisz",
+    uploadDescription: "Importuj plik CSV aby stworzyć wspaniałą tabele!",
+    uploadTitle: "Importuj plik CSV...",
+    cancel: "Anuluj",
+    upload: "Wgraj",
+    string: "Tekst",
+    number: "Liczba",
+    boolean: "Tak/Nie",
+    date: "Data",
+    type: "Typ"
   },
 
   en: {
@@ -62,12 +72,22 @@ const translationsList: { [key: string]: any } = {
     previous: "Previous",
     pl: "Polish",
     en: "English",
-    langNotFound: "Language not found"
+    langNotFound: "Language not found",
+    save: "Save",
+    uploadDescription: "Upload Your CSV file to create amazing customizable table!",
+    uploadTitle: "Upload Your CSV...",
+    cancel: "Cancel",
+    upload: "Upload",
+    string: "String",
+    number: "Number",
+    boolean: "Boolean",
+    date: "Date",
+    type: "Type",
   }
 }
 
-export const translate = (nameToTranslate: string): string => {
+export const translate = (nameToTranslate: string, lang?: "pl" | "en"): string => {
   const locale = GetLocale()
 
-  return translationsList[locale][nameToTranslate] || "Translation not found";
+  return translationsList[lang ?? locale][nameToTranslate] || nameToTranslate;
 }

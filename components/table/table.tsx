@@ -1,26 +1,32 @@
 "use client";
 
-import {Table as TableComponent, TableBody, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {Translations} from "@/types/translations";
-import {Ellipsis, Trash} from "lucide-react";
+import {
+  Table as TableComponent,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
+import { Translations } from "@/types/translations";
+import { Ellipsis, Trash } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import {useEffect, useState} from "react";
-import {Alert} from "@/components/Alert";
-import {Data} from "@/types/data";
-import {Filter} from "@/components/filter";
-import {columnHider} from "@/components/helpers/column-hider";
-import {RowSelector} from "@/components/row-selector";
-import {useTableContext} from "@/context/table-context";
-import {PaginationFooter} from "@/components/table/pagination-footer";
-import {sortDataByOrder, sortKeysByOrder} from "@/components/helpers/column-order";
-import {Cell} from "@/components/table/table-cell";
-import {translate} from "@/components/helpers/translations";
+import { useEffect, useState } from "react";
+import { Alert } from "@/components/Alert";
+import { Data } from "@/types/data";
+import { Filter } from "@/components/filter";
+import { columnHider } from "@/components/helpers/column-hider";
+import { RowSelector } from "@/components/row-selector";
+import { useTableContext } from "@/context/table-context";
+import { PaginationFooter } from "@/components/table/pagination-footer";
+import { sortDataByOrder, sortKeysByOrder } from "@/components/helpers/column-order";
+import { Cell } from "@/components/table/table-cell";
+import { translate } from "@/components/helpers/translations";
 
 type TableProps = {
   data: Data[];
@@ -56,7 +62,15 @@ export const Table = ({
   const [filters, setFilters] = useState<Filters[]>([]);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const selectedTranslations = translations?.[lang];
-  const {dataToRender, setDataToRender, initialDataState, setInitialDataState, columnsOrder, page, pageSize} = useTableContext();
+  const {
+    dataToRender,
+    setDataToRender,
+    initialDataState,
+    setInitialDataState,
+    columnsOrder,
+    page,
+    pageSize
+  } = useTableContext();
 
   const handleDelete = (dataIndex: number | undefined) => {
     let filteredData = [...data];
@@ -69,9 +83,9 @@ export const Table = ({
       filteredData = data;
     }
 
-    const filteredInitialData = initialDataState.filter((data) => JSON.stringify(data) !== JSON.stringify(filteredData[0]))
+    const filteredInitialData = initialDataState.filter((data) => JSON.stringify(data) !== JSON.stringify(filteredData[0]));
 
-    setInitialDataState(filteredInitialData)
+    setInitialDataState(filteredInitialData);
     setSelectedRows([]);
   };
 
@@ -131,35 +145,35 @@ export const Table = ({
                       <Cell key={index} name={value} colName={Object.keys(dataToRender[0])[index]}/>
                     ))}
                     {ableToDelete && (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Cell>
-                            <div className="inline-block m-auto cursor-pointer">
-                              <Ellipsis/>
+                      <Cell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger className="w-full h-full">
+                            <div className="flex items-center justify-center w-full h-full">
+                              <Ellipsis />
                             </div>
-                          </Cell>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuGroup>
-                            {ableToDelete && (
-                              <DropdownMenuItem
-                                className="flex items-center text-xs cursor-pointer"
-                                onClick={() => {
-                                  if (selectedRows.length === 0) {
-                                    setSelectedRows([index]);
-                                  }
-                                  showAlerts ? showAlert() : handleDelete(index);
-                                }}
-                              >
-                                <Trash size={16} strokeWidth={2}/>
-                                <span className="ml-2">
-                                  {selectedRows.length > 1 ? "Delete many" : "Delete"}
-                                </span>
-                              </DropdownMenuItem>
-                            )}
-                          </DropdownMenuGroup>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                              {ableToDelete && (
+                                <DropdownMenuItem
+                                  className="flex items-center text-xs cursor-pointer"
+                                  onClick={() => {
+                                    if (selectedRows.length === 0) {
+                                      setSelectedRows([index]);
+                                    }
+                                    showAlerts ? showAlert() : handleDelete(index);
+                                  }}
+                                >
+                                  <Trash size={16} strokeWidth={2} />
+                                  <span className="ml-2">
+                                    {selectedRows.length > 1 ? "Delete many" : "Delete"}
+                                  </span>
+                                </DropdownMenuItem>
+                              )}
+                            </DropdownMenuGroup>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </Cell>
                     )}
                   </TableRow>
                 );
@@ -203,7 +217,7 @@ export const Table = ({
           </TableComponent>
         </div>
       </div>
-      <PaginationFooter/>
+      <PaginationFooter />
     </div>
   );
 };

@@ -89,11 +89,12 @@ const translationsList: { [key: string]: any } = {
 }
 
 export const translate = (nameToTranslate: string, lang?: "pl" | "en"): string => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const {polishTranslations, englishTranslations} = useTableContext();
 
   translationsList["pl"] = {...translationsList["pl"], ...polishTranslations};
   translationsList["en"] = {...translationsList["en"], ...englishTranslations}
-  
+
   const locale = GetLocale()
 
   return translationsList[lang ?? locale][nameToTranslate] || nameToTranslate;

@@ -55,7 +55,7 @@ export const Settings = () => {
   }
 
   return (
-    <Dialog defaultOpen={true} open={settingsOpen}>
+    <Dialog open={settingsOpen}>
       <DialogContent className={"min-w-[95%] h-[95%]"}>
         <DialogHeader>
           <DialogTitle>

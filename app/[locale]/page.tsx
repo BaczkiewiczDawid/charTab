@@ -8,6 +8,7 @@ import {ImportCSV} from "@/components/header/import-csv";
 import {LangSelector} from "@/components/header/lang-selector";
 import {LangProps} from "@/types/lang";
 import {Settings} from "@/components/settings/settings";
+import {useEffect, useState} from "react";
 
 const HomeContent = ({lang}: { lang: LangProps }) => {
   const {
@@ -20,6 +21,16 @@ const HomeContent = ({lang}: { lang: LangProps }) => {
     columnsToSum,
     columnsToHide
   } = useTableContext();
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col h-screen max-h-screen">

@@ -4,6 +4,7 @@ import {useTableContext} from "@/context/table-context";
 import {useEffect, useState} from "react";
 import {MultipleSelector} from "@/components/multiple-selector";
 import {translate} from "@/components/helpers/translations";
+import {number} from "prop-types";
 
 export const Navigation = () => {
   const {
@@ -86,7 +87,7 @@ export const Navigation = () => {
       <div className="flex py-2 flex-col">
         <Label>{translate("columnsToSum")}</Label>
         <MultipleSelector
-          name={translate("select")} data={labelsList.filter((name) => !columnsToHide.includes(name))}
+          name={translate("select")} data={numberLabelsList}
           selectorItems={columnsToSum}
           setData={setColumnsToSum}/>
       </div>

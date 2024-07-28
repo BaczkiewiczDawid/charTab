@@ -1,4 +1,6 @@
 import {GetLocale} from "@/components/helpers/get-locale";
+import {useTableContext} from "@/context/table-context";
+import {useEffect} from "react";
 
 const translationsList: { [key: string]: any } = {
   pl: {
@@ -30,7 +32,24 @@ const translationsList: { [key: string]: any } = {
     previous: "Poprzednia",
     pl: "Polski",
     en: "Angielski",
-    langNotFound: "Nie znaleziono żadnego języka"
+    langNotFound: "Nie znaleziono żadnego języka",
+    save: "Zapisz",
+    uploadDescription: "Importuj plik CSV aby stworzyć wspaniałą tabele!",
+    uploadTitle: "Importuj plik CSV...",
+    cancel: "Anuluj",
+    upload: "Wgraj",
+    string: "Tekst",
+    number: "Liczba",
+    boolean: "Tak/Nie",
+    date: "Data",
+    type: "Typ",
+    findLabels: "Znajdź kolumny...",
+    settingsTitle: "Typ kolumn i tłumaczenia",
+    settingsDescription: "Wybierz typ danych dla kolumn oraz wpisz tłumaczenia",
+    tableSettingsTitle: "Ustawienia tabeli",
+    tableSettingsDescription: "Spersonalizuj tabele dla Twojego zespołu",
+    advancedSettingsTitle: "Zaawansowane ustawienia tabeli",
+    advancedSettingsDescription: "Wybierz ustawienia takie jak możliwość usuwania wartości, sumowanie, kolejność, ukrywanie kolumn i wiele więcej",
   },
 
   en: {
@@ -62,12 +81,35 @@ const translationsList: { [key: string]: any } = {
     previous: "Previous",
     pl: "Polish",
     en: "English",
-    langNotFound: "Language not found"
+    langNotFound: "Language not found",
+    save: "Save",
+    uploadDescription: "Upload Your CSV file to create amazing customizable table!",
+    uploadTitle: "Upload Your CSV...",
+    cancel: "Cancel",
+    upload: "Upload",
+    string: "String",
+    number: "Number",
+    boolean: "Boolean",
+    date: "Date",
+    type: "Type",
+    findLabels: "Find Labels...",
+    settingsTitle: "Column type and translations",
+    settingsDescription: "Select data types for columns and enter translations",
+    tableSettingsTitle: "Table settings",
+    tableSettingsDescription: "Personalize the table for your team",
+    advancedSettingsTitle: "Advanced table settings",
+    advancedSettingsDescription: "Choose settings such as ability to delete values, summing, ordering, hiding columns and much more",
   }
 }
 
-export const translate = (nameToTranslate: string): string => {
+export const translate = (nameToTranslate: string, lang?: "pl" | "en"): string => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {polishTranslations, englishTranslations} = useTableContext();
+
+  translationsList["pl"] = {...translationsList["pl"], ...polishTranslations};
+  translationsList["en"] = {...translationsList["en"], ...englishTranslations}
+
   const locale = GetLocale()
 
-  return translationsList[locale][nameToTranslate] || "Translation not found";
+  return translationsList[lang ?? locale][nameToTranslate] || nameToTranslate;
 }

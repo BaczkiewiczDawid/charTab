@@ -60,12 +60,12 @@ export const MultipleSelector = ({
           <Button
             variant="outline"
             role="combobox"
-            className="w-[200px] justify-between"
+            className="min-w-[200px] justify-between"
           >{selectorItems.length > 0 ? `${translate("selected")}: ${selectorItems.length}` : name}</Button>
         </PopoverTrigger>
-        <PopoverContent className={"w-[200px]"}>
+        <PopoverContent className={"min-w-[200px]"}>
           <Command>
-            <CommandInput placeholder={"Find labels..."}/>
+            <CommandInput placeholder={translate("findLabels")}/>
             <CommandEmpty>No found.</CommandEmpty>
             <CommandList>
               <CommandGroup>

@@ -68,8 +68,7 @@ export const Table = ({
     initialDataState,
     setInitialDataState,
     columnsOrder,
-    page,
-    pageSize
+    isNavVisible,
   } = useTableContext();
 
   const handleDelete = (dataIndex: number | undefined) => {
@@ -103,8 +102,10 @@ export const Table = ({
     setDataToRender(sortDataByOrder(data, columnOrder));
   }, [columnOrder]);
 
+  console.log(isNavVisible)
+
   return (
-    <div className="flex flex-col h-full">
+    <div className={`flex flex-col h-full ${!isNavVisible && "ml-12"}`}>
       <div className="flex flex-row mb-4">
         {columnsToFilter?.map((col, index) => {
           return (

@@ -12,7 +12,7 @@ import Papa from 'papaparse';
 import {translate} from "@/components/helpers/translations";
 
 export const ImportCSV = () => {
-  const { setDataToRender, dataToRender, setInitialDataState } = useTableContext()
+  const { setSettingsOpen, setInitialDataState } = useTableContext()
 
   const [csvData, setCsvData] = useState<any>()
 
@@ -41,6 +41,7 @@ export const ImportCSV = () => {
   const uploadCsvData = () => {
     if (csvData) {
       setInitialDataState(changeDataFormat(csvData))
+      setSettingsOpen(true)
     }
   }
 
@@ -51,13 +52,13 @@ export const ImportCSV = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Upload Your CSV...</AlertDialogTitle>
-          <AlertDialogDescription>Upload Your CSV file to create amazing customizable table!</AlertDialogDescription>
+          <AlertDialogTitle>{translate("uploadTitle")}</AlertDialogTitle>
+          <AlertDialogDescription>{translate("uploadDescription")}</AlertDialogDescription>
           <input type={"file"} accept={".csv"} onChange={handleSelectedCSV} />
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={uploadCsvData}>Upload</AlertDialogAction>
+          <AlertDialogCancel>{translate("cancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={uploadCsvData}>{translate("upload")}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -42,7 +42,14 @@ const translationsList: { [key: string]: any } = {
     number: "Liczba",
     boolean: "Tak/Nie",
     date: "Data",
-    type: "Typ"
+    type: "Typ",
+    findLabels: "Znajdź kolumny...",
+    settingsTitle: "Typ kolumn i tłumaczenia",
+    settingsDescription: "Wybierz typ danych dla kolumn oraz wpisz tłumaczenia",
+    tableSettingsTitle: "Ustawienia tabeli",
+    tableSettingsDescription: "Spersonalizuj tabele dla Twojego zespołu",
+    advancedSettingsTitle: "Zaawansowane ustawienia tabeli",
+    advancedSettingsDescription: "Wybierz ustawienia takie jak możliwość usuwania wartości, sumowanie, kolejność, ukrywanie kolumn i wiele więcej",
   },
 
   en: {
@@ -85,6 +92,13 @@ const translationsList: { [key: string]: any } = {
     boolean: "Boolean",
     date: "Date",
     type: "Type",
+    findLabels: "Find Labels...",
+    settingsTitle: "Column type and translations",
+    settingsDescription: "Select data types for columns and enter translations",
+    tableSettingsTitle: "Table settings",
+    tableSettingsDescription: "Personalize the table for your team",
+    advancedSettingsTitle: "Advanced table settings",
+    advancedSettingsDescription: "Choose settings such as ability to delete values, summing, ordering, hiding columns and much more",
   }
 }
 

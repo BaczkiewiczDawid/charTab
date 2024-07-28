@@ -5,10 +5,6 @@ import {useEffect, useState} from "react";
 import {MultipleSelector} from "@/components/multiple-selector";
 import {translate} from "@/components/helpers/translations";
 
-type Props = {
-  labelsList: string[]
-}
-
 export const Navigation = () => {
   const {
     ableToDelete,
@@ -29,6 +25,7 @@ export const Navigation = () => {
     setColumnsToHide,
     columnsToColor,
     setColumnsToColor,
+    cellsType,
   } = useTableContext();
 
   const [isClient, setIsClient] = useState(false)
@@ -41,12 +38,12 @@ export const Navigation = () => {
     return null
   }
 
-  function getNumberKeys(obj: any) {
-    const numberKeys = [];
+  function getNumberKeys() {
+    const numberKeys: any[] = []
 
-    for (const key in obj) {
-      if (typeof obj[key] === 'number') {
-        numberKeys.push(key);
+    for (const [key, value] of Object.entries(cellsType)) {
+      if (value === "number") {
+        numberKeys.push(key)
       }
     }
 
@@ -54,7 +51,7 @@ export const Navigation = () => {
   }
 
   const labelsList = Object.keys(initialDataState[0])
-  const numberLabelsList = getNumberKeys(initialDataState[0])
+  const numberLabelsList = getNumberKeys()
 
   return (
     <div className="flex flex-col">

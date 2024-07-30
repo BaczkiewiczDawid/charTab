@@ -1,19 +1,45 @@
 "use client"
 
+import React, {useState} from 'react';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {translate} from "@/components/helpers/translations";
 
 export const Login = () => {
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log("fetching");
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email: email, password: password})
+      });
+
+      if (!response.ok) {
+        console.error("Błąd podczas logowania:", response.statusText);
+      } else {
+        console.log("Zalogowano pomyślnie");
+      }
+    } catch (error) {
+      console.error("Wystąpił błąd:", error);
+    }
+  };
+
   return (
     <div className={"flex justify-center items-center h-screen"}>
       <Card className={"w-1/2"}>
@@ -22,17 +48,17 @@ export const Login = () => {
           <CardDescription>{translate("loginDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={"flex flex-col gap-y-4"}>
               <Label>{translate("loginEmail")}</Label>
-              <Input/>
-              <Label>{translate("loginEmail")}</Label>
-              <Input/>
+              <Input type="email" onChange={(event) => setEmail(event.target.value)} required/>
+              <Label>{translate("loginPassword")}</Label>
+              <Input type="password" onChange={(event) => setPassword(event.target.value)} required/>
             </div>
-            <Button className={"mt-8"}>{translate("loginButton")}</Button>
+            <Button type="submit" className={"mt-8"}>{translate("loginButton")}</Button>
           </form>
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};

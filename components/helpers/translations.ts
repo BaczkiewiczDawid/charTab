@@ -50,6 +50,13 @@ const translationsList: { [key: string]: any } = {
     tableSettingsDescription: "Spersonalizuj tabele dla Twojego zespołu",
     advancedSettingsTitle: "Zaawansowane ustawienia tabeli",
     advancedSettingsDescription: "Wybierz ustawienia takie jak możliwość usuwania wartości, sumowanie, kolejność, ukrywanie kolumn i wiele więcej",
+    loginTitle: "Zaloguj sie",
+    loginDescription: "Aby zapisywać swoje skonfigurowane tabele",
+    loginEmail: "E-Mail",
+    loginPassword: "Hasło",
+    loginEnterEmail: "Wpisz E-Mail...",
+    loginEnterPassword: "Wpisz hasło...",
+    loginButton: "Zaloguj sie",
   },
 
   en: {
@@ -99,6 +106,13 @@ const translationsList: { [key: string]: any } = {
     tableSettingsDescription: "Personalize the table for your team",
     advancedSettingsTitle: "Advanced table settings",
     advancedSettingsDescription: "Choose settings such as ability to delete values, summing, ordering, hiding columns and much more",
+    loginTitle: "Log in",
+    loginDescription: "To save your configured tables!",
+    loginEmail: "E-Mail",
+    loginPassword: "Password",
+    loginEnterEmail: "Enter E-Mail...",
+    loginEnterPassword: "Enter password...",
+    loginButton: "Log in",
   }
 }
 

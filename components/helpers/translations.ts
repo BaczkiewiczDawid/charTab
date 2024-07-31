@@ -57,6 +57,9 @@ const translationsList: { [key: string]: any } = {
     loginEnterEmail: "Wpisz E-Mail...",
     loginEnterPassword: "Wpisz hasło...",
     loginButton: "Zaloguj sie",
+    registerTitle: "Zarejestruj sie",
+    registerUsername: "Nazwa użytkownika",
+    registerEnterUsername: "Wpisz nazwe użytkownika...",
   },
 
   en: {
@@ -113,6 +116,9 @@ const translationsList: { [key: string]: any } = {
     loginEnterEmail: "Enter E-Mail...",
     loginEnterPassword: "Enter password...",
     loginButton: "Log in",
+    registerTitle: "Register",
+    registerUsername: "Username",
+    registerEnterUsername: "Enter username...",
   }
 }
 

@@ -37,6 +37,9 @@ export function middleware(request: NextRequest) {
   const locale = getLocale(request);
 
   if (!currentUser && !token) {
+    if (pathname.startsWith(`/${locale}/register`)) {
+      return NextResponse.next()
+    }
     if (!pathname.startsWith(`/${locale}/login`)) {
       return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
     }

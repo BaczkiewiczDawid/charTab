@@ -19,6 +19,15 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 export const handleLogin = async (body: any) => {
   const response = await drizzle.select().from(users).where(eq(users.email, body.email))
+
+  if (response.length === 0) {
+    return {
+      status: false,
+      message: "loginError",
+      userData: {},
+    }
+  }
+
   return bcrypt.compare(body.password, response[0].password).then((res) => {
     if (res) {
       const user = response[0]
@@ -32,8 +41,16 @@ export const handleLogin = async (body: any) => {
         {expiresIn: '1h'}
       );
 
-      cookies().set("currentUser", user.email, {secure: true, maxAge: 10})
-      cookies().set("token", JWT_SECRET as string, {secure: true, maxAge: 10})
+      const cookieExpireTime = 60 * 60
+
+      const options = {
+        secure: true,
+        maxAge: cookieExpireTime
+      }
+
+      cookies().set("currentUser", user.email, options)
+      cookies().set("token", JWT_SECRET as string, options)
+      cookies().set("uuid", user.uuid, options)
 
       return {
         status: true,

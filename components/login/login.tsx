@@ -13,15 +13,20 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {translate} from "@/components/helpers/translations";
 import {useRouter} from "next/navigation";
+import {TailSpin} from "react-loader-spinner";
+import {LoadingButton} from "@/components/loading-button";
+import Link from "next/link";
 
 export const Login = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const [isPending, setIsPending] = useState<boolean>(false)
 
   const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsPending(true)
 
     try {
       const response = await fetch("/api/login", {
@@ -43,6 +48,8 @@ export const Login = () => {
       console.log(data.message)
     } catch (error) {
       console.error("Wystąpił błąd:", error);
+    } finally {
+      setIsPending(false)
     }
   };
 
@@ -52,6 +59,12 @@ export const Login = () => {
         <CardHeader>
           <CardTitle>{translate("loginTitle")}</CardTitle>
           <CardDescription>{translate("loginDescription")}</CardDescription>
+          <CardDescription>
+            {translate("noAccount")}
+            <Link className={"text-blue-400"}
+                  href={"register"}>{translate("registerLink")}</Link>
+          </CardDescription>
+
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -61,7 +74,9 @@ export const Login = () => {
               <Label>{translate("loginPassword")}</Label>
               <Input type="password" onChange={(event) => setPassword(event.target.value)} required/>
             </div>
-            <Button type="submit" className={"mt-8"}>{translate("loginButton")}</Button>
+            <div className={"flex items-center mt-8"}>
+              <LoadingButton name={"loginButton"} isPending={isPending}/>
+            </div>
           </form>
         </CardContent>
       </Card>

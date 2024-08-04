@@ -60,6 +60,10 @@ const translationsList: { [key: string]: any } = {
     registerTitle: "Zarejestruj sie",
     registerUsername: "Nazwa użytkownika",
     registerEnterUsername: "Wpisz nazwe użytkownika...",
+    noAccount: "Nie masz konta? ",
+    registerLink: "Zarejestruj sie!",
+    haveAccount: "Masz już konto? ",
+    loginLink: "Zaloguj sie!",
   },
 
   en: {
@@ -119,6 +123,8 @@ const translationsList: { [key: string]: any } = {
     registerTitle: "Register",
     registerUsername: "Username",
     registerEnterUsername: "Enter username...",
+    noAccount: "Don't have an account? ",
+    registerLink: "Register now!",
   }
 }
 

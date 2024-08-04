@@ -1,22 +1,28 @@
 import {Button} from "@/components/ui/button";
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/components/ui/dialog";
 import {useTableContext} from "@/context/table-context";
-import {ErrorMessage, Field, Formik} from "formik";
+import {ErrorMessage, Formik} from "formik";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {translate} from "@/components/helpers/translations";
 import {LoadingButton} from "@/components/loading-button";
-import {useEffect} from "react";
+import * as Yup from 'yup';
 
 export const AddTableRow = () => {
   const {dataToRender, cellsType, columnsToHide, setInitialDataState} = useTableContext()
 
   const keys = Object.keys(cellsType)
 
+  const validationSchema = Yup.object(
+    keys.reduce((acc, key) => {
+      acc[key] = Yup.string().required(translate("isRequired"));
+      return acc;
+    }, {} as Record<string, Yup.StringSchema>)
+  );
   const handleSubmit = async (values: any) => {
     const lastID = dataToRender[dataToRender.length - 1]?.id ?? null
 
-    if (lastID) {
+    if (lastID && lastID !== values.id) {
       values.id = Number(lastID) + 1
 
       setInitialDataState((prev) => [
@@ -25,7 +31,7 @@ export const AddTableRow = () => {
       ])
     }
   }
-  
+
   const initialValues = keys.reduce((acc, key) => {
     acc[key] = ""
     return acc
@@ -44,6 +50,7 @@ export const AddTableRow = () => {
         <Formik
           initialValues={initialValues}
           onSubmit={values => handleSubmit(values)}
+          validationSchema={validationSchema}
         >
           {({
               values,

@@ -65,6 +65,7 @@ const translationsList: { [key: string]: any } = {
     haveAccount: "Masz już konto? ",
     loginLink: "Zaloguj sie!",
     add: "Dodaj nowe dane",
+    isRequired: "Pole jest wymagane",
   },
 
   en: {
@@ -127,6 +128,7 @@ const translationsList: { [key: string]: any } = {
     noAccount: "Don't have an account? ",
     registerLink: "Register now!",
     add: "Add new data",
+    isRequired: "Field is required",
   }
 }
 

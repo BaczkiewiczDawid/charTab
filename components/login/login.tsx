@@ -22,7 +22,6 @@ export const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("fetching");
 
     try {
       const response = await fetch("/api/login", {
@@ -38,6 +37,8 @@ export const Login = () => {
       if (data.status) {
         router.push("/")
       }
+
+      console.log(data)
 
       console.log(data.message)
     } catch (error) {

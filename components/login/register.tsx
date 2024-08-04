@@ -6,14 +6,18 @@ import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import React, {useState} from "react";
+import {LoadingButton} from "@/components/loading-button";
+import Link from "next/link";
 
 export const Register = () => {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [username, setUsername] = useState<string>("")
+  const [isPending, setIsPending] = useState<boolean>(false)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setIsPending(true)
 
     try {
       const response = await fetch("/api/register", {
@@ -25,6 +29,8 @@ export const Register = () => {
       });
     } catch (err) {
       console.log(err)
+    } finally {
+      setIsPending(false)
     }
   }
 
@@ -34,6 +40,11 @@ export const Register = () => {
         <CardHeader>
           <CardTitle>{translate("registerTitle")}</CardTitle>
           <CardDescription>{translate("loginDescription")}</CardDescription>
+          <CardDescription>
+            {translate("haveAccount")}
+            <Link className={"text-blue-400"}
+                  href={"login"}>{translate("loginLink")}</Link>
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -45,7 +56,9 @@ export const Register = () => {
               <Label>{translate("loginPassword")}</Label>
               <Input type="password" onChange={(event) => setPassword(event.target.value)} required/>
             </div>
-            <Button type="submit" className={"mt-8"}>{translate("loginButton")}</Button>
+            <div className={"flex items-center mt-8"}>
+              <LoadingButton name={"registerTitle"} isPending={isPending}/>
+            </div>
           </form>
         </CardContent>
       </Card>

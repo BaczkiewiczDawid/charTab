@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs-react";
 import {drizzle} from "@/drizzle/db";
 import {users} from "@/drizzle/schema";
 import {eq} from "drizzle-orm";
+import {v4 as uuidv4} from 'uuid';
 
 bcrypt.setRandomFallback((len) => {
   const randomBuffer = new Uint8Array(len);
@@ -25,8 +26,15 @@ export const handleRegister = async (body: any) => {
 
     const usersData = await drizzle.select().from(users).where(eq(users.email, body.email))
 
+    const uniqueId = uuidv4()
+
     if (usersData.length === 0) {
-      await drizzle.insert(users).values({username: body.username, email: body.email, password: hashedPassword})
+      await drizzle.insert(users).values({
+        username: body.username,
+        email: body.email,
+        password: hashedPassword,
+        uuid: uniqueId,
+      })
 
       return {
         status: true,

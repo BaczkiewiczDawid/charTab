@@ -1,17 +1,19 @@
 "use client";
 
-import { Table } from "@/components/table/table";
-import { translations } from "@/data/lang";
-import { Navigation } from "@/components/navigation";
-import { TableProvider, useTableContext } from "@/context/table-context";
-import { ImportCSV } from "@/components/header/import-csv";
-import { LangSelector } from "@/components/header/lang-selector";
-import { LangProps } from "@/types/lang";
-import { Settings } from "@/components/settings/settings";
-import { useEffect, useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import {Table} from "@/components/table/table";
+import {translations} from "@/data/lang";
+import {Navigation} from "@/components/navigation";
+import {TableProvider, useTableContext} from "@/context/table-context";
+import {ImportCSV} from "@/components/header/import-csv";
+import {Logout} from "@/components/header/logout";
+import {LangSelector} from "@/components/header/lang-selector";
+import {LangProps} from "@/types/lang";
+import {Settings} from "@/components/settings/settings";
+import {useEffect, useState} from "react";
+import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/24/outline';
 
-const HomeContent = ({ lang }: { lang: LangProps }) => {
+const HomeContent = ({lang}: { lang: LangProps }) => {
+
   const {
     ableToDelete,
     showAlerts,
@@ -40,34 +42,37 @@ const HomeContent = ({ lang }: { lang: LangProps }) => {
       <div className="w-full p-4 flex justify-between h-1/5">
         <p>Header</p>
         <div className="flex gap-x-4 mr-2">
-          <LangSelector lang={lang} />
-          <ImportCSV />
+          <Logout/>
+          <LangSelector lang={lang}/>
+          <ImportCSV/>
         </div>
       </div>
       <div className="flex w-full h-3/4 transition-all duration-300 ease-out">
-        <div className={`relative transition-all duration-300 ease-out overflow-hidden ${isNavVisible ? 'w-1/4 min-w-[200px]' : 'w-0'}`}>
+        <div
+          className={`relative transition-all duration-300 ease-out overflow-hidden ${isNavVisible ? 'w-1/4 min-w-[200px]' : 'w-0'}`}>
           <div className="p-4 h-full">
-            {isNavVisible && <Navigation />}
+            {isNavVisible && <Navigation/>}
           </div>
           {isNavVisible && (
             <div
               className="absolute inset-y-0 right-0 flex items-center justify-center p-2 cursor-pointer"
               onClick={() => setIsNavVisible(false)}
             >
-              <ChevronLeftIcon className="h-6 w-6 text-gray-500" />
+              <ChevronLeftIcon className="h-6 w-6 text-gray-500"/>
             </div>
           )}
         </div>
-        <div className={`relative p-4 h-full overflow-auto transition-all duration-300 ease-out ${isNavVisible ? 'w-3/4' : 'w-full'}`}>
+        <div
+          className={`relative p-4 h-full overflow-auto transition-all duration-300 ease-out ${isNavVisible ? 'w-3/4' : 'w-full'}`}>
           {!isNavVisible && (
             <div
               className="absolute inset-y-0 left-0 flex items-center justify-center p-2 cursor-pointer"
               onClick={() => setIsNavVisible(true)}
             >
-              <ChevronRightIcon className="h-6 w-6 text-gray-500" />
+              <ChevronRightIcon className="h-6 w-6 text-gray-500"/>
             </div>
           )}
-          <Settings />
+          <Settings/>
           <Table
             data={dataToRender}
             lang={lang}
@@ -86,10 +91,10 @@ const HomeContent = ({ lang }: { lang: LangProps }) => {
   );
 };
 
-export default function Home({ params }: { params: { locale: LangProps } }) {
+export default function Home({params}: { params: { locale: LangProps } }) {
   return (
     <TableProvider>
-      <HomeContent lang={params.locale} />
+      <HomeContent lang={params.locale}/>
     </TableProvider>
   );
 }

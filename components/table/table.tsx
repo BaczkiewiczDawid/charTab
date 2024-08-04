@@ -102,8 +102,6 @@ export const Table = ({
     setDataToRender(sortDataByOrder(data, columnOrder));
   }, [columnOrder]);
 
-  console.log(isNavVisible)
-
   return (
     <div className={`flex flex-col h-full ${!isNavVisible && "ml-12"}`}>
       <div className="flex flex-row mb-4">

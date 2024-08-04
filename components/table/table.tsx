@@ -27,6 +27,8 @@ import {PaginationFooter} from "@/components/table/pagination-footer";
 import {sortDataByOrder, sortKeysByOrder} from "@/components/helpers/column-order";
 import {Cell} from "@/components/table/table-cell";
 import {translate} from "@/components/helpers/translations";
+import {Button} from "@/components/ui/button";
+import {AddTableRow} from "@/components/add-table-row";
 
 type TableProps = {
   data: Data[];
@@ -104,7 +106,7 @@ export const Table = ({
 
   return (
     <div className={`flex flex-col h-full ${!isNavVisible && "ml-12"}`}>
-      <div className="flex flex-row mb-4">
+      <div className="flex flex-row mb-4 justify-between">
         {columnsToFilter?.map((col, index) => {
           return (
             <div key={index} className="[&:nth-child(n+2)]:ml-4">
@@ -120,6 +122,7 @@ export const Table = ({
             </div>
           );
         })}
+        <AddTableRow/>
       </div>
       <div className="flex-1 overflow-auto pb-4">
         <div className="overflow-x-auto overflow-y-auto">

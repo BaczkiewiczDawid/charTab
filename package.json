@@ -28,6 +28,7 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.32.1",
     "env": "^0.0.2",
+    "formik": "^2.4.6",
     "heroicons": "^2.1.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.376.0",

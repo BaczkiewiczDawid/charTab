@@ -64,6 +64,7 @@ const translationsList: { [key: string]: any } = {
     registerLink: "Zarejestruj sie!",
     haveAccount: "Masz już konto? ",
     loginLink: "Zaloguj sie!",
+    add: "Dodaj nowe dane",
   },
 
   en: {
@@ -125,6 +126,7 @@ const translationsList: { [key: string]: any } = {
     registerEnterUsername: "Enter username...",
     noAccount: "Don't have an account? ",
     registerLink: "Register now!",
+    add: "Add new data",
   }
 }
 

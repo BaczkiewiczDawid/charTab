@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="react-table-builder@ep-wandering-sky-a2ng159e.eu-central-1.aws.neon.tech" uuid="d88acd23-6007-4212-9e33-ea30f7ae3d16">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ep-wandering-sky-a2ng159e.eu-central-1.aws.neon.tech:5432/react-table-builder</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>

@@ -7,8 +7,8 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { Translations } from "@/types/translations";
-import { Ellipsis, Trash } from "lucide-react";
+import {Translations} from "@/types/translations";
+import {Ellipsis, Trash} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,17 +16,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { useEffect, useState } from "react";
-import { Alert } from "@/components/Alert";
-import { Data } from "@/types/data";
-import { Filter } from "@/components/filter";
-import { columnHider } from "@/components/helpers/column-hider";
-import { RowSelector } from "@/components/row-selector";
-import { useTableContext } from "@/context/table-context";
-import { PaginationFooter } from "@/components/table/pagination-footer";
-import { sortDataByOrder, sortKeysByOrder } from "@/components/helpers/column-order";
-import { Cell } from "@/components/table/table-cell";
-import { translate } from "@/components/helpers/translations";
+import {useEffect, useState} from "react";
+import {Alert} from "@/components/Alert";
+import {Data} from "@/types/data";
+import {Filter} from "@/components/filter";
+import {columnHider} from "@/components/helpers/column-hider";
+import {RowSelector} from "@/components/row-selector";
+import {useTableContext} from "@/context/table-context";
+import {PaginationFooter} from "@/components/table/pagination-footer";
+import {sortDataByOrder, sortKeysByOrder} from "@/components/helpers/column-order";
+import {Cell} from "@/components/table/table-cell";
+import {translate} from "@/components/helpers/translations";
 
 type TableProps = {
   data: Data[];
@@ -150,7 +150,7 @@ export const Table = ({
                         <DropdownMenu>
                           <DropdownMenuTrigger className="w-full h-full">
                             <div className="flex items-center justify-center w-full h-full">
-                              <Ellipsis />
+                              <Ellipsis/>
                             </div>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
@@ -165,7 +165,7 @@ export const Table = ({
                                     showAlerts ? showAlert() : handleDelete(index);
                                   }}
                                 >
-                                  <Trash size={16} strokeWidth={2} />
+                                  <Trash size={16} strokeWidth={2}/>
                                   <span className="ml-2">
                                     {selectedRows.length > 1 ? "Delete many" : "Delete"}
                                   </span>
@@ -218,7 +218,7 @@ export const Table = ({
           </TableComponent>
         </div>
       </div>
-      <PaginationFooter />
+      <PaginationFooter/>
     </div>
   );
 };

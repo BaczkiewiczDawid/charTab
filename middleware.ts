@@ -1,6 +1,6 @@
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-let locales = ['en', 'pl']
+let locales = ['en', 'pl'];
 
 // Get the preferred locale, similar to the above or using a library
 function getLocale(request: NextRequest) {
@@ -19,20 +19,26 @@ function getLocale(request: NextRequest) {
 }
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Omit API routes from redirection
+  if (pathname.startsWith('/api')) {
+    return;
+  }
+
   // Check if there is any supported locale in the pathname
-  const { pathname } = request.nextUrl
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  )
+  );
 
-  if (pathnameHasLocale) return
+  if (pathnameHasLocale) return;
 
   // Redirect if there is no locale
-  const locale = getLocale(request)
-  request.nextUrl.pathname = `/${locale}${pathname}`
+  const locale = getLocale(request);
+  request.nextUrl.pathname = `/${locale}${pathname}`;
   // e.g. incoming request is /products
   // The new URL is now /en/products
-  return NextResponse.redirect(request.nextUrl)
+  return NextResponse.redirect(request.nextUrl);
 }
 
 export const config = {
@@ -42,4 +48,4 @@ export const config = {
     // Optional: only run on root (/) URL
     // '/'
   ],
-}
+};

@@ -66,6 +66,7 @@ const translationsList: { [key: string]: any } = {
     loginLink: "Zaloguj sie!",
     add: "Dodaj nowe dane",
     isRequired: "Pole jest wymagane",
+    insertValue: "Wprowadź wartość...",
   },
 
   en: {
@@ -129,6 +130,7 @@ const translationsList: { [key: string]: any } = {
     registerLink: "Register now!",
     add: "Add new data",
     isRequired: "Field is required",
+    insertValue: "Insert value...",
   }
 }
 

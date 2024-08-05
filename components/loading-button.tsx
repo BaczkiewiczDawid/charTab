@@ -6,7 +6,7 @@ import React from "react";
 type Props = {
   name: string,
   isPending: boolean,
-  className: string,
+  className?: string,
 }
 
 export const LoadingButton = ({name, isPending = false, className}: Props) => {

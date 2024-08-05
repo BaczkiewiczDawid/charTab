@@ -74,10 +74,10 @@ export const AddTableRow = () => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values?.[key]}
-                            placeholder={`Insert value...`}
+                            placeholder={translate("insertValue")}
                             className={"mt-2"}
                           />
-                          <ErrorMessage name={key} component={"div"}/>
+                          <ErrorMessage name={key} component={"div"} className={"text-red-500 text-sm ml-2 mt-2"} />
                         </div>
                       )
                     })}

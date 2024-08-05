@@ -6,11 +6,12 @@ import React from "react";
 type Props = {
   name: string,
   isPending: boolean,
+  className?: string,
 }
 
-export const LoadingButton = ({name, isPending = false}: Props) => {
+export const LoadingButton = ({name, isPending = false, className}: Props) => {
   return (
-    <Button type="submit" disabled={isPending}>
+    <Button type="submit" disabled={isPending} className={className}>
       {translate(name)}
       {isPending &&
           <TailSpin

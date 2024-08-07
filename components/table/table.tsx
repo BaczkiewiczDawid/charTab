@@ -29,6 +29,7 @@ import {Cell} from "@/components/table/table-cell";
 import {translate} from "@/components/helpers/translations";
 import {Button} from "@/components/ui/button";
 import {AddTableRow} from "@/components/add-table-row";
+import {TableSelector} from "@/components/table-selector";
 
 type TableProps = {
   data: Data[];
@@ -41,6 +42,7 @@ type TableProps = {
   columnOrder?: string[];
   columnsToHide?: string[];
   columnsToSum?: string[];
+  tablesList?: string[]
 };
 
 export type Filters = {
@@ -59,6 +61,7 @@ export const Table = ({
                         columnOrder = [],
                         columnsToHide = [],
                         columnsToSum = [],
+                        tablesList = []
                       }: TableProps) => {
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const [filters, setFilters] = useState<Filters[]>([]);
@@ -122,6 +125,7 @@ export const Table = ({
             </div>
           );
         })}
+        <TableSelector tablesList={tablesList}/>
         <AddTableRow/>
       </div>
       <div className="flex-1 overflow-auto pb-4">

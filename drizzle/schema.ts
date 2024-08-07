@@ -1,9 +1,16 @@
-import { pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
+import {json, pgTable, serial, text, varchar} from 'drizzle-orm/pg-core';
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: varchar("username", { length: 255}).notNull(),
-  email: varchar('email', { length: 255}).notNull(),
+  username: varchar("username", {length: 255}).notNull(),
+  email: varchar('email', {length: 255}).notNull(),
   password: text("password").notNull(),
-  uuid: varchar("uuid", { length: 255}).notNull(),
+  uuid: varchar("uuid", {length: 255}).notNull(),
+})
+
+export const tables = pgTable("tables", {
+  id: serial("id").primaryKey(),
+  access: varchar("access").default(null),
+  data: json("data").notNull(),
+  owner: varchar("owner").notNull(),
 })

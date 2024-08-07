@@ -1,13 +1,19 @@
-import {cookies} from "next/headers";
-
 export const useUser = () => {
-  const email = cookies().get("currentUser")
-  const token = cookies().get("token")
-  const uuid = cookies().get("uuid")
+  const cookies = document.cookie.split('; ');
+  const cookieObject: { [key: string]: string | undefined } = {};
 
-  return {
-    email: email,
-    token: token,
-    uuid: uuid,
-  }
-}
+  const cookieNames = ["currentUser", "token", "uuid"]
+
+  cookieNames.forEach(name => {
+    cookieObject[name] = undefined;
+  });
+
+  cookies.forEach(cookie => {
+    const [name, value] = cookie.split('=');
+    if (cookieNames.includes(name)) {
+      cookieObject[name] = decodeURIComponent(value);
+    }
+  });
+
+  return cookieObject;
+};

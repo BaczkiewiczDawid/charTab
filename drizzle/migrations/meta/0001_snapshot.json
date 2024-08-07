@@ -1,9 +1,44 @@
 {
-  "id": "27137ef3-5651-480b-8d8f-1d9fb6df6a24",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "89343b08-3850-4e19-9331-6a69b5844add",
+  "prevId": "27137ef3-5651-480b-8d8f-1d9fb6df6a24",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.tables": {
+      "name": "tables",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "access": {
+          "name": "access",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": null
+        },
+        "data": {
+          "name": "data",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "owner": {
+          "name": "owner",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.users": {
       "name": "users",
       "schema": "",

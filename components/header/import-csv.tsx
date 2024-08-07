@@ -10,11 +10,14 @@ import {useTableContext} from "@/context/table-context";
 import {useState} from "react";
 import Papa from 'papaparse';
 import {translate} from "@/components/helpers/translations";
+import {useUser} from "@/components/helpers/useUser";
 
 export const ImportCSV = () => {
-  const { setSettingsOpen, setInitialDataState } = useTableContext()
+  const {setSettingsOpen, setInitialDataState} = useTableContext()
 
   const [csvData, setCsvData] = useState<any>()
+
+  const user = useUser()
 
   const handleSelectedCSV = (event: any) => {
     const file = event.target.files[0]
@@ -38,23 +41,34 @@ export const ImportCSV = () => {
     })
   }
 
-  const uploadCsvData = () => {
+  const uploadCsvData = async () => {
+    const formattedData = changeDataFormat(csvData)
+
     if (csvData) {
-      setInitialDataState(changeDataFormat(csvData))
+      setInitialDataState(formattedData)
       setSettingsOpen(true)
+
+      try {
+        const response = await fetch("/api/upload-csv", {
+          method: "POST",
+          body: JSON.stringify({data: formattedData, user: user})
+        })
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-          <Button variant={"outline"}>{translate("importCSV")}</Button>
+        <Button variant={"outline"}>{translate("importCSV")}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{translate("uploadTitle")}</AlertDialogTitle>
           <AlertDialogDescription>{translate("uploadDescription")}</AlertDialogDescription>
-          <input type={"file"} accept={".csv"} onChange={handleSelectedCSV} />
+          <input type={"file"} accept={".csv"} onChange={handleSelectedCSV}/>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{translate("cancel")}</AlertDialogCancel>

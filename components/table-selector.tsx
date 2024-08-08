@@ -11,38 +11,65 @@ import {
   CommandSeparator
 } from "@/components/ui/command";
 import {translate} from "@/components/helpers/translations";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {useTableContext} from "@/context/table-context";
+
+type Table = {
+  id: number
+  access: string[] | null
+  owner: string,
+  data: any
+  tableName: string
+}
 
 type Props = {
   tablesList: any
 }
 
-export const TableSelector = ({ tablesList }: Props) => {
-  console.log(tablesList)
+export const TableSelector = ({tablesList}: Props) => {
+  const {setInitialDataState} = useTableContext()
+
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [selectedTable, setSelectedTable] = useState<Table>()
+
+  console.log(selectedTable)
+
+  useEffect(() => {
+    if (selectedTable) {
+      setInitialDataState(selectedTable.data)
+    }
+  }, [selectedTable])
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger>
         <Button
           variant="outline"
           role="combobox"
           className="min-w-[200px] justify-between"
-        >Table 1</Button>
+        >{selectedTable ? translate(selectedTable.tableName) : translate("select")}</Button>
       </PopoverTrigger>
       <PopoverContent className={"min-w-[200px]"}>
         <Command>
           <CommandInput placeholder={translate("findLabels")}/>
-          <CommandEmpty>No found.</CommandEmpty>
+          <CommandEmpty>{translate("notFound")}</CommandEmpty>
           <CommandList>
             <CommandGroup>
-              <CommandItem>Tabela 1</CommandItem>
+              {tablesList.map((table, index) => {
+                return (
+                  <CommandItem
+                    className={"cursor-pointer"}
+                    key={index}
+                    onSelect={(currentValue) => {
+                      setSelectedTable(table)
+                      setIsOpen(false)
+                    }}
+                  >
+                    {table.tableName}
+                  </CommandItem>
+                )
+              })}
             </CommandGroup>
-            <CommandSeparator/>
-            <CommandItem className={"h-6 mt-2"}>
-              <button className={"text-white p-2 text-center w-full"}
-              >{translate("clear")}
-              </button>
-            </CommandItem>
           </CommandList>
         </Command>
       </PopoverContent>

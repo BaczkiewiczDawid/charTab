@@ -1,5 +1,5 @@
 {
-  "id": "89343b08-3850-4e19-9331-6a69b5844add",
+  "id": "99fad740-d6a7-46fc-9d22-c88a18816131",
   "prevId": "27137ef3-5651-480b-8d8f-1d9fb6df6a24",
   "version": "7",
   "dialect": "postgresql",
@@ -30,6 +30,12 @@
         "owner": {
           "name": "owner",
           "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tableName": {
+          "name": "tableName",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
         }

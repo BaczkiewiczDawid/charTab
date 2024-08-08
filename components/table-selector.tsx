@@ -53,12 +53,12 @@ export const TableSelector = ({tablesList}: Props) => {
           <CommandEmpty>{translate("notFound")}</CommandEmpty>
           <CommandList>
             <CommandGroup>
-              {tablesList.map((table: Table, index) => {
+              {tablesList.map((table: Table, index: number) => {
                 return (
                   <CommandItem
                     className={"cursor-pointer"}
                     key={index}
-                    onSelect={(currentValue) => {
+                    onSelect={() => {
                       setSelectedTable(table)
                       setIsOpen(false)
                     }}

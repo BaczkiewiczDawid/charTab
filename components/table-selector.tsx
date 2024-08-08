@@ -32,8 +32,6 @@ export const TableSelector = ({tablesList}: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTable, setSelectedTable] = useState<Table>()
 
-  console.log(selectedTable)
-
   useEffect(() => {
     if (selectedTable) {
       setInitialDataState(selectedTable.data)

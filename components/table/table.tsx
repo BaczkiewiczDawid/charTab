@@ -125,7 +125,7 @@ export const Table = ({
             </div>
           );
         })}
-        <TableSelector tablesList={tablesList}/>
+        {/*<TableSelector tablesList={tablesList}/>*/}
         <AddTableRow/>
       </div>
       <div className="flex-1 overflow-auto pb-4">

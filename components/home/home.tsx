@@ -11,13 +11,14 @@ import {translations} from "@/data/lang";
 import {useTableContext} from "@/context/table-context";
 import {useEffect, useState} from "react";
 import {LangProps} from "@/types/lang";
+import {TableSelector} from "@/components/table-selector";
 
 type Props = {
   lang: LangProps
   tablesList: any
 }
 
-export const Home = ({lang, tablesList }: Props) => {
+export const Home = ({lang, tablesList}: Props) => {
   const {
     ableToDelete,
     showAlerts,
@@ -43,15 +44,17 @@ export const Home = ({lang, tablesList }: Props) => {
 
   return (
     <div className="flex flex-col h-screen max-h-screen">
-      <div className="w-full p-4 flex justify-between h-1/5">
-        <p>Header</p>
-        <div className="flex gap-x-4 mr-2">
+      <div className={"flex items-center justify-between p-4"}>
+        <div>
+          <TableSelector tablesList={tablesList}/>
+        </div>
+        <div className={"flex items-center gap-x-4"}>
           <Logout/>
           <LangSelector lang={lang}/>
           <ImportCSV/>
         </div>
       </div>
-      <div className="flex w-full h-3/4 transition-all duration-300 ease-out">
+      <div className="flex w-full h-3/4 transition-all duration-300 ease-out mt-12">
         <div
           className={`relative transition-all duration-300 ease-out overflow-hidden ${isNavVisible ? 'w-1/4 min-w-[200px]' : 'w-0'}`}>
           <div className="p-4 h-full">

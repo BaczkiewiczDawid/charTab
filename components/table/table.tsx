@@ -27,7 +27,6 @@ import {PaginationFooter} from "@/components/table/pagination-footer";
 import {sortDataByOrder, sortKeysByOrder} from "@/components/helpers/column-order";
 import {Cell} from "@/components/table/table-cell";
 import {translate} from "@/components/helpers/translations";
-import {Button} from "@/components/ui/button";
 import {AddTableRow} from "@/components/add-table-row";
 
 type TableProps = {
@@ -41,6 +40,7 @@ type TableProps = {
   columnOrder?: string[];
   columnsToHide?: string[];
   columnsToSum?: string[];
+  tablesList?: string[]
 };
 
 export type Filters = {
@@ -59,6 +59,7 @@ export const Table = ({
                         columnOrder = [],
                         columnsToHide = [],
                         columnsToSum = [],
+                        tablesList = []
                       }: TableProps) => {
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const [filters, setFilters] = useState<Filters[]>([]);

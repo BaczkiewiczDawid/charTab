@@ -10,7 +10,7 @@ export const users = pgTable("users", {
 
 export const tables = pgTable("tables", {
   id: serial("id").primaryKey(),
-  access: varchar("access").default(null),
+  access: varchar("access"),
   data: json("data").notNull(),
   owner: varchar("owner").notNull(),
   tableName: varchar("tableName", { length: 255}).notNull(),

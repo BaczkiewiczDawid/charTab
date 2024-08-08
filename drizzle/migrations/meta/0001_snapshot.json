@@ -1,5 +1,5 @@
 {
-  "id": "99fad740-d6a7-46fc-9d22-c88a18816131",
+  "id": "0c6def99-6b02-4e87-ad8c-6704da6150c5",
   "prevId": "27137ef3-5651-480b-8d8f-1d9fb6df6a24",
   "version": "7",
   "dialect": "postgresql",
@@ -18,8 +18,7 @@
           "name": "access",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": false,
-          "default": null
+          "notNull": false
         },
         "data": {
           "name": "data",

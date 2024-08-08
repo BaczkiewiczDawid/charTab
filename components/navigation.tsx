@@ -4,8 +4,6 @@ import {useTableContext} from "@/context/table-context";
 import {useEffect, useState} from "react";
 import {MultipleSelector} from "@/components/multiple-selector";
 import {translate} from "@/components/helpers/translations";
-import {CSVSelector} from "@/components/csv-selector";
-import {TableSelector} from "@/components/table-selector";
 
 export const Navigation = () => {
   const {

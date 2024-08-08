@@ -53,7 +53,7 @@ export const TableSelector = ({tablesList}: Props) => {
           <CommandEmpty>{translate("notFound")}</CommandEmpty>
           <CommandList>
             <CommandGroup>
-              {tablesList.map((table, index) => {
+              {tablesList.map((table: Table, index) => {
                 return (
                   <CommandItem
                     className={"cursor-pointer"}

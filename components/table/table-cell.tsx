@@ -60,7 +60,7 @@ export const Cell = ({key, name, children, colName}: Props) => {
   }
 
   return (
-    <TableCell key={key} className={`border border-gray-600 text-start w-auto ${toColor && colorClass}`}>
+    <TableCell key={key} className={`border border-gray-600 text-start w-auto text-nowrap ${toColor && colorClass}`}>
       {children}
       {name}
     </TableCell>

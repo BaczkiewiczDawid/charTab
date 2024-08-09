@@ -13,6 +13,6 @@ export const Logout = () => {
   }
 
   return (
-    <UserMinusIcon onClick={logout} className=" cursor-pointer h-6 w-6 mr-4 text-gray-500 mt-2"/>
+    <UserMinusIcon onClick={logout} className=" cursor-pointer h-6 w-6 mr-4 hover:text-gray-500"/>
   )
 }

@@ -111,7 +111,7 @@ export const Settings = () => {
           </DialogDescription>
         </DialogHeader>
         <div className={"overflow-y-auto"}>
-          <div className={"w-[95%] mt-12"}>
+          <div className={"w-full mt-12 pr-8"}>
             <h2 className={"text-lg font-semibold leading-none tracking-tight"}>{translate("settingsTitle")}</h2>
             <p className={"text-sm text-muted-foreground mt-4"}>{translate("settingsDescription")}</p>
             <Table className={"mt-4"}>
@@ -120,7 +120,7 @@ export const Settings = () => {
                   <TableCell className={"w-6"}></TableCell>
                   {tableCells.map((cell) => {
                     return (
-                      <TableCell key={cell} className={"max-w-16"}>
+                      <TableCell key={cell}>
                         {translate(cell)}
                       </TableCell>
                     )
@@ -138,7 +138,7 @@ export const Settings = () => {
                     }
 
                     return (
-                      <TableCell key={index} className={"max-w-16"}>
+                      <TableCell key={index} className={"min-w-36"}>
                         <Select defaultValue={defaultValue} onValueChange={(value) => handleCellType(cell, value)}>
                           <SelectTrigger>
                             <SelectValue/>
@@ -195,7 +195,8 @@ export const Settings = () => {
                 </TableRow>
               </TableBody>
             </Table>
-            <h2 className={"text-lg font-semibold leading-none tracking-tight mt-12"}>{translate("advancedSettingsTitle")}</h2>
+            <h2
+              className={"text-lg font-semibold leading-none tracking-tight mt-12"}>{translate("advancedSettingsTitle")}</h2>
             <p className={"text-sm text-muted-foreground mt-4"}>{translate("advancedSettingsDescription")}</p>
             <div className={"w-full flex justify-between mt-12"}>
               <div className="flex items-center">
@@ -213,7 +214,7 @@ export const Settings = () => {
                         onCheckedChange={(checked) => setMultipleChoiceFilter(checked)}/>
               </div>
             </div>
-            <div className={"flex justify-between mt-12 w-full"}>
+            <div className={"flex justify-between flex-wrap gap-y-4 mt-12 w-full"}>
               <div className="flex py-2 flex-col">
                 <Label>{translate("columnsToFilter")}</Label>
                 <MultipleSelector

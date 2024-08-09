@@ -52,7 +52,7 @@ export const Home = ({lang, tablesList}: Props) => {
         </div>
         <div className={"flex items-center gap-x-4"}>
           <Logout/>
-          <Cog6ToothIcon class="h-6 w-6 hover:text-gray-500 cursor-pointer" onClick={() => setSettingsOpen(true)}/>
+          <Cog6ToothIcon className="h-6 w-6 hover:text-gray-500 cursor-pointer" onClick={() => setSettingsOpen(true)}/>
           <LangSelector lang={lang}/>
           <ImportCSV/>
         </div>

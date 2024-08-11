@@ -35,7 +35,7 @@ interface TableContextProps {
   setCellsType: Dispatch<SetStateAction<{ [key: string]: string }>>;
   isNavVisible: boolean;
   setIsNavVisible: Dispatch<SetStateAction<boolean>>;
-  filters: Filters | undefined;
+  filters: Filters;
   setFilters: Dispatch<SetStateAction<Filters>>;
   selectedTableID: number | undefined;
   setSelectedTableID: Dispatch<SetStateAction<number | undefined>>;

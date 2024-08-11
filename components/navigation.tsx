@@ -1,6 +1,6 @@
 import {Label} from "@/components/ui/label";
 import {Switch} from "@/components/ui/switch";
-import {Filters, useTableContext} from "@/context/table-context";
+import {useTableContext} from "@/context/table-context";
 import {useEffect, useState} from "react";
 import {MultipleSelector} from "@/components/multiple-selector";
 import {translate} from "@/components/helpers/translations";
@@ -49,7 +49,7 @@ export const Navigation = () => {
             name={"able-to-delete"}
             checked={filters.ableToDelete}
             onCheckedChange={(checked) => {
-              setFilters((prev: Filters) => ({
+              setFilters((prev) => ({
                 ...prev,
                 ableToDelete: checked,
               }));
@@ -61,7 +61,7 @@ export const Navigation = () => {
           <Switch
             checked={filters.showAlerts}
             onCheckedChange={(checked) => {
-              setFilters((prev: Filters) => ({
+              setFilters((prev) => ({
                 ...prev,
                 showAlerts: checked,
               }));
@@ -73,7 +73,7 @@ export const Navigation = () => {
           <Switch
             checked={filters.multipleChoiceFilter}
             onCheckedChange={(checked) => {
-              setFilters((prev: Filters) => ({
+              setFilters((prev) => ({
                 ...prev,
                 multipleChoiceFilter: checked,
               }));

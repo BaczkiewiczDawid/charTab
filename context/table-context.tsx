@@ -5,7 +5,6 @@ import {initialFilters} from "@/data/initialFilters";
 type Lang = "pl" | "en";
 
 export interface Filters {
-  [key: string]: string[];
   ableToDelete: boolean;
   showAlerts: boolean;
   multipleChoiceFilter: boolean;
@@ -13,6 +12,7 @@ export interface Filters {
   columnsOrder: string[];
   columnsToHide: string[];
   columnsToColor: string[];
+  [key: string]: any
 }
 
 interface TableContextProps {

@@ -48,6 +48,7 @@ export const Settings = () => {
     columnsToColor,
     setColumnsToColor,
     cellsType,
+    setInitialDataState,
   } = useTableContext()
 
 
@@ -89,6 +90,28 @@ export const Settings = () => {
       [cell]: type
     }))
   }
+
+  useEffect(() => {
+    const convertedInitialData = initialDataState.map(item => {
+      let convertedItem = { ...item };
+      for (const key in item) {
+        if (cellsType[key] === "number") {
+          convertedItem[key] = Number(item[key]);
+        }
+      }
+      return convertedItem;
+    });
+
+    const isDataChanged = !initialDataState.every((item, index) =>
+      Object.keys(item).every(key =>
+        convertedInitialData[index][key] === item[key]
+      )
+    );
+
+    if (isDataChanged) {
+      setInitialDataState(convertedInitialData);
+    }
+  }, [cellsType, initialDataState]);
 
 
   useEffect(() => {

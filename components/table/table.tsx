@@ -73,6 +73,7 @@ export const Table = ({
     columnsOrder,
     isNavVisible,
     filters,
+    cellsType
   } = useTableContext();
 
   const handleDelete = (dataIndex: number | undefined) => {
@@ -146,9 +147,11 @@ export const Table = ({
                   return (
                     <TableRow key={index} className={`${isOdd ? "bg-stone-950" : "bg-stone-900"}`}>
                       <RowSelector selectedRows={selectedRows} setSelectedRows={setSelectedRows} rowId={index}/>
-                      {Object.values(row).map((value, index) => (
-                        <Cell key={index} name={value} colName={Object.keys(dataToRender[0])[index]}/>
-                      ))}
+                      {Object.values(row).map((value, index) => {
+                        return (
+                          <Cell key={index} name={value} colName={Object.keys(dataToRender[0])[index]}/>
+                        )
+                      })}
                       {filters.ableToDelete && (
                         <Cell>
                           <DropdownMenu>

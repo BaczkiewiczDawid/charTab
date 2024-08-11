@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const Cell = ({key, name, children, colName}: Props) => {
-  const {filters, initialDataState} = useTableContext();
+  const {filters, initialDataState, cellsType} = useTableContext();
 
   const toColor: boolean = !!(colName && filters.columnsToColor.includes(colName));
 

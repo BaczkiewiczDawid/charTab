@@ -43,7 +43,7 @@ export const MultipleSelector = ({
       const filteredArray = selectorItems.filter((column) => column !== value);
       setNewData(filteredArray);
     } else {
-      setNewData((prevState) => [...prevState, value]);
+      setNewData((prevState: any) => [...prevState, value]);
     }
 
     setHasChanged(true);

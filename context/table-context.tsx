@@ -5,6 +5,7 @@ import {initialFilters} from "@/data/initialFilters";
 type Lang = "pl" | "en";
 
 interface Filters {
+  [key: string]: string[];
   ableToDelete: boolean;
   showAlerts: boolean;
   multipleChoiceFilter: boolean;

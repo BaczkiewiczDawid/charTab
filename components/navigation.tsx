@@ -7,27 +7,9 @@ import {translate} from "@/components/helpers/translations";
 
 export const Navigation = () => {
   const {
-    ableToDelete,
-    setAbleToDelete,
-    showAlerts,
-    setShowAlerts,
-    multipleChoiceFilter,
-    setMultipleChoiceFilter,
-    columnsToFilter,
-    setColumnsToFilter,
-    columnsOrder,
-    setColumnsOrder,
     initialDataState,
     setDataToRender,
-    columnsToSum,
-    setColumnsToSum,
-    columnsToHide,
-    setColumnsToHide,
-    columnsToColor,
-    setColumnsToColor,
     cellsType,
-    isNavVisible,
-    setIsNavVisible,
     filters,
     setFilters,
   } = useTableContext();

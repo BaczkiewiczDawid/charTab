@@ -121,7 +121,7 @@ export const Table = ({
                   columnName={col}
                   filters={filtersList}
                   setFilters={setFiltersList}
-                  multipleChoiceFilter={multipleChoiceFilter}
+                  multipleChoiceFilter={filters.multipleChoiceFilter}
                 />
               </div>
             );

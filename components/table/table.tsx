@@ -110,21 +110,23 @@ export const Table = ({
   return (
     <div className={`flex flex-col ${!isNavVisible && "ml-12"}`}>
       <div className="flex flex-row mb-4 justify-between">
-        {filters.columnsToFilter?.map((col, index) => {
-          return (
-            <div key={index} className="[&:nth-child(n+2)]:ml-4">
-              <Filter
-                key={index}
-                data={data}
-                setDataToRender={setDataToRender}
-                columnName={col}
-                filters={filtersList}
-                setFilters={setFiltersList}
-                multipleChoiceFilter={multipleChoiceFilter}
-              />
-            </div>
-          );
-        })}
+        <div className={"flex items-center"}>
+          {filters.columnsToFilter?.map((col, index) => {
+            return (
+              <div key={index} className="[&:nth-child(n+2)]:ml-4">
+                <Filter
+                  key={index}
+                  data={data}
+                  setDataToRender={setDataToRender}
+                  columnName={col}
+                  filters={filtersList}
+                  setFilters={setFiltersList}
+                  multipleChoiceFilter={multipleChoiceFilter}
+                />
+              </div>
+            );
+          })}
+        </div>
         <AddTableRow/>
       </div>
       <div className="flex-1 pb-4">

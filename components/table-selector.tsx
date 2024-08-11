@@ -39,7 +39,6 @@ export const TableSelector = ({tablesList}: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTable, setSelectedTable] = useState<Table>()
 
-
   useEffect(() => {
     if (selectedTable) {
       setFilters(selectedTable.filters)

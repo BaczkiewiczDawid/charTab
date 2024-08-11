@@ -40,6 +40,8 @@ export const Home = ({lang, tablesList}: Props) => {
     return null;
   }
 
+  console.log(dataToRender)
+
   return (
     <div className="flex flex-col">
       <div className={"flex items-center justify-between p-4"}>
@@ -80,9 +82,7 @@ export const Home = ({lang, tablesList}: Props) => {
               </div>
             )}
             <Settings/>
-            <Table
-              data={dataToRender}
-            />
+            <Table />
           </div>
         </div>
         : (

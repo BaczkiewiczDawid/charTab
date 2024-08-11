@@ -79,7 +79,7 @@ export const MultipleSelector = ({
             <CommandEmpty>No found.</CommandEmpty>
             <CommandList>
               <CommandGroup>
-                {data.map((label, index) => (
+                {data.map((label: string, index) => (
                   <label htmlFor={String(index)} key={index}>
                     <CommandItem key={index} className="cursor-pointer">
                       <Checkbox

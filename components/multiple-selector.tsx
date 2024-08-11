@@ -59,7 +59,7 @@ export const MultipleSelector = ({
   }, [newData, hasChanged, filterName, setFilters]);
 
   if (selectedAlwaysOnTop) {
-    const notSelectedData = data.filter((el) => !selectorItems.includes(el));
+    const notSelectedData = data.filter((el: any) => !selectorItems.includes(el));
     data = [...selectorItems, ...notSelectedData];
   }
 

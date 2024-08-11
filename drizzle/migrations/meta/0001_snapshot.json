@@ -1,5 +1,5 @@
 {
-  "id": "0c6def99-6b02-4e87-ad8c-6704da6150c5",
+  "id": "b9d726b2-af63-4314-b0a6-8b4b9c3caad3",
   "prevId": "27137ef3-5651-480b-8d8f-1d9fb6df6a24",
   "version": "7",
   "dialect": "postgresql",
@@ -37,6 +37,12 @@
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
+        },
+        "filters": {
+          "name": "filters",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},

@@ -31,8 +31,8 @@
   },
   "rules": {
     "prettier/prettier": "error",
-    "react/prop-types": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "react/prop-types": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-unused-vars": [
       "warn",

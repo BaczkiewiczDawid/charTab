@@ -42,10 +42,6 @@ export const Login = () => {
       if (data.status) {
         router.push("/")
       }
-
-      console.log(data)
-
-      console.log(data.message)
     } catch (error) {
       console.error("Wystąpił błąd:", error);
     } finally {

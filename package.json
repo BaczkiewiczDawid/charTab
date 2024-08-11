@@ -22,6 +22,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@types/js-cookie": "^3.0.6",
+    "axios": "^1.7.3",
     "bcryptjs-react": "^2.4.6",
     "bufferutil": "^4.0.8",
     "class-variance-authority": "^0.7.0",
@@ -50,7 +51,6 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.15",
     "@types/papaparse": "^5.3.14",

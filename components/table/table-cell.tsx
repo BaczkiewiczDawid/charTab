@@ -11,9 +11,9 @@ type Props = {
 };
 
 export const Cell = ({key, name, children, colName}: Props) => {
-  const {columnsToColor, initialDataState} = useTableContext();
+  const {filters, initialDataState, cellsType} = useTableContext();
 
-  const toColor: boolean = !!(colName && columnsToColor.includes(colName));
+  const toColor: boolean = !!(colName && filters.columnsToColor.includes(colName));
 
   let values: number[] = [];
 

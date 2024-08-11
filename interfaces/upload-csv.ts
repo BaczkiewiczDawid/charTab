@@ -7,7 +7,8 @@ export const uploadCSV = async (data: any) => {
   await drizzle.insert(tables).values({
     data: JSON.stringify(data.data),
     owner: data.user.uuid,
-    tableName: data.tableName
+    tableName: data.tableName,
+    filters: data.filters,
   })
 
   return {

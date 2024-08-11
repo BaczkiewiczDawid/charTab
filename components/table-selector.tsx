@@ -13,6 +13,7 @@ import {
 import {translate} from "@/components/helpers/translations";
 import {useEffect, useState} from "react";
 import {useTableContext} from "@/context/table-context";
+import {columnHider} from "@/components/helpers/column-hider";
 
 type Table = {
   id: number
@@ -20,6 +21,7 @@ type Table = {
   owner: string,
   data: any
   tableName: string
+  filters: any
 }
 
 type Props = {
@@ -27,14 +29,22 @@ type Props = {
 }
 
 export const TableSelector = ({tablesList}: Props) => {
-  const {setInitialDataState} = useTableContext()
+  const {
+    setInitialDataState,
+    setDataToRender,
+    setSelectedTableID,
+    setFilters,
+  } = useTableContext()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTable, setSelectedTable] = useState<Table>()
 
   useEffect(() => {
     if (selectedTable) {
+      setFilters(selectedTable.filters)
+      setSelectedTableID(selectedTable.id)
       setInitialDataState(selectedTable.data)
+      setDataToRender(columnHider(selectedTable.data, selectedTable.filters.columnsToHide))
     }
   }, [selectedTable])
 

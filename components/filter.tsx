@@ -28,7 +28,7 @@ export const Filter = ({
                          setFilters,
                          multipleChoiceFilter
                        }: Props) => {
-  const { initialDataState, dataToRender, columnsToHide } = useTableContext()
+  const { initialDataState, filters: filtersList } = useTableContext()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>()
   const filterMultipleData = Array.from(new Set(initialDataState.map((item: Data) => String(item[columnName]))))
@@ -54,9 +54,9 @@ export const Filter = ({
   };
 
   useEffect(() => {
-    const filtered = applyFilters(columnHider(initialDataState, columnsToHide), filters);
+    const filtered = applyFilters(columnHider(initialDataState, filtersList.columnsToHide), filters);
 
-    setDataToRender(filtered);
+    setDataToRender(columnHider(filtered, filtersList.columnsToHide));
   }, [filters, initialDataState])
 
   const clearFilters = () => {

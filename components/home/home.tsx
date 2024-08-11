@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import {LangProps} from "@/types/lang";
 import {TableSelector} from "@/components/table-selector";
 import {Cog6ToothIcon} from "@heroicons/react/24/solid";
+import {updateFilters} from "@/components/helpers/update-filters";
 
 type Props = {
   lang: LangProps
@@ -21,14 +22,7 @@ type Props = {
 
 export const Home = ({lang, tablesList}: Props) => {
   const {
-    ableToDelete,
-    showAlerts,
-    multipleChoiceFilter,
-    columnsToFilter,
-    columnsOrder,
     dataToRender,
-    columnsToSum,
-    columnsToHide,
     isNavVisible,
     setIsNavVisible,
     setSettingsOpen,
@@ -39,6 +33,8 @@ export const Home = ({lang, tablesList}: Props) => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  updateFilters()
 
   if (!isMounted) {
     return null;
@@ -57,47 +53,42 @@ export const Home = ({lang, tablesList}: Props) => {
           <ImportCSV/>
         </div>
       </div>
-      <div className="flex w-full transition-all duration-300 ease-out mt-4">
-        <div
-          className={`relative transition-all duration-300 ease-out overflow-hidden ${isNavVisible ? 'w-1/4 min-w-[200px]' : 'w-0'}`}>
-          <div className="p-4 h-full">
-            {isNavVisible && <Navigation/>}
+      {dataToRender.length > 0 ?
+        <div className="flex w-full transition-all duration-300 ease-out mt-4">
+          <div
+            className={`relative transition-all duration-300 ease-out overflow-hidden ${isNavVisible ? 'w-1/4 min-w-[200px]' : 'w-0'}`}>
+            <div className="p-4 h-full">
+              {isNavVisible && <Navigation/>}
+            </div>
+            {isNavVisible && (
+              <div
+                className="absolute inset-y-0 right-0 flex items-center justify-center p-2 cursor-pointer"
+                onClick={() => setIsNavVisible(false)}
+              >
+                <ChevronLeftIcon className="h-6 w-6 text-gray-500"/>
+              </div>
+            )}
           </div>
-          {isNavVisible && (
-            <div
-              className="absolute inset-y-0 right-0 flex items-center justify-center p-2 cursor-pointer"
-              onClick={() => setIsNavVisible(false)}
-            >
-              <ChevronLeftIcon className="h-6 w-6 text-gray-500"/>
-            </div>
-          )}
+          <div
+            className={`relative p-4 h-full transition-all duration-300 ease-out ${isNavVisible ? 'w-3/4' : 'w-full'}`}>
+            {!isNavVisible && (
+              <div
+                className="absolute inset-y-0 left-0 flex items-center justify-center p-2 cursor-pointer"
+                onClick={() => setIsNavVisible(true)}
+              >
+                <ChevronRightIcon className="h-6 w-6 text-gray-500"/>
+              </div>
+            )}
+            <Settings/>
+            <Table />
+          </div>
         </div>
-        <div
-          className={`relative p-4 h-full transition-all duration-300 ease-out ${isNavVisible ? 'w-3/4' : 'w-full'}`}>
-          {!isNavVisible && (
-            <div
-              className="absolute inset-y-0 left-0 flex items-center justify-center p-2 cursor-pointer"
-              onClick={() => setIsNavVisible(true)}
-            >
-              <ChevronRightIcon className="h-6 w-6 text-gray-500"/>
-            </div>
-          )}
-          <Settings/>
-          <Table
-            data={dataToRender}
-            lang={lang}
-            translations={translations}
-            ableToDelete={ableToDelete}
-            showAlerts={showAlerts}
-            columnsToFilter={columnsToFilter}
-            multipleChoiceFilter={multipleChoiceFilter}
-            columnOrder={columnsOrder}
-            columnsToHide={columnsToHide}
-            columnsToSum={columnsToSum}
-            tablesList={tablesList}
-          />
-        </div>
-      </div>
+        : (
+          <div className={"m-auto mt-32"}>
+            <h2 className={"font-bold text-3xl"}>No table selected!</h2>
+          </div>
+        )
+      }
     </div>
   );
 }

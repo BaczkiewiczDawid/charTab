@@ -30,24 +30,11 @@ export const Settings = () => {
     setEnglishTranslations,
     setPolishTranslations,
     setCellsType,
-    ableToDelete,
-    setAbleToDelete,
-    showAlerts,
-    setShowAlerts,
-    multipleChoiceFilter,
-    setMultipleChoiceFilter,
-    columnsToFilter,
-    setColumnsToFilter,
-    columnsOrder,
-    setColumnsOrder,
     setDataToRender,
-    columnsToSum,
-    setColumnsToSum,
-    columnsToHide,
-    setColumnsToHide,
-    columnsToColor,
-    setColumnsToColor,
     cellsType,
+    setInitialDataState,
+    filters,
+    setFilters,
   } = useTableContext()
 
 
@@ -89,6 +76,28 @@ export const Settings = () => {
       [cell]: type
     }))
   }
+
+  useEffect(() => {
+    const convertedInitialData = initialDataState.map(item => {
+      let convertedItem = {...item};
+      for (const key in item) {
+        if (cellsType[key] === "number") {
+          convertedItem[key] = Number(item[key]);
+        }
+      }
+      return convertedItem;
+    });
+
+    const isDataChanged = !initialDataState.every((item, index) =>
+      Object.keys(item).every(key =>
+        convertedInitialData[index][key] === item[key]
+      )
+    );
+
+    if (isDataChanged) {
+      setInitialDataState(convertedInitialData);
+    }
+  }, [cellsType, initialDataState]);
 
 
   useEffect(() => {
@@ -201,55 +210,95 @@ export const Settings = () => {
             <div className={"w-full flex justify-between mt-12"}>
               <div className="flex items-center">
                 <Label htmlFor="able-to-delete">{translate("ableToDelete")}</Label>
-                <Switch className={"ml-4"} id="able-to-delete" name={"able-to-delete"} checked={ableToDelete}
-                        onCheckedChange={(checked) => setAbleToDelete(checked)}/>
+                <Switch
+                  id="able-to-delete"
+                  name={"able-to-delete"}
+                  checked={filters.ableToDelete}
+                  onCheckedChange={(checked) => {
+                    setFilters((prev) => ({
+                      ...prev,
+                      ableToDelete: checked,
+                    }));
+                  }}
+                />
               </div>
               <div className="flex items-center">
                 <Label>{translate("showAlerts")}</Label>
-                <Switch className={"ml-4"} checked={showAlerts} onCheckedChange={(checked) => setShowAlerts(checked)}/>
+                <Switch
+                  checked={filters.showAlerts}
+                  onCheckedChange={(checked) => {
+                    setFilters((prev) => ({
+                      ...prev,
+                      showAlerts: checked,
+                    }));
+                  }}
+                />
               </div>
               <div className="flex items-center">
                 <Label>{translate("multipleChoiceFilter")}</Label>
-                <Switch className={"ml-4"} checked={multipleChoiceFilter}
-                        onCheckedChange={(checked) => setMultipleChoiceFilter(checked)}/>
+                <Switch
+                  checked={filters.multipleChoiceFilter}
+                  onCheckedChange={(checked) => {
+                    setFilters((prev) => ({
+                      ...prev,
+                      multipleChoiceFilter: checked,
+                    }));
+                  }}
+                />
               </div>
             </div>
             <div className={"flex justify-between flex-wrap gap-y-4 mt-12 w-full"}>
               <div className="flex py-2 flex-col">
                 <Label>{translate("columnsToFilter")}</Label>
                 <MultipleSelector
-                  name={translate("select")} data={labelsList.filter((name) => !columnsToHide.includes(name))}
-                  selectorItems={columnsToFilter}
-                  setData={setColumnsToFilter}/>
+                  name={translate("select")}
+                  filterName={"columnsToFilter"}
+                  data={labelsList.filter((name) => !filters.columnsToHide.includes(name))}
+                  selectorItems={filters.columnsToFilter ?? []}
+                />
               </div>
               <div className="flex py-2 flex-col">
                 <Label>{translate("columnsOrder")}</Label>
                 <MultipleSelector
-                  name={translate("select")} data={labelsList.filter((name) => !columnsToHide.includes(name))}
-                  selectorItems={columnsOrder}
-                  setData={setColumnsOrder} initialDataState={initialDataState}
-                  setDataToRender={setDataToRender} selectedAlwaysOnTop={true}/>
+                  name={translate("select")}
+                  data={labelsList.filter((name) => !filters.columnsToHide.includes(name))}
+                  selectorItems={filters.columnsOrder ?? []}
+                  initialDataState={initialDataState}
+                  setDataToRender={setDataToRender}
+                  selectedAlwaysOnTop={true}
+                  filterName={"columnsOrder"}
+                />
               </div>
               <div className="flex py-2 flex-col">
                 <Label>{translate("columnsToSum")}</Label>
                 <MultipleSelector
-                  name={translate("select")} data={numberLabelsList}
-                  selectorItems={columnsToSum}
-                  setData={setColumnsToSum}/>
+                  name={translate("select")}
+                  data={numberLabelsList}
+                  selectorItems={filters.columnsToSum ?? []}
+                  filterName={"columnsToSum"}
+                />
               </div>
               <div className="flex py-2 flex-col">
                 <Label>{translate("columnsToHide")}</Label>
                 <MultipleSelector
-                  name={translate("select")} data={labelsList} selectorItems={columnsToHide}
-                  setData={setColumnsToHide} initialDataState={initialDataState}
-                  setDataToRender={setDataToRender}/>
+                  name={translate("select")}
+                  data={labelsList}
+                  selectorItems={filters.columnsToHide}
+                  initialDataState={initialDataState}
+                  setDataToRender={setDataToRender}
+                  filterName={"columnsToHide"}
+                />
               </div>
               <div className="flex py-2 flex-col">
                 <Label>{translate("columnsToColor")}</Label>
                 <MultipleSelector
-                  name={translate("select")} data={numberLabelsList} selectorItems={columnsToColor}
-                  setData={setColumnsToColor} initialDataState={initialDataState}
-                  setDataToRender={setDataToRender}/>
+                  name={translate("select")}
+                  data={numberLabelsList}
+                  selectorItems={filters.columnsToColor ?? []}
+                  initialDataState={initialDataState}
+                  setDataToRender={setDataToRender}
+                  filterName={"columnsToColor"}
+                />
               </div>
             </div>
           </div>

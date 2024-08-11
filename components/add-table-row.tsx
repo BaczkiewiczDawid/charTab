@@ -9,7 +9,7 @@ import {LoadingButton} from "@/components/loading-button";
 import * as Yup from 'yup';
 
 export const AddTableRow = () => {
-  const {dataToRender, cellsType, columnsToHide, setInitialDataState} = useTableContext()
+  const {dataToRender, cellsType, filters, setInitialDataState} = useTableContext()
 
   const keys = Object.keys(cellsType)
 
@@ -58,13 +58,12 @@ export const AddTableRow = () => {
               handleBlur,
               handleSubmit,
               isSubmitting,
-              /* and other goodies */
             }) => {
             return (
               (
                 <form onSubmit={handleSubmit}>
                   <div className={"grid grid-cols-2 gap-x-8 gap-y-2"}>
-                    {keys.filter((key) => !columnsToHide.includes(key)).map((key) => {
+                    {keys.filter((key) => !filters.columnsToHide.includes(key)).map((key) => {
                       return (
                         <div key={key}>
                           <Label>{translate(key)}</Label>
@@ -77,7 +76,7 @@ export const AddTableRow = () => {
                             placeholder={translate("insertValue")}
                             className={"mt-2"}
                           />
-                          <ErrorMessage name={key} component={"div"} className={"text-red-500 text-sm ml-2 mt-2"} />
+                          <ErrorMessage name={key} component={"div"} className={"text-red-500 text-sm ml-2 mt-2"}/>
                         </div>
                       )
                     })}

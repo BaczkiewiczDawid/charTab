@@ -12,6 +12,7 @@ import Papa from 'papaparse';
 import {translate} from "@/components/helpers/translations";
 import {useUser} from "@/components/helpers/useUser";
 import {Input} from "@/components/ui/input";
+import {initialFilters} from "@/data/initialFilters";
 
 export const ImportCSV = () => {
   const {setSettingsOpen, setInitialDataState} = useTableContext()
@@ -54,7 +55,12 @@ export const ImportCSV = () => {
       try {
         const response = await fetch("/api/upload-csv", {
           method: "POST",
-          body: JSON.stringify({data: formattedData, user: user, tableName: tableName ?? fileName})
+          body: JSON.stringify({
+            data: formattedData,
+            user: user,
+            tableName: tableName ?? fileName,
+            filters: initialFilters
+          })
         })
       } catch (err) {
         console.error(err)

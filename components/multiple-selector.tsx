@@ -35,7 +35,7 @@ export const MultipleSelector = ({
                                    filterName,
                                  }: Props) => {
   const {filters, setFilters} = useTableContext();
-  const [newData, setNewData] = useState<string[]>(filters[filterName] || []);
+  const [newData, setNewData] = useState<any>(filters?.[filterName] || []);
   const [hasChanged, setHasChanged] = useState<boolean>(false);
 
   const handleIsCheckedState = (isChecked: boolean, value: string) => {

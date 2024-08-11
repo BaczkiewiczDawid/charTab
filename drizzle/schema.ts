@@ -14,4 +14,5 @@ export const tables = pgTable("tables", {
   data: json("data").notNull(),
   owner: varchar("owner").notNull(),
   tableName: varchar("tableName", { length: 255}).notNull(),
+  filters: json("filters"),
 })

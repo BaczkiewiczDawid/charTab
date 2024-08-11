@@ -62,7 +62,7 @@ export const Table = ({
                         tablesList = []
                       }: TableProps) => {
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
-  const [filters, setFilters] = useState<Filters[]>([]);
+  const [filtersList, setFiltersList] = useState<Filters[]>([]);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const selectedTranslations = translations?.[lang];
   const {
@@ -72,6 +72,7 @@ export const Table = ({
     setInitialDataState,
     columnsOrder,
     isNavVisible,
+    filters,
   } = useTableContext();
 
   const handleDelete = (dataIndex: number | undefined) => {
@@ -98,17 +99,17 @@ export const Table = ({
   };
 
   useEffect(() => {
-    setDataToRender(columnHider(initialDataState, columnsToHide));
-  }, [columnsToHide]);
+    setDataToRender(columnHider(initialDataState, filters.columnsToHide));
+  }, [initialDataState, filters.columnsToHide]);
 
   useEffect(() => {
-    setDataToRender(sortDataByOrder(data, columnOrder));
-  }, [columnOrder]);
+    setDataToRender(sortDataByOrder(data, filters.columnsOrder));
+  }, [filters.columnsOrder]);
 
   return (
     <div className={`flex flex-col ${!isNavVisible && "ml-12"}`}>
       <div className="flex flex-row mb-4 justify-between">
-        {columnsToFilter?.map((col, index) => {
+        {filters.columnsToFilter?.map((col, index) => {
           return (
             <div key={index} className="[&:nth-child(n+2)]:ml-4">
               <Filter
@@ -116,8 +117,8 @@ export const Table = ({
                 data={data}
                 setDataToRender={setDataToRender}
                 columnName={col}
-                filters={filters}
-                setFilters={setFilters}
+                filters={filtersList}
+                setFilters={setFiltersList}
                 multipleChoiceFilter={multipleChoiceFilter}
               />
             </div>
@@ -132,14 +133,14 @@ export const Table = ({
               <TableHeader className="bg-stone-900">
                 <TableRow className="border-stone-900">
                   <TableHead className="w-12"></TableHead>
-                  {sortKeysByOrder(Object.keys(data?.[0]), columnsOrder).map((key, index) => {
+                  {sortKeysByOrder(Object.keys(data?.[0]), filters.columnsOrder).map((key, index) => {
                     return <TableHead key={index}>{translate(key)}</TableHead>;
                   })}
-                  {ableToDelete && <TableHead></TableHead>}
+                  {filters.ableToDelete && <TableHead></TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {sortDataByOrder(data, columnsOrder).map((row: Data, index: number) => {
+                {sortDataByOrder(data, filters.columnsOrder).map((row: Data, index: number) => {
                   const isOdd = index % 2 === 0;
 
                   return (
@@ -148,7 +149,7 @@ export const Table = ({
                       {Object.values(row).map((value, index) => (
                         <Cell key={index} name={value} colName={Object.keys(dataToRender[0])[index]}/>
                       ))}
-                      {ableToDelete && (
+                      {filters.ableToDelete && (
                         <Cell>
                           <DropdownMenu>
                             <DropdownMenuTrigger className="w-full h-full">
@@ -158,7 +159,7 @@ export const Table = ({
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
                               <DropdownMenuGroup>
-                                {ableToDelete && (
+                                {filters.ableToDelete && (
                                   <DropdownMenuItem
                                     className="flex items-center text-xs cursor-pointer"
                                     onClick={() => {
@@ -182,14 +183,14 @@ export const Table = ({
                     </TableRow>
                   );
                 })}
-                {columnsToSum.length >= 1 && (
+                {filters.columnsToSum.length >= 1 && (
                   <TableRow className="bg-stone-950 w-auto">
                     <Cell></Cell>
                     {Object.keys(data[0]).map((el, index) => {
-                      const mappedColumn = columnsToSum[columnsToSum.indexOf(el)];
+                      const mappedColumn = filters.columnsToSum[filters.columnsToSum.indexOf(el)];
                       const values: number[] = [];
 
-                      (sortDataByOrder(data, columnsOrder)).map((data: Data) => {
+                      (sortDataByOrder(data, filters.columnsOrder)).map((data: Data) => {
                         if (typeof data[mappedColumn] === "number") {
                           values.push(data[mappedColumn] as number);
                         } else {

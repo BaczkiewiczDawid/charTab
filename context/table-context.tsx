@@ -1,6 +1,7 @@
 import {createContext, useContext, useState, ReactNode, SetStateAction, Dispatch, useEffect} from "react";
 import {Data} from "@/types/data";
 import {data} from "@/data/dummyData";
+import {initialFilters} from "@/data/initialFilters";
 
 type Lang = "pl" | "en"
 
@@ -51,8 +52,8 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [multipleChoiceFilter, setMultipleChoiceFilter] = useState<boolean>(false)
   const [columnsToFilter, setColumnsToFilter] = useState<string[]>([])
   const [columnsOrder, setColumnsOrder] = useState<string[]>([])
-  const [dataToRender, setDataToRender] = useState<Data[]>([...data])
-  const [initialDataState, setInitialDataState] = useState<Data[]>([...data])
+  const [dataToRender, setDataToRender] = useState<Data[]>([])
+  const [initialDataState, setInitialDataState] = useState<Data[]>([])
   const [columnsToSum, setColumnsToSum] = useState<string[]>([])
   const [columnsToHide, setColumnsToHide] = useState<string[]>([])
   const [page, setPage] = useState<number>(1)
@@ -64,6 +65,19 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [polishTranslations, setPolishTranslations] = useState<{ [key: string]: string }>({})
   const [cellsType, setCellsType] = useState<{ [key: string]: string }>({})
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const [selectedTableID, setSelectedTableID] = useState<number>()
+
+  type Filters = {
+    ableToDelete: boolean
+    showAlerts: boolean
+    multipleChoiceFilter: boolean
+    columnsToFilter: string[]
+    columnsOrder: string[]
+    columnsToHide: string[]
+    columnsToColor: string[]
+  }
+
+  const [filters, setFilters] = useState<Filters>(initialFilters)
 
   useEffect(() => {
     const newColumnsToFilter = columnsToFilter.filter((column) => !columnsToHide.includes(column))
@@ -108,6 +122,10 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
     setCellsType: setCellsType,
     isNavVisible: isNavVisible,
     setIsNavVisible: setIsNavVisible,
+    filters: filters,
+    setFilters: setFilters,
+    selectedTableID: selectedTableID,
+    setSelectedTableID: setSelectedTableID,
   }
 
   return (

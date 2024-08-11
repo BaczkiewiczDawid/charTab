@@ -20,6 +20,7 @@ type Table = {
   owner: string,
   data: any
   tableName: string
+  filters: string
 }
 
 type Props = {
@@ -27,14 +28,17 @@ type Props = {
 }
 
 export const TableSelector = ({tablesList}: Props) => {
-  const {setInitialDataState} = useTableContext()
+  const {setInitialDataState, setDataToRender, setSelectedTableID, setFilters} = useTableContext()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedTable, setSelectedTable] = useState<Table>()
 
   useEffect(() => {
     if (selectedTable) {
+      setFilters(selectedTable.filters)
+      setSelectedTableID(selectedTable.id)
       setInitialDataState(selectedTable.data)
+      setDataToRender(selectedTable.data)
     }
   }, [selectedTable])
 

@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS "tables" (
 	"access" varchar,
 	"data" json NOT NULL,
 	"owner" varchar NOT NULL,
-	"tableName" varchar(255) NOT NULL
+	"tableName" varchar(255) NOT NULL,
+	"filters" json
 );

@@ -36,7 +36,7 @@ interface TableContextProps {
   isNavVisible: boolean;
   setIsNavVisible: Dispatch<SetStateAction<boolean>>;
   filters: Filters | undefined;
-  setFilters: Dispatch<SetStateAction<Filters | undefined>>;
+  setFilters: Dispatch<SetStateAction<Filters>>;
   selectedTableID: number | undefined;
   setSelectedTableID: Dispatch<SetStateAction<number | undefined>>;
 }
@@ -56,7 +56,7 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [isNavVisible, setIsNavVisible] = useState<boolean>(true);
   const [selectedTableID, setSelectedTableID] = useState<number | undefined>(undefined);
 
-  const [filters, setFilters] = useState<Filters | undefined>(initialFilters);
+  const [filters, setFilters] = useState<Filters>(initialFilters);
 
   const contextValue = {
     dataToRender,

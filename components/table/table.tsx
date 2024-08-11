@@ -31,16 +31,6 @@ import {AddTableRow} from "@/components/add-table-row";
 
 type TableProps = {
   data: Data[];
-  lang: "en" | "pl";
-  translations: Translations;
-  ableToDelete?: boolean;
-  showAlerts?: boolean;
-  columnsToFilter?: string[];
-  multipleChoiceFilter?: boolean;
-  columnOrder?: string[];
-  columnsToHide?: string[];
-  columnsToSum?: string[];
-  tablesList?: string[]
 };
 
 export type Filters = {
@@ -49,31 +39,18 @@ export type Filters = {
 };
 
 export const Table = ({
-                        data,
-                        lang,
-                        translations,
-                        ableToDelete,
-                        showAlerts,
-                        columnsToFilter,
-                        multipleChoiceFilter,
-                        columnOrder = [],
-                        columnsToHide = [],
-                        columnsToSum = [],
-                        tablesList = []
+                        data
                       }: TableProps) => {
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const [filtersList, setFiltersList] = useState<Filters[]>([]);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
-  const selectedTranslations = translations?.[lang];
   const {
     dataToRender,
     setDataToRender,
     initialDataState,
     setInitialDataState,
-    columnsOrder,
     isNavVisible,
     filters,
-    cellsType
   } = useTableContext();
 
   const handleDelete = (dataIndex: number | undefined) => {
@@ -94,14 +71,14 @@ export const Table = ({
   };
 
   const showAlert = () => {
-    if (showAlerts) {
+    if (filters.showAlerts) {
       setAlertOpen(true);
     }
   };
 
   useEffect(() => {
     setDataToRender(columnHider(initialDataState, filters.columnsToHide));
-  }, [initialDataState, filters.columnsToHide]);
+  }, [filters.columnsToHide]);
 
   useEffect(() => {
     setDataToRender(sortDataByOrder(data, filters.columnsOrder));
@@ -171,7 +148,7 @@ export const Table = ({
                                       if (selectedRows.length === 0) {
                                         setSelectedRows([index]);
                                       }
-                                      showAlerts ? showAlert() : handleDelete(index);
+                                      filters.showAlerts ? showAlert() : handleDelete(index);
                                     }}
                                   >
                                     <Trash size={16} strokeWidth={2}/>
@@ -213,7 +190,7 @@ export const Table = ({
                         return <Cell key={index}/>
                       }
                     })}
-                    {ableToDelete && <Cell/>}
+                    {filters.ableToDelete && <Cell/>}
                   </TableRow>
                 )}
               </TableBody>

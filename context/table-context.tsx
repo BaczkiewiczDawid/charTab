@@ -80,10 +80,10 @@ export const TableProvider = ({children}: { children: ReactNode }) => {
   const [filters, setFilters] = useState<Filters>(initialFilters)
 
   useEffect(() => {
-    const newColumnsToFilter = columnsToFilter.filter((column) => !columnsToHide.includes(column))
+    const newColumnsToFilter = filters.columnsToFilter.filter((column) => !filters.columnsToHide.includes(column))
 
     setColumnsToFilter(newColumnsToFilter)
-  }, [columnsToHide])
+  }, [filters.columnsToHide])
 
   const contextValue = {
     ableToDelete: ableToDelete,

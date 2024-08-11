@@ -4,7 +4,7 @@ import {initialFilters} from "@/data/initialFilters";
 
 type Lang = "pl" | "en";
 
-interface Filters {
+export interface Filters {
   [key: string]: string[];
   ableToDelete: boolean;
   showAlerts: boolean;

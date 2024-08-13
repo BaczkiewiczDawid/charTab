@@ -8,12 +8,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator
 } from "@/components/ui/command";
 import {translate} from "@/components/helpers/translations";
 import {useEffect, useState} from "react";
 import {useTableContext} from "@/context/table-context";
 import {columnHider} from "@/components/helpers/column-hider";
+import {cellTypes} from "@/drizzle/schema";
 
 type Table = {
   id: number
@@ -34,6 +34,8 @@ export const TableSelector = ({tablesList}: Props) => {
     setDataToRender,
     setSelectedTableID,
     setFilters,
+    setCellsType,
+    cellsType
   } = useTableContext()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -68,9 +70,21 @@ export const TableSelector = ({tablesList}: Props) => {
                   <CommandItem
                     className={"cursor-pointer"}
                     key={index}
-                    onSelect={() => {
+                    onSelect={async () => {
                       setSelectedTable(table)
                       setIsOpen(false)
+                      const response = await fetch("/api/get-cell-types", {
+                        method: "POST",
+                        body: JSON.stringify({selectedTableID: table.id})
+                      })
+
+                      if (response.ok) {
+                        const cellTypesData = await response.json()
+
+                        if (cellTypesData?.cellsType) {
+                          setCellsType(cellTypesData.cellsType)
+                        }
+                      }
                     }}
                   >
                     {table.tableName}

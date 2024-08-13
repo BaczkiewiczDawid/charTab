@@ -1,4 +1,4 @@
-import {json, pgTable, serial, text, varchar} from 'drizzle-orm/pg-core';
+import {foreignKey, integer, json, pgTable, serial, text, varchar} from 'drizzle-orm/pg-core';
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -15,4 +15,15 @@ export const tables = pgTable("tables", {
   owner: varchar("owner").notNull(),
   tableName: varchar("tableName", { length: 255}).notNull(),
   filters: json("filters"),
+})
+
+export const cellTypes = pgTable("cellTypes", {
+  id: serial("id").primaryKey(),
+  tableID: integer("tableID")
+    .notNull()
+    .references(() => tables.id, {
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    }),
+  types: json("types").notNull()
 })

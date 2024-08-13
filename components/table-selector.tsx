@@ -35,7 +35,6 @@ export const TableSelector = ({tablesList}: Props) => {
     setSelectedTableID,
     setFilters,
     setCellsType,
-    cellsType
   } = useTableContext()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -43,10 +42,12 @@ export const TableSelector = ({tablesList}: Props) => {
 
   useEffect(() => {
     if (selectedTable) {
+      const dataWithoutLastElement = selectedTable.data.slice(0, -1);
+
       setFilters(selectedTable.filters)
       setSelectedTableID(selectedTable.id)
-      setInitialDataState(selectedTable.data)
-      setDataToRender(columnHider(selectedTable.data, selectedTable.filters.columnsToHide))
+      setInitialDataState(dataWithoutLastElement)
+      setDataToRender(columnHider(dataWithoutLastElement, selectedTable.filters.columnsToHide))
     }
   }, [selectedTable])
 

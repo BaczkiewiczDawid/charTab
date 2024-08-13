@@ -35,6 +35,7 @@ export const Settings = () => {
     setInitialDataState,
     filters,
     setFilters,
+    selectedTableID,
   } = useTableContext()
 
 
@@ -305,7 +306,13 @@ export const Settings = () => {
         </div>
 
         <DialogFooter>
-          <Button onClick={() => setSettingsOpen(false)}>
+          <Button onClick={async () => {
+            setSettingsOpen(false)
+            await fetch("/api/save-cell-types", {
+              method: "POST",
+              body: JSON.stringify({cellsType: cellsType, selectedTableID: selectedTableID})
+            })
+          }}>
             {translate("save")}
           </Button>
         </DialogFooter>

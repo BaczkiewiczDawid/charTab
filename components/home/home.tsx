@@ -14,6 +14,7 @@ import {LangProps} from "@/types/lang";
 import {TableSelector} from "@/components/table-selector";
 import {Cog6ToothIcon} from "@heroicons/react/24/solid";
 import {updateFilters} from "@/components/helpers/update-filters";
+import {updateCellTypes} from "@/components/helpers/update-cell-types";
 
 type Props = {
   lang: LangProps

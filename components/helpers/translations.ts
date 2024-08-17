@@ -67,6 +67,11 @@ const translationsList: { [key: string]: any } = {
     add: "Dodaj nowe dane",
     isRequired: "Pole jest wymagane",
     insertValue: "Wprowadź wartość...",
+    options: "Opcje",
+    logout: "Wyloguj",
+    tableSettings: "Ustawienia tabeli",
+    addNew: "Dodaj",
+    addNewData: "Dodaj nowe dane",
   },
 
   en: {
@@ -131,6 +136,11 @@ const translationsList: { [key: string]: any } = {
     add: "Add new data",
     isRequired: "Field is required",
     insertValue: "Insert value...",
+    options: "Options",
+    logout: "Log out",
+    tableSettings: "Table settings",
+    addNew: "Add new",
+    addNewData: "Add new table data!",
   }
 }
 

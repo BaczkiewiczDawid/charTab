@@ -41,11 +41,11 @@ export const AddTableRow = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Add new</Button>
+        <Button>{translate("addNew")}</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className={"w-3/4"}>
         <DialogHeader>
-          <DialogTitle>Add new table data!</DialogTitle>
+          <DialogTitle>{translate("addNewData")}</DialogTitle>
         </DialogHeader>
         <Formik
           initialValues={initialValues}
@@ -62,7 +62,7 @@ export const AddTableRow = () => {
             return (
               (
                 <form onSubmit={handleSubmit}>
-                  <div className={"grid grid-cols-2 gap-x-8 gap-y-2"}>
+                  <div className={"grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2"}>
                     {keys.filter((key) => !filters.columnsToHide.includes(key)).map((key) => {
                       return (
                         <div key={key}>

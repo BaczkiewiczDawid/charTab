@@ -14,7 +14,11 @@ import {useUser} from "@/components/helpers/useUser";
 import {Input} from "@/components/ui/input";
 import {initialFilters} from "@/data/initialFilters";
 
-export const ImportCSV = () => {
+type Props = {
+  className?: string
+}
+
+export const ImportCSV = ({ className }: Props) => {
   const {setSettingsOpen, setInitialDataState} = useTableContext()
   const [fileName, setFileName] = useState('');
   const [csvData, setCsvData] = useState<any>()
@@ -71,13 +75,13 @@ export const ImportCSV = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={"outline"}>{translate("importCSV")}</Button>
+        <Button className={className} variant={"outline"}>{translate("importCSV")}</Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className={"w-4/5"}>
         <AlertDialogHeader>
           <AlertDialogTitle>{translate("uploadTitle")}</AlertDialogTitle>
           <AlertDialogDescription>{translate("uploadDescription")}</AlertDialogDescription>
-          <form className={"flex flex-col"}>
+          <form className={"flex flex-col text-start"}>
             <div className={"mt-4"}>
               <label>Nazwa tabeli</label>
               <Input className={"mt-4"} onChange={(event) => setTableName(event.target.value)}/>

@@ -48,6 +48,7 @@ export const Navigation = () => {
             id="able-to-delete"
             name={"able-to-delete"}
             checked={filters.ableToDelete}
+            className={"ml-4"}
             onCheckedChange={(checked) => {
               setFilters((prev) => ({
                 ...prev,
@@ -60,6 +61,7 @@ export const Navigation = () => {
           <Label>{translate("showAlerts")}</Label>
           <Switch
             checked={filters.showAlerts}
+            className={"ml-4"}
             onCheckedChange={(checked) => {
               setFilters((prev) => ({
                 ...prev,
@@ -72,6 +74,7 @@ export const Navigation = () => {
           <Label>{translate("multipleChoiceFilter")}</Label>
           <Switch
             checked={filters.multipleChoiceFilter}
+            className={"ml-4"}
             onCheckedChange={(checked) => {
               setFilters((prev) => ({
                 ...prev,

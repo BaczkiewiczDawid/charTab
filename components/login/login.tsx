@@ -51,7 +51,7 @@ export const Login = () => {
 
   return (
     <div className={"flex justify-center items-center h-screen"}>
-      <Card className={"w-1/2"}>
+      <Card className={"w-full m-4 lg:w-1/2"}>
         <CardHeader>
           <CardTitle>{translate("loginTitle")}</CardTitle>
           <CardDescription>{translate("loginDescription")}</CardDescription>

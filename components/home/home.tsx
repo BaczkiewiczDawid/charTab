@@ -15,6 +15,19 @@ import {TableSelector} from "@/components/table-selector";
 import {Cog6ToothIcon} from "@heroicons/react/24/solid";
 import {updateFilters} from "@/components/helpers/update-filters";
 import {updateCellTypes} from "@/components/helpers/update-cell-types";
+import {Button} from "@/components/ui/button";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import {translate} from "@/components/helpers/translations";
+import {OptionsSheet} from "@/components/settings/options-sheet";
 
 type Props = {
   lang: LangProps
@@ -43,22 +56,24 @@ export const Home = ({lang, tablesList}: Props) => {
 
   return (
     <div className="flex flex-col">
-      <div className={"flex items-center justify-between p-4"}>
-        <div>
+      <div className={"flex flex-col-reverse justify-between p-4 md:flex-row xl:px-12 xl:py-8"}>
+        <div className={"flex items-center justify-between"}>
           <TableSelector tablesList={tablesList}/>
+          <OptionsSheet lang={lang} setSettingsOpen={setSettingsOpen}/>
         </div>
-        <div className={"flex items-center gap-x-4"}>
+        <div className={"hidden md:flex gap-x-4 mt-4 md:mt-0 items-center"}>
           <Logout/>
-          <Cog6ToothIcon className="h-6 w-6 hover:text-gray-500 cursor-pointer" onClick={() => setSettingsOpen(true)}/>
+          <Cog6ToothIcon className="h-6 w-6 hover:text-gray-500 cursor-pointer hidden lg:block"
+                         onClick={() => setSettingsOpen(true)}/>
           <LangSelector lang={lang}/>
           <ImportCSV/>
         </div>
       </div>
       {dataToRender.length > 0 ?
-        <div className="flex w-full transition-all duration-300 ease-out mt-4">
+        <div className="flex w-full transition-all duration-300 ease-out mt-4 xl:p-12">
           <div
-            className={`relative transition-all duration-300 ease-out overflow-hidden ${isNavVisible ? 'w-1/4 min-w-[200px]' : 'w-0'}`}>
-            <div className="p-4 h-full">
+            className={`hidden lg:block relative transition-all duration-300 ease-out overflow-hidden ${isNavVisible ? 'w-0 lg:w-[25%] xl:w-[30%] 2xl:w-[20%] min-w-[200px] lg:min-w-0' : 'w-0'}`}>
+            <div className="p-4 h-full w-[80%]">
               {isNavVisible && <Navigation/>}
             </div>
             {isNavVisible && (
@@ -71,7 +86,7 @@ export const Home = ({lang, tablesList}: Props) => {
             )}
           </div>
           <div
-            className={`relative p-4 h-full transition-all duration-300 ease-out ${isNavVisible ? 'w-3/4' : 'w-full'}`}>
+            className={`relative p-4 h-full transition-all duration-300 ease-out ${isNavVisible ? 'w-full lg:w-3/4 xl:w-full' : 'w-full'}`}>
             {!isNavVisible && (
               <div
                 className="absolute inset-y-0 left-0 flex items-center justify-center p-2 cursor-pointer"
@@ -81,7 +96,7 @@ export const Home = ({lang, tablesList}: Props) => {
               </div>
             )}
             <Settings/>
-            <Table />
+            <Table/>
           </div>
         </div>
         : (

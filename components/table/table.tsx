@@ -79,12 +79,12 @@ export const Table = () => {
   }, [filters.columnsOrder]);
 
   return (
-    <div className={`flex flex-col ${!isNavVisible && "ml-12"}`}>
+    <div className={`flex flex-col ${!isNavVisible && "ml-8"}`}>
       <div className="flex flex-row mb-4 justify-between">
-        <div className={"flex items-center"}>
+        <div className="flex items-center flex-wrap gap-4">
           {filters.columnsToFilter?.map((col, index) => {
             return (
-              <div key={index} className="[&:nth-child(n+2)]:ml-4">
+              <div key={index}>
                 <Filter
                   key={index}
                   data={dataToRender}

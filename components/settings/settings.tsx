@@ -208,8 +208,8 @@ export const Settings = () => {
             <h2
               className={"text-lg font-semibold leading-none tracking-tight mt-12"}>{translate("advancedSettingsTitle")}</h2>
             <p className={"text-sm text-muted-foreground mt-4"}>{translate("advancedSettingsDescription")}</p>
-            <div className={"w-full flex justify-between mt-12"}>
-              <div className="flex items-center">
+            <div className={"w-full flex flex-col md:flex-row justify-between mt-12 gap-y-4 md:gap-y-0"}>
+              <div className="flex items-center justify-between md:justify-start">
                 <Label htmlFor="able-to-delete">{translate("ableToDelete")}</Label>
                 <Switch
                   id="able-to-delete"
@@ -223,7 +223,7 @@ export const Settings = () => {
                   }}
                 />
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center justify-between md:justify-start">
                 <Label>{translate("showAlerts")}</Label>
                 <Switch
                   checked={filters.showAlerts}
@@ -235,7 +235,7 @@ export const Settings = () => {
                   }}
                 />
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center justify-between md:justify-start">
                 <Label>{translate("multipleChoiceFilter")}</Label>
                 <Switch
                   checked={filters.multipleChoiceFilter}

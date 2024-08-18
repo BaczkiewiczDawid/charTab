@@ -24,9 +24,9 @@ export const PaginationFooter = () => {
 
   return (
 
-    <Pagination className={"flex justify-between mt-4"}>
+    <Pagination className={"flex justify-between mt-4 items-center"}>
       <div>
-        <p>{page} / {Math.ceil(initialDataState.length / pageSize)}</p>
+        <p className={"sm:text-sm"}>{page} / {Math.ceil(initialDataState.length / pageSize)}</p>
       </div>
       <PaginationContent>
 
